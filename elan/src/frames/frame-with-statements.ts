@@ -116,6 +116,18 @@ export abstract class FrameWithStatements extends AbstractFrame implements Paren
         return result;
     }
 
+    protected renderStatementsAsObjectCode() : string {
+        var result = "";
+        if (this.statements.length > 0 ) {
+            const ss: Array<string> = [];
+            for (var frame of this.statements.filter(s => !('isSelector' in s))) {
+                ss.push(frame.renderAsObjectCode());
+            }
+            result = ss.join("\r\n");
+        }
+        return result;
+    }
+
     public addStatementBefore(s: Frame, before: Frame) {
         var i = this.statements.indexOf(before);
         this.statements.splice(i, 0, s);

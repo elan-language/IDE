@@ -17,6 +17,7 @@ export interface Frame extends Selectable {
 
     renderAsHtml(): string;
     renderAsSource(): string;
+    renderAsObjectCode(): string;
 
     indent(): string;
 

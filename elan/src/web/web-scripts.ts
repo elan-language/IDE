@@ -27,7 +27,7 @@ else {
 }
 
 const upload = document.querySelector('#upload') as Element;
-upload.addEventListener('click', handleUpload);
+upload?.addEventListener('click', handleUpload);
 
 function handleUpload(event: Event) {
 	const fileSelector = document.querySelector('#file-select') as any;
@@ -49,7 +49,7 @@ function handleUpload(event: Event) {
 }
 
 const download = document.querySelector('#download') as Element;
-download.addEventListener('click', handleDownload);
+download?.addEventListener('click', handleDownload);
 
 function handleDownload(event: Event) {
 	const code = file.renderAsSource();
@@ -192,3 +192,37 @@ function postMessage(e: editorEvent) {
 			return;
 	}
 }
+
+function doImport(str : string) {
+	const url = "data:text/javascript;base64," + btoa(str);
+	return import(url);
+}
+
+const inp = document.getElementById("ip") as any;
+const oup = document.getElementById("op") as any;
+
+class ElanConsole {
+
+	input() {
+		return new Promise((rs) => {
+			inp.addEventListener("keydown", (e : any) => {
+				if (e.key === "Enter") {
+					rs(inp.value);
+				}
+			});
+		});
+	}
+
+	print(s : string) {
+		oup!.value = s;
+	}
+}
+
+var c = new ElanConsole();
+
+document.getElementById("run")?.addEventListener("click", (e) => {
+	const code = file.renderAsObjectCode();
+	doImport(code).then(async (elan) => {
+		await elan.main(c);
+	});
+});

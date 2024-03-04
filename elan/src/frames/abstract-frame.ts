@@ -30,6 +30,9 @@ export abstract class AbstractFrame implements Frame {
         this.setMap(map);
         this._factory = parent.getFactory();
     }
+    renderAsObjectCode(): string {
+        throw new Error("Method not implemented.");
+    }
 
     getFactory(): StatementFactory {
         return this._factory;

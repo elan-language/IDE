@@ -44,6 +44,13 @@ end main\r
 `;
     }
 
+    public renderAsObjectCode() : string {
+        return `export async function main(elanConsole) {\r
+${this.renderStatementsAsSource()}\r
+        }\r
+`;
+    }
+
     parseTopOfFrame(source: CodeSource) {
         source.remove("main");
     }  
