@@ -259,6 +259,10 @@ export abstract class AbstractField implements Selectable, Field {
         return this.textAsSource();
     }
 
+    renderAsObjectCode(): string {
+        return this.textAsSource();
+    }
+
     setText(text: string) {
         this.text = text;
     }

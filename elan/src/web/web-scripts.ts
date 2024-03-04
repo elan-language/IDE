@@ -201,7 +201,7 @@ function doImport(str : string) {
 const inp = document.getElementById("ip") as any;
 const oup = document.getElementById("op") as any;
 
-class ElanConsole {
+class ElanSystem {
 
 	input() {
 		return new Promise((rs) => {
@@ -218,11 +218,15 @@ class ElanConsole {
 	}
 }
 
-var c = new ElanConsole();
+var elanSystem = new ElanSystem();
 
 document.getElementById("run")?.addEventListener("click", (e) => {
+	inp.value = "";
+	oup.value = "";
 	const code = file.renderAsObjectCode();
 	doImport(code).then(async (elan) => {
-		await elan.main(c);
+		if (elan.main) {
+			await elan.main(elanSystem);
+		}
 	});
 });

@@ -37,4 +37,8 @@ export class VariableDefStatement extends SingleLineStatement  {
     renderAsSource(): string {
         return `${this.indent()}var ${this.name.renderAsSource()} set to ${this.expr.renderAsSource()}`;
     }
+
+    renderAsObjectCode(): string {
+        return `${this.indent()}var ${this.name.renderAsObjectCode()} = ${this.expr.renderAsObjectCode()};`;
+    }
 } 
