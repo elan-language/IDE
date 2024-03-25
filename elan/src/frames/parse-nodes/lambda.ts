@@ -5,18 +5,19 @@ import { Keyword } from "./keyword";
 import { IdentifierNode } from "./identifier-node";
 import { ExprNode } from "./expr-node";
 import { UnknownType } from "../../symbols/UnknownType";
+import { Field } from "../interfaces/field";
 
 export class Lambda extends AbstractSequence {
-    constructor() {
-        super();
+    constructor(field : Field) {
+        super(field);
     }
 
     parseText(text: string): void {
         if (text.trimStart().length > 0) {
-            this.elements.push(new Keyword(`lambda`));
-            this.elements.push(new CSV(() => new IdentifierNode(),1));
-            this.elements.push(new Symbol(`->`));
-            this.elements.push(new ExprNode());
+            this.elements.push(new Keyword(`lambda`, this.field));
+            this.elements.push(new CSV(() => new IdentifierNode(this.field),1, this.field));
+            this.elements.push(new Symbol(`->`, this.field));
+            this.elements.push(new ExprNode(this.field));
             super.parseText(text);
         }
     }

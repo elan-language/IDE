@@ -16,7 +16,7 @@ export class ExpressionField extends AbstractField  {
         return 'expr';
     }
     initialiseRoot(): ParseNode | undefined {
-        this.rootNode = new ExprNode();
+        this.rootNode = new ExprNode(this);
         return this.rootNode;
     }
     readToDelimeter: ((source: CodeSource) => string) | undefined = (source: CodeSource) => source.readToEndOfLine();

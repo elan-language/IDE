@@ -23,7 +23,7 @@ export class ArgListField extends AbstractField {
         }
     }
     initialiseRoot(): ParseNode | undefined { 
-        this.rootNode = new CSV(() => new ExprNode,0);
+        this.rootNode = new CSV(() => new ExprNode(this),0, this);
         return this.rootNode; 
     }
     readToDelimeter: ((source: CodeSource) => string) | undefined = 

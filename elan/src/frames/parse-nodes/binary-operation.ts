@@ -7,23 +7,23 @@ import { Sequence } from "./sequence";
 
 export class BinaryOperation extends AbstractAlternatives {
     parseText(text: string): void {  
-        this.alternatives.push(new Symbol("+"));
-        this.alternatives.push(new Symbol("-"));
-        this.alternatives.push(new Symbol("*"));
-        this.alternatives.push(new Symbol("/"));
-        this.alternatives.push(new Symbol(">"));
-        this.alternatives.push(new Symbol("<"));
-        this.alternatives.push(new Symbol(">="));
-        this.alternatives.push(new Symbol("<="));
-        this.alternatives.push(new Keyword(isKeyword));
-        var is = () => new Keyword(isKeyword);
-        var not = () => new Keyword(notKeyword);
-        this.alternatives.push(new Sequence([is,not]));
-        this.alternatives.push(new Keyword(andKeyword));
-        this.alternatives.push(new Keyword(orKeyword));
-        this.alternatives.push(new Keyword(xorKeyword));
-        this.alternatives.push(new Keyword(modKeyword));
-        this.alternatives.push(new Keyword(divKeyword));;
+        this.alternatives.push(new Symbol("+",this.field));
+        this.alternatives.push(new Symbol("-",this.field));
+        this.alternatives.push(new Symbol("*",this.field));
+        this.alternatives.push(new Symbol("/",this.field));
+        this.alternatives.push(new Symbol(">", this.field));
+        this.alternatives.push(new Symbol("<", this.field));
+        this.alternatives.push(new Symbol(">=", this.field));
+        this.alternatives.push(new Symbol("<=", this.field));
+        this.alternatives.push(new Keyword(isKeyword, this.field));
+        var is = () => new Keyword(isKeyword, this.field);
+        var not = () => new Keyword(notKeyword, this.field);
+        this.alternatives.push(new Sequence([is,not], this.field));
+        this.alternatives.push(new Keyword(andKeyword, this.field));
+        this.alternatives.push(new Keyword(orKeyword, this.field));
+        this.alternatives.push(new Keyword(xorKeyword, this.field));
+        this.alternatives.push(new Keyword(modKeyword, this.field));
+        this.alternatives.push(new Keyword(divKeyword, this.field));;
         super.parseText(text);
     }
     

@@ -1,4 +1,6 @@
 import { UnknownType } from "../../symbols/UnknownType";
+import { ExpressionField } from "../fields/expression-field";
+import { Field } from "../interfaces/field";
 import { ParseStatus } from "../parse-status";
 import { AbstractParseNode } from "./abstract-parse-node";
 import { ParseNode } from "./parse-node";
@@ -8,8 +10,8 @@ export class Multiple extends AbstractParseNode {
     minimum: number;
     elements: ParseNode[] = [];
 
-    constructor(elementConstructor: () => ParseNode, minimum: number) {
-        super();
+    constructor(elementConstructor: () => ParseNode, minimum: number, field : Field) {
+        super(field);
         this.elementConstructor = elementConstructor;
         this.minimum = minimum;
     }

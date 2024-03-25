@@ -1,10 +1,11 @@
 import { UnknownType } from "../../symbols/UnknownType";
+import { Field } from "../interfaces/field";
 import { AbstractParseNode } from "./abstract-parse-node";
 import { matchRegEx } from "./parse-node-helpers";
 
 export class LitChar extends AbstractParseNode {
-    constructor() {
-        super();
+    constructor(field : Field) {
+        super(field);
         this.placeholder = "char value";
     }
 

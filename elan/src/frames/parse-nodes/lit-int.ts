@@ -1,12 +1,13 @@
 import { IntType } from "../../symbols/IntType";
+import { Field } from "../interfaces/field";
 import { AbstractParseNode } from "./abstract-parse-node";
 import { matchRegEx } from "./parse-node-helpers";
 
 export class LitInt extends AbstractParseNode {
     symbolType? = new IntType();
 
-    constructor() {
-        super();
+    constructor(field : Field) {
+        super(field);
         this.placeholder = "integer value";
     }
 

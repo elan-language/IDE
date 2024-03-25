@@ -2,13 +2,15 @@ import { AbstractParseNode } from "./abstract-parse-node";
 import { ParseNode } from "./parse-node";
 import { ParseStatus } from "../parse-status";
 import { ISymbolType } from "../../symbols/ISymbolType";
+import { ExpressionField } from "../fields/expression-field";
+import { Field } from "../interfaces/field";
 
 export abstract class AbstractAlternatives extends AbstractParseNode {
     alternatives: ParseNode[] = [];
     bestMatch?: ParseNode;
 
-    constructor() {
-        super();
+    constructor(field : Field) {
+        super(field);
         this.placeholder = "expression";
     }
 

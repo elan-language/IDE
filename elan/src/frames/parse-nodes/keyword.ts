@@ -1,4 +1,6 @@
 import { UnknownType } from "../../symbols/UnknownType";
+import { ExpressionField } from "../fields/expression-field";
+import { Field } from "../interfaces/field";
 import { ParseStatus } from "../parse-status";
 import { AbstractParseNode } from "./abstract-parse-node";
 
@@ -6,8 +8,8 @@ export class Keyword extends AbstractParseNode {
     keyword: string;
     isKeyword = true;
 
-    constructor(keyword: string) {
-        super();
+    constructor(keyword: string, field : Field) {
+        super(field);
         this.keyword = keyword;
     }
 

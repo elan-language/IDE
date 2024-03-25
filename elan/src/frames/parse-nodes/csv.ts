@@ -1,4 +1,5 @@
 import { UnknownType } from "../../symbols/UnknownType";
+import { Field } from "../interfaces/field";
 import { AbstractSequence } from "./abstract-sequence";
 import { Comma } from "./comma";
 import { Multiple } from "./multiple";
@@ -12,8 +13,8 @@ export class CSV extends AbstractSequence {
     elementConstructor:  () => ParseNode;
     minimum: number;
 
-    constructor(elementConstructor: () => ParseNode, minimum: number) {
-        super();
+    constructor(elementConstructor: () => ParseNode, minimum: number, field : Field) {
+        super(field);
         this.elementConstructor = elementConstructor;
         this.minimum = minimum;
     }
@@ -21,15 +22,15 @@ export class CSV extends AbstractSequence {
     parseText(text: string): void {
         this.remainingText = text;
         var commaNodesMin = 0;
-        var commaNode = () => new Sequence([() => new Comma(), this.elementConstructor]);
+        var commaNode = () => new Sequence([() => new Comma(this.field), this.elementConstructor], this.field);
 
         if (this.minimum === 0) {
-            this.elements.push(new Optional(this.elementConstructor));
+            this.elements.push(new Optional(this.elementConstructor, this.field));
         } else {
             this.elements.push(this.elementConstructor());
             commaNodesMin = this.minimum -1;
         }
-        this.elements.push(new Multiple(commaNode, commaNodesMin));
+        this.elements.push(new Multiple(commaNode, commaNodesMin, this.field));
         super.parseText(text);
     }
     

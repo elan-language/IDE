@@ -1,4 +1,5 @@
 import { UnknownType } from "../../symbols/UnknownType";
+import { Field } from "../interfaces/field";
 import { AbstractSequence } from "./abstract-sequence";
 import { CSV } from "./csv";
 import { ExprNode } from "./expr-node";
@@ -8,16 +9,16 @@ import { TypeWithOptGenerics } from "./type-with-opt-generics";
 
 
 export class NewInstance extends AbstractSequence {
-    constructor() {
-        super();
+    constructor(field : Field) {
+        super(field);
     }
 
     parseText(text: string): void {
-        this.elements.push(new Keyword("new"));
-        this.elements.push(new TypeWithOptGenerics());
-        this.elements.push(new Symbol("(")); 
-        this.elements.push(new CSV(() => new ExprNode(),0)); 
-        this.elements.push(new Symbol(")")); 
+        this.elements.push(new Keyword("new", this.field));
+        this.elements.push(new TypeWithOptGenerics(this.field));
+        this.elements.push(new Symbol("(", this.field)); 
+        this.elements.push(new CSV(() => new ExprNode(this.field),0, this.field)); 
+        this.elements.push(new Symbol(")", this.field)); 
         super.parseText(text);
     }
 

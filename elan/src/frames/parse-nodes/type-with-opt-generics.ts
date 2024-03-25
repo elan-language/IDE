@@ -8,18 +8,19 @@ import { Sequence } from "./sequence";
 import { TypeNode } from "./type-node";
 import { TypeSimpleNode } from "./type-simple-node";
 import { UnknownType } from "../../symbols/UnknownType";
+import { Field } from "../interfaces/field";
 
 export class TypeWithOptGenerics extends AbstractSequence {
 
-    constructor() {
-        super();
+    constructor(field : Field) {
+        super(field);
     }
     parseText(text: string): void {
         this.remainingText = text;
         if (text.trimStart().length > 0) {
-            var simpleType = () => new TypeSimpleNode();
-            var genericNode = () => new Sequence([() => new Symbol("<"), () => new Keyword("of"), () => new TypeNode(),() => new Symbol(">")]);
-            var optGeneric = () => new Optional(genericNode);
+            var simpleType = () => new TypeSimpleNode(this.field);
+            var genericNode = () => new Sequence([() => new Symbol("<", this.field), () => new Keyword("of", this.field), () => new TypeNode(this.field),() => new Symbol(">", this.field)], this.field);
+            var optGeneric = () => new Optional(genericNode, this.field);
             this.elements.push(simpleType());
             this.elements.push(optGeneric());
             super.parseText(text);

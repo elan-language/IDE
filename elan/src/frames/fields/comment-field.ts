@@ -16,7 +16,7 @@ export class CommentField extends AbstractField {
         return 'comment';
     }
     initialiseRoot(): ParseNode | undefined { 
-       this.rootNode =  new RegExMatchNode(/.*/);
+       this.rootNode =  new RegExMatchNode(/.*/, this);
        return this.rootNode;
     }
     readToDelimeter: ((source: CodeSource) => string) | undefined = (source: CodeSource) => source.readToEndOfLine();

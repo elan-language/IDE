@@ -1,13 +1,14 @@
 
 import { UnknownType } from "../../symbols/UnknownType";
+import { Field } from "../interfaces/field";
 import { AbstractSequence } from "./abstract-sequence";
 import { ParseNode } from "./parse-node";
 
 export class Sequence extends AbstractSequence {
 
     elementConstructors: (() =>ParseNode)[];
-    constructor(elementConstructors: (() =>ParseNode)[]) {
-        super();
+    constructor(elementConstructors: (() =>ParseNode)[], field : Field) {
+        super(field);
         this.elementConstructors = elementConstructors;
     }
 

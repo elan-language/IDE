@@ -1,11 +1,13 @@
 import { UnknownType } from "../../symbols/UnknownType";
+import { findSymbolInScope } from "../../symbols/symbolHelpers";
+import { Field } from "../interfaces/field";
 import { AbstractParseNode } from "./abstract-parse-node";
 import { matchRegEx } from "./parse-node-helpers";
 
 export class IdentifierNode extends AbstractParseNode {
 
-    constructor() {
-        super();
+    constructor(field : Field) {
+        super(field);
         this.placeholder = "name";
     }
 
@@ -17,6 +19,6 @@ export class IdentifierNode extends AbstractParseNode {
     }
 
     get symbolType() {
-        return new UnknownType();
+        return findSymbolInScope(this.matchedText, this.field)?.symbolType;
     }
 }
