@@ -1,3 +1,4 @@
+import { UnknownType } from "../../symbols/UnknownType";
 import { AbstractSequence } from "./abstract-sequence";
 import { Comma } from "./comma";
 import { Multiple } from "./multiple";
@@ -31,6 +32,9 @@ export class CSV extends AbstractSequence {
         this.elements.push(new Multiple(commaNode, commaNodesMin));
         super.parseText(text);
     }
-
+    
+    get symbolType() {
+        return new UnknownType();
+    }
     
 }

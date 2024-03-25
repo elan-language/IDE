@@ -1,5 +1,9 @@
+import assert from "assert";
 import { DefaultProfile } from "../../frames/default-profile";
 import { CodeSourceFromString, FileImpl } from "../../frames/file-impl";
+import { MainFrame } from "../../frames/globals/main-frame";
+import { ISymbol } from "../../symbols/ISymbol";
+import { isSymbol } from "../../symbols/symbolHelpers";
 import { assertDoesNotParse, assertObjectCodeExecutes, assertObjectCodeIs, assertParses, assertStatusIsValid, ignore_test } from "./compiler-test-helpers";
 
 suite('T_5_Variables', () => {
@@ -21,6 +25,55 @@ export async function main() {
 
     const fileImpl = new FileImpl(() => "", new DefaultProfile(), true);
     fileImpl.parseFrom(new CodeSourceFromString(code));
+
+    var varDef = (fileImpl.getChildNumber(0) as MainFrame).getChildren()[0];
+
+    if (isSymbol(varDef)) {
+      var sid = varDef.symbolId;
+      var st = varDef.symbolType;
+
+      assert.strictEqual(sid, 'a');
+      assert.strictEqual(st?.name, 'Int');
+    }
+
+    assertParses(fileImpl);
+    assertStatusIsValid(fileImpl);
+    assertObjectCodeIs(fileImpl, objectCode);
+    await assertObjectCodeExecutes(fileImpl, "3");
+  });
+
+  test('Pass_IntVariable', async () => {
+    const code = `# FFFFFFFFFFFFFFFF Elan v0.1 valid
+
+main
+  var a set to 3
+  var b set to a
+  print b
+end main`;
+
+    const objectCode = `var system; export function _inject(l) { system = l; };
+export async function main() {
+  var a = 3;
+  var b = a;
+  system.print(system.asString(b));
+}
+`;
+
+    const fileImpl = new FileImpl(() => "", new DefaultProfile(), true);
+    fileImpl.parseFrom(new CodeSourceFromString(code));
+
+
+    var varDef = (fileImpl.getChildNumber(0) as MainFrame).getChildren()[1];
+
+    if (isSymbol(varDef)) {
+      var sid = varDef.symbolId;
+      var st = varDef.symbolType;
+
+      assert.strictEqual(sid, 'b');
+      assert.strictEqual(st?.name, 'Int');
+    }
+
+
 
     assertParses(fileImpl);
     assertStatusIsValid(fileImpl);

@@ -7,6 +7,7 @@ import { RegExMatchNode } from "./regex-match-node";
 import { Sequence } from "./sequence";
 import { TypeNode } from "./type-node";
 import { TypeSimpleNode } from "./type-simple-node";
+import { UnknownType } from "../../symbols/UnknownType";
 
 export class TypeWithOptGenerics extends AbstractSequence {
 
@@ -23,5 +24,9 @@ export class TypeWithOptGenerics extends AbstractSequence {
             this.elements.push(optGeneric());
             super.parseText(text);
         }
+    }
+
+    get symbolType() {
+        return new UnknownType();
     }
 }

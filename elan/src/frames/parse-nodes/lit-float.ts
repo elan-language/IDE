@@ -2,6 +2,7 @@ import { AbstractSequence } from "./abstract-sequence";
 import { Symbol } from "./symbol";
 import { LitInt } from "./lit-int";
 import { RegExMatchNode } from "./regex-match-node";
+import { UnknownType } from "../../symbols/UnknownType";
 
 export class LitFloat extends AbstractSequence {
 
@@ -20,5 +21,7 @@ export class LitFloat extends AbstractSequence {
         } 
     }
 
-    
+    get symbolType() {
+        return new UnknownType();
+    }
 }

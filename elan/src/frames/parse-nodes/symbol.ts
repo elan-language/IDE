@@ -1,6 +1,7 @@
 import { ParseStatus } from "../parse-status";
 import { AbstractParseNode } from "./abstract-parse-node";
 import { escapeAngleBrackets } from "../helpers";
+import { UnknownType } from "../../symbols/UnknownType";
 
 export class Symbol extends AbstractParseNode {
     fixedText: string;
@@ -31,4 +32,8 @@ export class Symbol extends AbstractParseNode {
         return escapeAngleBrackets(this.renderAsSource());
     }
     
+    get symbolType() {
+        return new UnknownType();
+    }
+
 }

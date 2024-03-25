@@ -1,3 +1,4 @@
+import { UnknownType } from "../../symbols/UnknownType";
 import { outKeyword } from "../keywords";
 import { AbstractSequence } from "./abstract-sequence";
 import { IdentifierNode } from "./identifier-node";
@@ -14,5 +15,9 @@ export class ParamDefNode extends AbstractSequence {
             this.elements.push(new TypeNode());
             super.parseText(text);
         }
+    }
+
+    get symbolType() {
+        return new UnknownType();
     }
 }

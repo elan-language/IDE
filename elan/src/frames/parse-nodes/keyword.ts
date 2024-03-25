@@ -1,3 +1,4 @@
+import { UnknownType } from "../../symbols/UnknownType";
 import { ParseStatus } from "../parse-status";
 import { AbstractParseNode } from "./abstract-parse-node";
 
@@ -34,5 +35,9 @@ export class Keyword extends AbstractParseNode {
     }
     renderAsSource(): string {
         return this.matchedText.trim() + " ";
+    }
+
+    get symbolType() {
+        return new UnknownType();
     }
 }

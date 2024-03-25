@@ -1,8 +1,10 @@
+import { ISymbolType } from "../../symbols/ISymbolType";
 import { ParseStatus } from "../parse-status";
 import { AbstractParseNode } from "./abstract-parse-node";
 import { ParseNode } from "./parse-node";
 
-export class AbstractSequence extends AbstractParseNode {
+export abstract class AbstractSequence extends AbstractParseNode {
+    abstract symbolType?: ISymbolType;
     
     elements: ParseNode[] = [];
 

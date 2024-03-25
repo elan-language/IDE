@@ -2,6 +2,7 @@ import { AbstractSequence } from "./abstract-sequence";
 import { Symbol } from "./symbol";
 import { CSV } from "./csv";
 import { ParseNode } from "./parse-node";
+import { UnknownType } from "../../symbols/UnknownType";
 
 export class ListOfT extends AbstractSequence {
     elementConstructor: () => ParseNode;
@@ -20,4 +21,7 @@ export class ListOfT extends AbstractSequence {
         }
     }
     
+    get symbolType() {
+        return new UnknownType();
+    }
 }

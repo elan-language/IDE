@@ -3,6 +3,7 @@ import { CSV } from "./csv";
 import { ExprNode } from "./expr-node";
 import { Symbol } from "./symbol";
 import { IdentifierNode } from "./identifier-node";
+import { UnknownType } from "../../symbols/UnknownType";
 
 export class FunctionCallNode extends AbstractSequence {
     constructor() {
@@ -20,5 +21,9 @@ export class FunctionCallNode extends AbstractSequence {
     }
     renderAsHtml(): string {
         return `<method>${this.elements[0].renderAsHtml()}</method>(${this.elements[2].renderAsHtml()})`;
-    }    
+    }
+    
+    get symbolType() {
+        return new UnknownType();
+    }
 }

@@ -1,6 +1,7 @@
 import { AbstractParseNode } from "./abstract-parse-node";
 import { ParseNode } from "./parse-node";
 import { ParseStatus } from "../parse-status";
+import { ISymbolType } from "../../symbols/ISymbolType";
 
 export abstract class AbstractAlternatives extends AbstractParseNode {
     alternatives: ParseNode[] = [];
@@ -45,5 +46,9 @@ export abstract class AbstractAlternatives extends AbstractParseNode {
     }
     renderAsSource(): string {
         return this.bestMatch ? this.bestMatch.renderAsSource() : "";
+    }
+
+    get symbolType() {
+        return this.bestMatch?.symbolType;
     }
 }

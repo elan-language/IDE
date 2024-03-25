@@ -1,6 +1,7 @@
 import { AbstractSequence } from "./abstract-sequence";
 import { Symbol } from "./symbol";
 import { RegExMatchNode } from "./regex-match-node";
+import { UnknownType } from "../../symbols/UnknownType";
 
 export class LitString extends AbstractSequence {
     constructor() {
@@ -18,5 +19,9 @@ export class LitString extends AbstractSequence {
     }
     renderAsHtml(): string {
         return `<string>${this.renderAsSource()}</string>`;
+    }
+
+    get symbolType() {
+        return new UnknownType();
     }
 }

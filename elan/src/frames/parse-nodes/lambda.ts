@@ -4,6 +4,7 @@ import { CSV } from "./csv";
 import { Keyword } from "./keyword";
 import { IdentifierNode } from "./identifier-node";
 import { ExprNode } from "./expr-node";
+import { UnknownType } from "../../symbols/UnknownType";
 
 export class Lambda extends AbstractSequence {
     constructor() {
@@ -23,5 +24,9 @@ export class Lambda extends AbstractSequence {
 
     renderAsSource(): string {
         return `lambda ${this.elements[1].renderAsSource()} -> ${this.elements[3].renderAsSource()}`;
+    }
+
+    get symbolType() {
+        return new UnknownType();
     }
 }

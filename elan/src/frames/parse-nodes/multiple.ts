@@ -1,3 +1,4 @@
+import { UnknownType } from "../../symbols/UnknownType";
 import { ParseStatus } from "../parse-status";
 import { AbstractParseNode } from "./abstract-parse-node";
 import { ParseNode } from "./parse-node";
@@ -55,4 +56,8 @@ export class Multiple extends AbstractParseNode {
     renderAsSource(): string {
         return this.elements.reduce((result, current) => result + current.renderAsSource(),"");
      }
+
+     get symbolType() {
+        return new UnknownType();
+    }
 }

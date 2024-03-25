@@ -1,3 +1,4 @@
+import { UnknownType } from "../../symbols/UnknownType";
 import { AbstractSequence } from "./abstract-sequence";
 import { Alternatives } from "./alternatives";
 import { FunctionCallNode } from "./function-call-node";
@@ -18,5 +19,7 @@ export class IndexableTerm extends AbstractSequence {
         super.parseText(text);
     }
 
-    
+    get symbolType() {
+        return new UnknownType();
+    }
 }

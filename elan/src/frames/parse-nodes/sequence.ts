@@ -1,4 +1,5 @@
 
+import { UnknownType } from "../../symbols/UnknownType";
 import { AbstractSequence } from "./abstract-sequence";
 import { ParseNode } from "./parse-node";
 
@@ -19,5 +20,7 @@ export class Sequence extends AbstractSequence {
         super.parseText(text);
     }
 
-    
+    get symbolType() {
+        return new UnknownType();
+    }
 }

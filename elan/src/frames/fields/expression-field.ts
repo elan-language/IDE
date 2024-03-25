@@ -28,4 +28,8 @@ export class ExpressionField extends AbstractField  {
             return this.rootNode ? this.rootNode.renderAsHtml() : super.textAsHtml();
         } 
     }
+
+    get symbolType() {
+        return this.rootNode?.symbolType;
+    }
 }

@@ -3,6 +3,7 @@ import { IndexableTerm } from "./indexed-term";
 import { Multiple } from "./multiple";
 import { Symbol } from "./symbol";
 import { Sequence } from "./sequence";
+import { UnknownType } from "../../symbols/UnknownType";
 
 export class DottedTerm extends AbstractSequence {
     constructor() {
@@ -19,5 +20,7 @@ export class DottedTerm extends AbstractSequence {
         }
     }
 
-    
+    get symbolType() {
+        return new UnknownType();
+    }
 }

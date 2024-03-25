@@ -2,6 +2,7 @@ import { AbstractSequence } from "./abstract-sequence";
 import { Symbol } from "./symbol";
 import { Keyword } from "./keyword";
 import { ExprNode } from "./expr-node";
+import { UnknownType } from "../../symbols/UnknownType";
 
 export class IfExpr extends AbstractSequence {
     constructor() {
@@ -20,4 +21,7 @@ export class IfExpr extends AbstractSequence {
         }
     }
     
+    get symbolType() {
+        return new UnknownType();
+    }
 }

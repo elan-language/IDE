@@ -2,6 +2,7 @@ import { AbstractSequence } from "./abstract-sequence";
 import { Symbol } from "./symbol";
 import { CSV } from "./csv";
 import { ExprNode } from "./expr-node";
+import { UnknownType } from "../../symbols/UnknownType";
 
 export class TupleDefNode extends AbstractSequence {
     constructor() {
@@ -15,6 +16,10 @@ export class TupleDefNode extends AbstractSequence {
             this.elements.push(new Symbol(`)`));
             super.parseText(text);
         }
+    }
+
+    get symbolType() {
+        return new UnknownType();
     }
     
 }

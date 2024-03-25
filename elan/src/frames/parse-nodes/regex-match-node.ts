@@ -1,3 +1,4 @@
+import { UnknownType } from "../../symbols/UnknownType";
 import { AbstractParseNode } from "./abstract-parse-node";
 import { matchRegEx } from "./parse-node-helpers";
 
@@ -16,5 +17,7 @@ export class RegExMatchNode extends AbstractParseNode {
         }
     }
 
-    
+    get symbolType() {
+        return new UnknownType();
+    }
 }

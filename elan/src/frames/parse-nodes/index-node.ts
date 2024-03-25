@@ -5,6 +5,7 @@ import { Alternatives } from "./alternatives";
 import { ExprNode } from "./expr-node";
 import { Symbol } from "./symbol";
 import { Sequence } from "./sequence";
+import { UnknownType } from "../../symbols/UnknownType";
 
 export class IndexNode extends AbstractSequence {
 
@@ -28,6 +29,9 @@ export class IndexNode extends AbstractSequence {
           super.parseText(text);
         }
     }
-
+    
+    get symbolType() {
+        return new UnknownType();
+    }
     
 }

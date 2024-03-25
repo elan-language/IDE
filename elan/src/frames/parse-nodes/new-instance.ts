@@ -1,3 +1,4 @@
+import { UnknownType } from "../../symbols/UnknownType";
 import { AbstractSequence } from "./abstract-sequence";
 import { CSV } from "./csv";
 import { ExprNode } from "./expr-node";
@@ -20,5 +21,7 @@ export class NewInstance extends AbstractSequence {
         super.parseText(text);
     }
 
-    
+    get symbolType() {
+        return new UnknownType();
+    }
 }

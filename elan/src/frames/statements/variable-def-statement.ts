@@ -5,8 +5,9 @@ import { CodeSource } from "../code-source";
 import { VariableDef } from "../fields/variable";
 import { AbstractFrame } from "../abstract-frame";
 import { Statement } from "../interfaces/statement";
+import { ISymbol } from "../../symbols/ISymbol";
 
-export class VariableDefStatement extends AbstractFrame implements Statement  {
+export class VariableDefStatement extends AbstractFrame implements Statement, ISymbol  {
     isStatement = true;
     name: VariableDef;
     expr: ExpressionField;
@@ -41,5 +42,13 @@ export class VariableDefStatement extends AbstractFrame implements Statement  {
 
     renderAsObjectCode(): string {
         return `${this.indent()}var ${this.name.renderAsObjectCode()} = ${this.expr.renderAsObjectCode()};`;
+    }
+
+    get symbolId() {
+        return this.name.renderAsSource();
+    }
+
+    get symbolType() {
+        return this.expr.symbolType;
     }
 } 
