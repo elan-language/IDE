@@ -10,6 +10,7 @@ import { hash } from '../util';
 import { DefaultProfile } from '../frames/default-profile';
 import { ParseStatus } from '../frames/parse-status';
 import { ParseNode } from '../frames/parse-nodes/parse-node';
+import { ISymbolType } from '../symbols/ISymbolType';
 
 // flag to update test file 
 var updateTestFiles = false;
@@ -282,7 +283,7 @@ export async function activate(docUri: vscode.Uri) {
   }
 
   export function testNodeParse(node: ParseNode, text: string, status: ParseStatus, 
-        matchedText: string, remainingText: string, source = "", html="") {
+        matchedText: string, remainingText: string, source = "", html="", symbolType? : ISymbolType ) {
     node.parseText(text);
     assert.equal(node.status, status);
     if (matchedText !== "") {
@@ -296,5 +297,8 @@ export async function activate(docUri: vscode.Uri) {
     }
     if (html && html !== "") {
       assert.equal(node.renderAsHtml(), html);
+    }
+    if (symbolType) {
+      assert.strictEqual(node.symbolType?.name, symbolType.name);
     }
   }

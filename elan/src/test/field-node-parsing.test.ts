@@ -29,6 +29,7 @@ import { ParamDefNode } from '../frames/parse-nodes/param-def-node copy';
 import { Term } from '../frames/parse-nodes/term';
 import { DottedTerm } from '../frames/parse-nodes/dotted-term';
 import { Field } from '../frames/interfaces/field';
+import { IntType } from '../symbols/IntType';
 
 
 suite('FieldNode parsing', () => {
@@ -36,6 +37,7 @@ suite('FieldNode parsing', () => {
 
 	} as Field;
 
+	const intType = new IntType();
 
 
 	vscode.window.showInformationMessage('Start all unit tests.');
@@ -118,13 +120,13 @@ suite('FieldNode parsing', () => {
 		testNodeParse(new LitChar(stubField), `"a"`, ParseStatus.invalid, "", `"a"`,"");
 	});
 	test('LitInt', () => {
-		testNodeParse(new LitInt(stubField), "", ParseStatus.empty, "", "","");
-		testNodeParse(new LitInt(stubField), "   ", ParseStatus.empty, "", "   ","");
-		testNodeParse(new LitInt(stubField), "123", ParseStatus.valid, "123", "","123");
-		testNodeParse(new LitInt(stubField), "456  ", ParseStatus.valid, "456", "  ","456");
-		testNodeParse(new LitInt(stubField), " 123a", ParseStatus.valid, " 123", "a","123");
-		testNodeParse(new LitInt(stubField), "1.23", ParseStatus.valid, "1", ".23","1");
-		testNodeParse(new LitInt(stubField), "a", ParseStatus.invalid, "", "a","");
+		testNodeParse(new LitInt(stubField), "", ParseStatus.empty, "", "","", "", intType);
+		testNodeParse(new LitInt(stubField), "   ", ParseStatus.empty, "", "   ","","", intType);
+		testNodeParse(new LitInt(stubField), "123", ParseStatus.valid, "123", "","123","", intType);
+		testNodeParse(new LitInt(stubField), "456  ", ParseStatus.valid, "456", "  ","456","", intType);
+		testNodeParse(new LitInt(stubField), " 123a", ParseStatus.valid, " 123", "a","123","", intType);
+		testNodeParse(new LitInt(stubField), "1.23", ParseStatus.valid, "1", ".23","1","", intType);
+		testNodeParse(new LitInt(stubField), "a", ParseStatus.invalid, "", "a","","", intType);
 	});
 	test('LitFloat', () => {
 		testNodeParse(new LitFloat(stubField), "", ParseStatus.empty, "", "","");
