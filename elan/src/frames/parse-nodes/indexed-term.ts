@@ -21,6 +21,8 @@ export class IndexableTerm extends AbstractSequence {
     }
 
     get symbolType() {
-        return new UnknownType();
+        // kludge 
+        var id = (this.elements[0] as Alternatives).bestMatch;
+        return id?.symbolType;
     }
 }
