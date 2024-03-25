@@ -26,6 +26,11 @@ export abstract class AbstractFrame implements Frame {
         map.set(this.htmlId, this);
         this.setMap(map);
     }
+
+    frameStatus(): ParseStatus {
+        return ParseStatus.valid;
+    }
+
     renderAsObjectCode(): string {
         throw new Error("Method not implemented.");
     }
@@ -181,7 +186,7 @@ export abstract class AbstractFrame implements Frame {
         if (after && this.canInsertAfter()) {
             parent.insertChildSelector(true, this);
         } else if (!after && this.canInsertBefore()) {
-            parent.insertChildSelector(false, this)
+            parent.insertChildSelector(false, this);
         } 
     }
 
@@ -379,7 +384,9 @@ export abstract class AbstractFrame implements Frame {
     }
 
     getStatus(): ParseStatus {
-        return this.worstStatusOfFields();
+        var frameStatus = this.frameStatus();
+        var fieldStatus = this.worstStatusOfFields();
+        return fieldStatus < frameStatus ? fieldStatus : frameStatus;
     }
 
     abstract parseFrom(source: CodeSource): void;

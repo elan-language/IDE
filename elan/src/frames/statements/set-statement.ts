@@ -5,6 +5,9 @@ import {CodeSource } from "../code-source";
 import { Value } from "../fields/value";
 import { AbstractFrame } from "../abstract-frame";
 import { Statement } from "../interfaces/statement";
+import { ParseStatus } from "../parse-status";
+import { findSymbolInFrameScope, findSymbolInScope } from "../../symbols/symbolHelpers";
+import { compatibleType } from "../../symbols/rules";
 
 export class SetStatement extends AbstractFrame implements Statement{
     isStatement = true;
@@ -40,5 +43,12 @@ export class SetStatement extends AbstractFrame implements Statement{
     }
     renderAsObjectCode(): string {
         return `${this.indent()}${this.name.renderAsObjectCode()} = ${this.expr.renderAsObjectCode()};`;
+    }
+
+    override frameStatus() : ParseStatus {
+        const idSymbol = findSymbolInFrameScope(this.name.renderAsSource(), this);
+        const expType = this.expr.symbolType;
+
+        return compatibleType(idSymbol, expType);
     }
 } 

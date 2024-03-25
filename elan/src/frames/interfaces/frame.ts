@@ -18,6 +18,8 @@ export interface Frame extends Selectable {
     getFields(): Field[];
     worstStatusOfFields(): ParseStatus;
 
+    frameStatus() : ParseStatus;
+
     selectFirstField() : boolean;
     selectLastField() : boolean;
     selectFieldBefore(current: Field): void;
