@@ -99,7 +99,7 @@ export abstract class AbstractField implements Selectable, Field {
                 this.setStatus(ParseStatus.invalid);
             } else {
                 this.setStatus(root.status);
-                this.text = root.matchedText;
+                this.text = root.matchedText + root.remainingText;
             }
         }
     }
