@@ -5,8 +5,10 @@ import { ParseNode } from "./parse-node";
 import { UnknownType } from "../../symbols/UnknownType";
 import { Field } from "../interfaces/field";
 import { ListType } from "../../symbols/ListType";
+import { IHasSymbolType } from "../../symbols/IHasSymbolType";
+import { isHasSymbolType } from "../../symbols/symbolHelpers";
 
-export class List extends AbstractSequence {
+export class List extends AbstractSequence implements IHasSymbolType  {
     elementConstructor: () => ParseNode;
 
     constructor(elementConstructor: () => ParseNode, field : Field) {
@@ -24,10 +26,12 @@ export class List extends AbstractSequence {
     }
     
     get symbolType() {
-        const ofType = this.elements[1]?.symbolType;
-        if (ofType) {
-            return new ListType(ofType);
+       
+        if (isHasSymbolType(this.elements[1])) {
+            const ofType = this.elements[1].symbolType;
+            return new ListType(ofType || UnknownType.Instance);
         }
-        return UnknownType.Instance;
+
+        return new ListType(UnknownType.Instance);
     }
 }

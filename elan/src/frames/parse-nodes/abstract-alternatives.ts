@@ -1,11 +1,12 @@
 import { AbstractParseNode } from "./abstract-parse-node";
 import { ParseNode } from "./parse-node";
 import { ParseStatus } from "../parse-status";
-import { ISymbolType } from "../../symbols/ISymbolType";
-import { ExpressionField } from "../fields/expression-field";
 import { Field } from "../interfaces/field";
+import { IHasSymbolType } from "../../symbols/IHasSymbolType";
+import { isHasSymbolType } from "../../symbols/symbolHelpers";
+import { UnknownType } from "../../symbols/UnknownType";
 
-export abstract class AbstractAlternatives extends AbstractParseNode {
+export abstract class AbstractAlternatives extends AbstractParseNode implements IHasSymbolType {
     alternatives: ParseNode[] = [];
     bestMatch?: ParseNode;
 
@@ -51,6 +52,10 @@ export abstract class AbstractAlternatives extends AbstractParseNode {
     }
 
     get symbolType() {
-        return this.bestMatch?.symbolType;
+        if (isHasSymbolType(this.bestMatch)) {
+            return this.bestMatch.symbolType;
+        }
+
+        return UnknownType.Instance;
     }
 }

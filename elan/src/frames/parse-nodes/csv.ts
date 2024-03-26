@@ -1,4 +1,6 @@
-import { UnknownType } from "../../symbols/UnknownType";
+import { IHasSymbolType } from "../../symbols/IHasSymbolType";
+import { IHasSymbolTypes } from "../../symbols/IHasSymbolTypes";
+import { isHasSymbolType } from "../../symbols/symbolHelpers";
 import { Field } from "../interfaces/field";
 import { AbstractSequence } from "./abstract-sequence";
 import { Comma } from "./comma";
@@ -8,7 +10,7 @@ import { ParseNode } from "./parse-node";
 import { Sequence } from "./sequence";
 
 //A list of comma-separated values of a specified type, but with no list delimiters
-export class CSV extends AbstractSequence {
+export class CSV extends AbstractSequence implements IHasSymbolTypes {
     elementConstructor: () => ParseNode;
     minimum: number;
 
@@ -33,11 +35,7 @@ export class CSV extends AbstractSequence {
         super.parseText(text);
     }
     
-    get symbolType() {
-        if (this.elements.length > 0){
-            return this.elements[0].symbolType;
-        }
-
-        return UnknownType.Instance;
+    get symbolTypes() {
+        return this.elements.filter(e => isHasSymbolType(e)).map(e => (e as IHasSymbolType).symbolType);
     }
 }

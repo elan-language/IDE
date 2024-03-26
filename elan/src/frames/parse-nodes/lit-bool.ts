@@ -2,6 +2,7 @@ import { AbstractAlternatives } from "./abstract-alternatives";
 import { Field } from "../interfaces/field";
 import { BooleanType } from "../../symbols/BooleanType";
 import { KeywordNode } from "./keyword-node";
+import { IHasSymbolType } from "../../symbols/IHasSymbolType";
 
 export class LitBool extends AbstractAlternatives {
 

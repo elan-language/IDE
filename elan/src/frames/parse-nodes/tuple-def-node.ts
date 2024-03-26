@@ -21,7 +21,7 @@ export class TupleDefNode extends AbstractSequence {
     }
 
     get symbolType() {
-        const types = (this.elements[1] as CSV).elements.map(e => e.symbolType!);
+        const types = (this.elements[1] as CSV).symbolTypes.map(e => e ?? UnknownType.Instance);
         return new TupleType(types);
     }
     

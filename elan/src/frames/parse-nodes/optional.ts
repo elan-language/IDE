@@ -1,11 +1,12 @@
+import { IHasSymbolType } from "../../symbols/IHasSymbolType";
 import { UnknownType } from "../../symbols/UnknownType";
-import { ExpressionField } from "../fields/expression-field";
+import { isHasSymbolType } from "../../symbols/symbolHelpers";
 import { Field } from "../interfaces/field";
 import { ParseStatus } from "../parse-status";
 import { AbstractParseNode } from "./abstract-parse-node";
 import { ParseNode } from "./parse-node";
 
-export class Optional extends AbstractParseNode {
+export class Optional extends AbstractParseNode implements IHasSymbolType {
     elementConstructor: () => ParseNode;
     matchedNode?: ParseNode;
 
@@ -38,6 +39,10 @@ export class Optional extends AbstractParseNode {
     }
 
     get symbolType() {
-        return this.matchedNode?.symbolType;
+        if (isHasSymbolType(this.matchedNode)) {
+            return this.matchedNode.symbolType;
+        }
+
+        return UnknownType.Instance;
     }
 }

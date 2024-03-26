@@ -4,12 +4,22 @@ import { Field } from "../frames/interfaces/field";
 import { Frame } from "../frames/interfaces/frame";
 import { BooleanType } from "./BooleanType";
 import { FloatType } from "./FloatType";
+import { IHasSymbolType } from "./IHasSymbolType";
+import { IHasSymbolTypes } from "./IHasSymbolTypes";
 import { ISymbol } from "./ISymbol";
 import { IntType } from "./IntType";
 import { UnknownType } from "./UnknownType";
 
 export function isSymbol(s?: any): s is ISymbol {
     return !!s && 'symbolId' in s && 'symbolType' in s;
+}
+
+export function isHasSymbolType(s?: any): s is IHasSymbolType {
+    return !!s && 'symbolType' in s;
+}
+
+export function isHasSymbolTypes(s?: any): s is IHasSymbolTypes {
+    return !!s && 'symbolTypes' in s;
 }
 
 export function findSymbolInScope(id: string, field: Field): ISymbol | undefined {

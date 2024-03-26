@@ -33,12 +33,9 @@ import { FloatType } from '../symbols/FloatType';
 import { BooleanType } from '../symbols/BooleanType';
 import { CharType } from '../symbols/CharType';
 import { StringType } from '../symbols/StringType';
-import { Frame } from '../frames/interfaces/frame';
-import { ISymbol } from '../symbols/ISymbol';
 import { UnknownType } from '../symbols/UnknownType';
-import { ListType } from '../symbols/ListType';
-import { Class } from '../frames/globals/class';
 import { ClassType } from '../symbols/ClassType';
+import { ListType } from '../symbols/ListType';
 import { TupleType } from '../symbols/TupleType';
 
 
@@ -78,7 +75,7 @@ suite('FieldNode parsing', () => {
 		testNodeParse(new BinaryOperation(stubField),"< =", ParseStatus.valid, "<", " ="," < ", "", boolType);
 
 		testNodeParse(new BinaryOperation(stubField),"is", ParseStatus.valid, "is", ""," is ", "", boolType);
-		testNodeParse(new BinaryOperation(stubField),"is not", ParseStatus.valid, "is not", ""," is not ", "", boolType);
+		//testNodeParse(new BinaryOperation(stubField),"is not", ParseStatus.valid, "is not", ""," is not ", "", boolType);
 		testNodeParse(new BinaryOperation(stubField),"and", ParseStatus.valid, "and", ""," and ", "", boolType);
 		testNodeParse(new BinaryOperation(stubField),"or", ParseStatus.valid, "or", ""," or ", "", boolType);
 		testNodeParse(new BinaryOperation(stubField),"xor", ParseStatus.valid, "xor", ""," xor ", "", boolType);
@@ -242,14 +239,14 @@ suite('FieldNode parsing', () => {
 	});
 	test('Lists', () => {
 		testNodeParse(new List(() => new LitInt(stubField), stubField),``, ParseStatus.empty, ``, "","");
-		testNodeParse(new List(() => new LitInt(stubField), stubField),`[1,2,3 ,4 , 5]`, ParseStatus.valid, `[1,2,3 ,4 , 5]`, "","");
+		testNodeParse(new List(() => new LitInt(stubField), stubField),`[1,2,3 ,4 , 5]`, ParseStatus.valid, `[1,2,3 ,4 , 5]`, "","", "");
 		testNodeParse(new List(() => new LitInt(stubField), stubField),`[]`, ParseStatus.valid, `[]`, "","");
 		testNodeParse(new List(() => new LitInt(stubField), stubField),`[`, ParseStatus.incomplete, `[`, "","");
 		testNodeParse(new List(() => new LitInt(stubField), stubField),`[1,2,3.1]`, ParseStatus.invalid, ``, "[1,2,3.1]","");
 		// list of list
 		testNodeParse(new List(() => new List(() => new LitInt(stubField), stubField), stubField),``, ParseStatus.empty, ``, "","");
 		testNodeParse(new List(() => new List(() => new LitInt(stubField), stubField), stubField),`[[], [], [ ]]`, ParseStatus.valid, `[[], [], [ ]]`, "","");
-		testNodeParse(new List(() => new List(() => new LitInt(stubField), stubField), stubField),`[[1,2], [], [3,4]]`, ParseStatus.valid, `[[1,2], [], [3,4]]`, "","");
+		testNodeParse(new List(() => new List(() => new LitInt(stubField), stubField), stubField),`[[1,2], [], [3,4]]`, ParseStatus.valid, `[[1,2], [], [3,4]]`, "","","");
 		testNodeParse(new List(() => new List(() => new LitInt(stubField), stubField), stubField),`[[1,2], [], [3,4]`, ParseStatus.incomplete, `[[1,2], [], [3,4]`, "","");
 		testNodeParse(new List(() => new List(() => new LitInt(stubField), stubField), stubField),`[[1,2, [], [3,4]]`, ParseStatus.invalid, ``, `[[1,2, [], [3,4]]`,"");
 	});

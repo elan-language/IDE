@@ -6,6 +6,7 @@ import { KeywordNode } from "./keyword-node";
 import { notKeyword } from "../keywords";
 import { UnknownType } from "../../symbols/UnknownType";
 import { Field } from "../interfaces/field";
+import { isHasSymbolType } from "../../symbols/symbolHelpers";
 
 export class UnaryExpression extends AbstractSequence {
     
@@ -24,7 +25,13 @@ export class UnaryExpression extends AbstractSequence {
     }
 
     get symbolType() {
-        return this.elements[1]?.symbolType;
+
+
+        if (isHasSymbolType(this.elements[1])) {
+            return this.elements[1].symbolType;
+        }
+
+        return UnknownType.Instance;
     }
     
 }

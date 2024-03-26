@@ -1,4 +1,6 @@
+import { IHasSymbolType } from "../../symbols/IHasSymbolType";
 import { UnknownType } from "../../symbols/UnknownType";
+import { isHasSymbolType } from "../../symbols/symbolHelpers";
 import { Field } from "../interfaces/field";
 import { AbstractSequence } from "./abstract-sequence";
 import { Alternatives } from "./alternatives";
@@ -7,7 +9,7 @@ import { IdentifierNode } from "./identifier-node";
 import { IndexNode } from "./index-node";
 import { Multiple } from "./multiple";
 
-export class IndexableTerm extends AbstractSequence {
+export class IndexableTerm extends AbstractSequence implements IHasSymbolType {
     constructor(field : Field) {
         super(field);
     }
@@ -23,6 +25,11 @@ export class IndexableTerm extends AbstractSequence {
     get symbolType() {
         // kludge 
         var id = (this.elements[0] as Alternatives).bestMatch;
-        return id?.symbolType;
+
+        if (isHasSymbolType(id)){
+            return id.symbolType;
+        }
+
+        return UnknownType.Instance;
     }
 }
