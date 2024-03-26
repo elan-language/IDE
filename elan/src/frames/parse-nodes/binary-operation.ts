@@ -1,6 +1,6 @@
 import { andKeyword, divKeyword, isKeyword, modKeyword, notKeyword, orKeyword, xorKeyword } from "../keywords";
 import { AbstractAlternatives } from "./abstract-alternatives";
-import { Keyword } from "./keyword";
+import { KeywordNode } from "./keyword-node";
 import { Symbol } from "./symbol";
 import { Sequence } from "./sequence";
 
@@ -14,15 +14,15 @@ export class BinaryOperation extends AbstractAlternatives {
         this.alternatives.push(new Symbol("<", this.field));
         this.alternatives.push(new Symbol(">=", this.field));
         this.alternatives.push(new Symbol("<=", this.field));
-        this.alternatives.push(new Keyword(isKeyword, this.field));
-        var is = () => new Keyword(isKeyword, this.field);
-        var not = () => new Keyword(notKeyword, this.field);
+        this.alternatives.push(new KeywordNode(isKeyword, this.field));
+        var is = () => new KeywordNode(isKeyword, this.field);
+        var not = () => new KeywordNode(notKeyword, this.field);
         this.alternatives.push(new Sequence([is,not], this.field));
-        this.alternatives.push(new Keyword(andKeyword, this.field));
-        this.alternatives.push(new Keyword(orKeyword, this.field));
-        this.alternatives.push(new Keyword(xorKeyword, this.field));
-        this.alternatives.push(new Keyword(modKeyword, this.field));
-        this.alternatives.push(new Keyword(divKeyword, this.field));;
+        this.alternatives.push(new KeywordNode(andKeyword, this.field));
+        this.alternatives.push(new KeywordNode(orKeyword, this.field));
+        this.alternatives.push(new KeywordNode(xorKeyword, this.field));
+        this.alternatives.push(new KeywordNode(modKeyword, this.field));
+        this.alternatives.push(new KeywordNode(divKeyword, this.field));;
         super.parseText(text);
     }
 

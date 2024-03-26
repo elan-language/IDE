@@ -1,7 +1,7 @@
 import { AbstractAlternatives } from "./abstract-alternatives";
-import { Keyword } from "./keyword";
 import { Field } from "../interfaces/field";
 import { BooleanType } from "../../symbols/BooleanType";
+import { KeywordNode } from "./keyword-node";
 
 export class LitBool extends AbstractAlternatives {
 
@@ -13,8 +13,8 @@ export class LitBool extends AbstractAlternatives {
     parseText(text: string): void {
         this.remainingText = text;
         if (text.trimStart().length > 0) {
-            this.alternatives.push(new Keyword("true", this.field));
-            this.alternatives.push(new Keyword("false", this.field));
+            this.alternatives.push(new KeywordNode("true", this.field));
+            this.alternatives.push(new KeywordNode("false", this.field));
             super.parseText(text);
         }
     }

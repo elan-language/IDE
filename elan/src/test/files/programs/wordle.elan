@@ -1,4 +1,4 @@
-# bd0694bb1e5ff0f430c1edd985267381d5b247476546f3d62aa799250e4c83d2 Elan v0.1 valid
+# 3f3f5d25b8f18de3b8ca7124ae976217ff3e93e3919144f0132e1b5e8033f59f Elan v0.1 valid
 
 function isYellow(attempt as String, target as String, n as Int) return Bool
   return target.contains(attempt[n])
@@ -51,11 +51,11 @@ end function
 constant letterPositions set to {0,1,2,3,4}
 
 function evaluateGreens(attempt as String, target as String) return (String, String)
-  return letterPositions.reduce((attempt, target), lambda a, x  -> (setAttemptIfGreen(a.attempt, a.target, x), setTargetIfGreen(a.attempt, a.target, x)))
+  return letterPositions.reduce((attempt, target), lambda a as (String, String), x as Int return (setAttemptIfGreen(a.attempt, a.target, x), setTargetIfGreen(a.attempt, a.target, x)))
 end function
 
 function evaluateYellows(attempt as String, target as String) return (String, String)
-  return letterPositions.reduce((attempt, target),lambda a, x -> (setAttemptIfYellow(a.attempt, a.target, x), setTargetIfYellow(a.attempt, a.target, x)))
+  return letterPositions.reduce((attempt, target),lambda a as (String, String), x as Int return (setAttemptIfYellow(a.attempt, a.target, x), setTargetIfYellow(a.attempt, a.target, x)))
 end function
 
 function markAttempt(attempt as String, target as String) return String
@@ -64,16 +64,16 @@ function markAttempt(attempt as String, target as String) return String
 end function
 
 function possibleAnswersAfterAttempt(prior as Iter<of String>, attempt as String, mark as String) return Iter<of String>
-  return prior.filter(lambda w -> markAttempt(attempt, w) is mark)
+  return prior.filter(lambda w as String return markAttempt(attempt, w) is mark)
 end function
 
 function wordCountRemainingAfterAttempt(possibleAnswers as Iter<of String>, attempt as String) return WordCount
-  var groups set to possibleAnswers.groupBy(lambda w -> markAttempt(attempt, w))
-  return new WordCount(attempt, groups.maxBy(lambda g -> g.members.count()).members.count())
+  var groups set to possibleAnswers.groupBy(lambda w as String return markAttempt(attempt, w))
+  return new WordCount(attempt, groups.maxBy(lambda g as Group<of String> return g.members.count()).members.count())
 end function
 
 function allRemainingWordCounts(possAnswers as List<of String>, possAttempts as Iter<of String>) return Iter<of WordCount>
-  return possAttempts.asParallel().map(lambda w -> wordCountRemainingAfterAttempt(possAnswers, w))
+  return possAttempts.asParallel().map(lambda w as String return wordCountRemainingAfterAttempt(possAnswers, w))
 end function
 
 function betterOf(wc1 as WordCount, wc2 as WordCount, possAnswers as Iter<of String>) return WordCount
@@ -84,7 +84,7 @@ end function
 
 function bestAttempt(possAnswers as List<of String>,possAttempts as List<of String>) return String
   var wordCounts set to allRemainingWordCounts(possAnswers, possAttempts)
-  return wordCounts.reduce(wordCounts.head(),lambda bestSoFar, newWord ->  betterOf(bestSoFar, newWord, possAnswers)).word
+  return wordCounts.reduce(wordCounts.head(),lambda bestSoFar as String, newWord as String return betterOf(bestSoFar, newWord, possAnswers)).word
 end function
 
 immutable class WordCount

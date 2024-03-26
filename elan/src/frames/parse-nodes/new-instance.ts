@@ -3,7 +3,7 @@ import { Field } from "../interfaces/field";
 import { AbstractSequence } from "./abstract-sequence";
 import { CSV } from "./csv";
 import { ExprNode } from "./expr-node";
-import { Keyword } from "./keyword";
+import { KeywordNode } from "./keyword-node";
 import { Symbol } from "./symbol";
 import { TypeWithOptGenerics } from "./type-with-opt-generics";
 
@@ -13,7 +13,7 @@ export class NewInstance extends AbstractSequence {
     }
 
     parseText(text: string): void {
-        this.elements.push(new Keyword("new", this.field));
+        this.elements.push(new KeywordNode("new", this.field));
         this.elements.push(new TypeWithOptGenerics(this.field));
         this.elements.push(new Symbol("(", this.field)); 
         this.elements.push(new CSV(() => new ExprNode(this.field),0, this.field)); 

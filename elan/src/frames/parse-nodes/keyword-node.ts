@@ -5,7 +5,7 @@ import { Field } from "../interfaces/field";
 import { ParseStatus } from "../parse-status";
 import { AbstractParseNode } from "./abstract-parse-node";
 
-export class Keyword extends AbstractParseNode {
+export class KeywordNode extends AbstractParseNode {
     keyword: string;
     isKeyword = true;
 

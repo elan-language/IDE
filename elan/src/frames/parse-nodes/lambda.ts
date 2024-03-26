@@ -1,11 +1,11 @@
 import { AbstractSequence } from "./abstract-sequence";
-import { Symbol } from "./symbol";
 import { CSV } from "./csv";
-import { Keyword } from "./keyword";
-import { IdentifierNode } from "./identifier-node";
+import { KeywordNode } from "./keyword-node";
 import { ExprNode } from "./expr-node";
 import { UnknownType } from "../../symbols/UnknownType";
 import { Field } from "../interfaces/field";
+import { lambdaKeyword, returnKeyword } from "../keywords";
+import { ParamDefNode } from "./param-def-node";
 
 export class Lambda extends AbstractSequence {
     constructor(field : Field) {
@@ -14,16 +14,16 @@ export class Lambda extends AbstractSequence {
 
     parseText(text: string): void {
         if (text.trimStart().length > 0) {
-            this.elements.push(new Keyword(`lambda`, this.field));
-            this.elements.push(new CSV(() => new IdentifierNode(this.field),1, this.field));
-            this.elements.push(new Symbol(`->`, this.field));
+            this.elements.push(new KeywordNode(lambdaKeyword, this.field));
+            this.elements.push(new CSV(() => new ParamDefNode(this.field), 1, this.field));
+            this.elements.push(new KeywordNode(returnKeyword, this.field));
             this.elements.push(new ExprNode(this.field));
             super.parseText(text);
         }
     }
 
     renderAsSource(): string {
-        return `lambda ${this.elements[1].renderAsSource()} -> ${this.elements[3].renderAsSource()}`;
+        return `${lambdaKeyword} ${this.elements[1].renderAsSource()} ${returnKeyword} ${this.elements[3].renderAsSource()}`;
     }
 
     get symbolType() {

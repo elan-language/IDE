@@ -16,7 +16,7 @@ import { Multiple } from '../frames/parse-nodes/multiple';
 import { CSV } from '../frames/parse-nodes/csv';
 import { IdentifierNode } from '../frames/parse-nodes/identifier-node';
 import { FunctionCallNode } from '../frames/parse-nodes/function-call-node';
-import { Keyword } from '../frames/parse-nodes/keyword';
+import { KeywordNode } from '../frames/parse-nodes/keyword-node';
 import { IndexableTerm } from '../frames/parse-nodes/indexed-term';
 import { ListOfExpr } from '../frames/parse-nodes/listOfExpr';
 import { TypeNode } from '../frames/parse-nodes/type-node';
@@ -154,13 +154,13 @@ suite('FieldNode parsing', () => {
 		testNodeParse(new LitFloat(stubField), "1. ", ParseStatus.incomplete, "1.", " ","1.", "", floatType);
 	});
 	test('Keyword', () => {
-		testNodeParse(new Keyword("abstract", stubField), "", ParseStatus.empty, "", "","");
-		testNodeParse(new Keyword("abstract", stubField), "abstract ", ParseStatus.valid, "abstract", "","");
-		testNodeParse(new Keyword("abstract", stubField), "abstract(x", ParseStatus.valid, "abstract", "(x","");
-		testNodeParse(new Keyword("abstract", stubField), "abstractx", ParseStatus.invalid, "", "abstractx","");
-		testNodeParse(new Keyword("abstract", stubField), "abstract immutable", ParseStatus.valid, "abstract", " immutable","abstract ");
-		testNodeParse(new Keyword("abstract", stubField), " abs", ParseStatus.incomplete, " abs", "","abs ");
-		testNodeParse(new Keyword("abstract", stubField), " abscract", ParseStatus.invalid, "", " abscract","");
+		testNodeParse(new KeywordNode("abstract", stubField), "", ParseStatus.empty, "", "","");
+		testNodeParse(new KeywordNode("abstract", stubField), "abstract ", ParseStatus.valid, "abstract", "","");
+		testNodeParse(new KeywordNode("abstract", stubField), "abstract(x", ParseStatus.valid, "abstract", "(x","");
+		testNodeParse(new KeywordNode("abstract", stubField), "abstractx", ParseStatus.invalid, "", "abstractx","");
+		testNodeParse(new KeywordNode("abstract", stubField), "abstract immutable", ParseStatus.valid, "abstract", " immutable","abstract ");
+		testNodeParse(new KeywordNode("abstract", stubField), " abs", ParseStatus.incomplete, " abs", "","abs ");
+		testNodeParse(new KeywordNode("abstract", stubField), " abscract", ParseStatus.invalid, "", " abscract","");
 	});
 	test('BracketedExpression', () => {
 		// testNodeParse(new BracketedExpression(stubField),"", ParseStatus.empty, "", "","");
@@ -177,11 +177,11 @@ suite('FieldNode parsing', () => {
 	test('Optional', () => {
 		testNodeParse(new Optional(() => new LitInt(stubField), stubField),"123 a", ParseStatus.valid, "123", " a","123");
 		testNodeParse(new Optional(() => new LitInt(stubField), stubField), "abc", ParseStatus.valid, "", "abc","");
-		testNodeParse(new Optional(() => new Keyword("abstract", stubField), stubField), " abstract", ParseStatus.valid, " abstract", "","abstract ","<keyword>abstract </keyword>");
-		testNodeParse(new Optional(() => new Keyword("abstract", stubField), stubField), "abs", ParseStatus.incomplete, "abs", "","");
-		testNodeParse(new Optional(() => new Keyword("abstract", stubField), stubField), "abscract", ParseStatus.valid, "", "abscract","");
-		testNodeParse(new Optional(() => new Keyword("abstract", stubField), stubField), "", ParseStatus.valid, "", "","");
-		testNodeParse(new Optional(() => new Keyword("abstract", stubField), stubField), "  ", ParseStatus.valid, "", "  ","");
+		testNodeParse(new Optional(() => new KeywordNode("abstract", stubField), stubField), " abstract", ParseStatus.valid, " abstract", "","abstract ","<keyword>abstract </keyword>");
+		testNodeParse(new Optional(() => new KeywordNode("abstract", stubField), stubField), "abs", ParseStatus.incomplete, "abs", "","");
+		testNodeParse(new Optional(() => new KeywordNode("abstract", stubField), stubField), "abscract", ParseStatus.valid, "", "abscract","");
+		testNodeParse(new Optional(() => new KeywordNode("abstract", stubField), stubField), "", ParseStatus.valid, "", "","");
+		testNodeParse(new Optional(() => new KeywordNode("abstract", stubField), stubField), "  ", ParseStatus.valid, "", "  ","");
 	});
 	test('LitString', () => {
 		testNodeParse(new LitString(stubField),`"abc"`, ParseStatus.valid, `"abc"`, "","",`<string>"abc"</string>`, stringType);
@@ -201,12 +201,12 @@ suite('FieldNode parsing', () => {
 		testNodeParse(new Multiple(() => new LitInt(stubField), 1, stubField),`5 6 a`, ParseStatus.valid, `5 6`, " a","");
 		testNodeParse(new Multiple(() => new LitInt(stubField), 1, stubField),`7   `, ParseStatus.valid, `7`, "   ","");
 
-		testNodeParse(new Multiple(() => new Keyword("foo", stubField), 1, stubField),`foo foo`, ParseStatus.valid, "", "","");
-		testNodeParse(new Multiple(() => new Keyword("bar", stubField), 1, stubField),`bar ba`, ParseStatus.incomplete, "bar ba", "","");
-		testNodeParse(new Multiple(() => new Keyword("foo", stubField), 1, stubField),`foo`, ParseStatus.valid, "", "","");
-		testNodeParse(new Multiple(() => new Keyword("foo", stubField), 1, stubField),`fo`, ParseStatus.incomplete, "", "","");
-		testNodeParse(new Multiple(() => new Keyword("foo", stubField), 1, stubField),`foo,foo`, ParseStatus.valid, "", ",foo","");
-		testNodeParse(new Multiple(() => new Keyword("foo", stubField), 1, stubField),`foofoo`, ParseStatus.invalid, "", "foofoo","");
+		testNodeParse(new Multiple(() => new KeywordNode("foo", stubField), 1, stubField),`foo foo`, ParseStatus.valid, "", "","");
+		testNodeParse(new Multiple(() => new KeywordNode("bar", stubField), 1, stubField),`bar ba`, ParseStatus.incomplete, "bar ba", "","");
+		testNodeParse(new Multiple(() => new KeywordNode("foo", stubField), 1, stubField),`foo`, ParseStatus.valid, "", "","");
+		testNodeParse(new Multiple(() => new KeywordNode("foo", stubField), 1, stubField),`fo`, ParseStatus.incomplete, "", "","");
+		testNodeParse(new Multiple(() => new KeywordNode("foo", stubField), 1, stubField),`foo,foo`, ParseStatus.valid, "", ",foo","");
+		testNodeParse(new Multiple(() => new KeywordNode("foo", stubField), 1, stubField),`foofoo`, ParseStatus.invalid, "", "foofoo","");
 	});
 	test('CSV', () => {
 		testNodeParse(new CSV(() => new LitInt(stubField),0, stubField),``, ParseStatus.valid, ``, "","");
@@ -220,11 +220,11 @@ suite('FieldNode parsing', () => {
 		testNodeParse(new CSV(() => new ExprNode(stubField),0, stubField),`a + b,c, 1`, ParseStatus.valid, `a + b,c, 1`, "","");
 		testNodeParse(new CSV(() => new ExprNode(stubField),0, stubField),`)`, ParseStatus.valid, ``, ")","");
 
-		testNodeParse(new CSV(() => new Keyword("foo", stubField),0, stubField),`foo, foo `, ParseStatus.valid, "","");
-		testNodeParse(new CSV(() => new Keyword("foo", stubField),0, stubField),`foo `, ParseStatus.valid, "","");
-		testNodeParse(new CSV(() => new Keyword("foo", stubField),1, stubField),`fook `, ParseStatus.invalid, "","");
-		testNodeParse(new CSV(() => new Keyword("foo", stubField),0, stubField),`fo`, ParseStatus.incomplete, "fo","");
-		testNodeParse(new CSV(() => new Keyword("foo", stubField),2, stubField),`foo, fo`, ParseStatus.incomplete, "foo, fo","");
+		testNodeParse(new CSV(() => new KeywordNode("foo", stubField),0, stubField),`foo, foo `, ParseStatus.valid, "","");
+		testNodeParse(new CSV(() => new KeywordNode("foo", stubField),0, stubField),`foo `, ParseStatus.valid, "","");
+		testNodeParse(new CSV(() => new KeywordNode("foo", stubField),1, stubField),`fook `, ParseStatus.invalid, "","");
+		testNodeParse(new CSV(() => new KeywordNode("foo", stubField),0, stubField),`fo`, ParseStatus.incomplete, "fo","");
+		testNodeParse(new CSV(() => new KeywordNode("foo", stubField),2, stubField),`foo, fo`, ParseStatus.incomplete, "foo, fo","");
 
 		testNodeParse(new CSV(() => new ExprNode(stubField),0, stubField),``, ParseStatus.valid, "","");
 	});
@@ -293,10 +293,10 @@ suite('FieldNode parsing', () => {
 		testNodeParse(new TupleDefNode(stubField),`(foo, 3, bar(a), x`, ParseStatus.incomplete, "(foo, 3, bar(a), x","","");
 	});
 	test('Lambda', () => {
-		testNodeParse(new Lambda(stubField),`lambda x -> x * x`, ParseStatus.valid, "lambda x -> x * x","","");
-		testNodeParse(new Lambda(stubField),`lambda x ->`, ParseStatus.incomplete, "lambda x ->","","");
-		testNodeParse(new Lambda(stubField),`lambda x = x * x`, ParseStatus.invalid, "","lambda x = x * x","");
-		testNodeParse(new Lambda(stubField),`lambda s,p -> s + p.first()`, ParseStatus.valid, "lambda s,p -> s + p.first()","","");
+		testNodeParse(new Lambda(stubField),`lambda x as Int return x * x`, ParseStatus.valid, "lambda x as Int return x * x","","");
+		testNodeParse(new Lambda(stubField),`lambda x`, ParseStatus.incomplete, "lambda x","","");
+		testNodeParse(new Lambda(stubField),`lambda x return x * x`, ParseStatus.invalid, "","lambda x return x * x","");
+		testNodeParse(new Lambda(stubField),`lambda s as Int, p as List<of Int> return s + p.first()`, ParseStatus.valid, "","","");
 	});
 	test('IfExpr', () => {
 		testNodeParse(new IfExpr(stubField),`if cell then Colour.green else Colour.black)`, ParseStatus.valid, "","","");
