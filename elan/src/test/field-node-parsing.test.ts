@@ -142,12 +142,14 @@ suite('FieldNode parsing', () => {
 		testNodeParse(new LitInt(stubField), "a", ParseStatus.invalid, "", "a","","", intType);
 	});
 	test('LitFloat', () => {
-		testNodeParse(new LitFloat(stubField), "", ParseStatus.empty, "", "","", "", floatType);
-		testNodeParse(new LitFloat(stubField), "1.0", ParseStatus.valid, "1.0", "","1.0", "", floatType);
-		testNodeParse(new LitFloat(stubField), " 1.0a", ParseStatus.valid, " 1.0", "a","1.0", "", floatType);
-		testNodeParse(new LitFloat(stubField), "1", ParseStatus.incomplete, "1", "","1", "", floatType);
-		testNodeParse(new LitFloat(stubField), "1.", ParseStatus.incomplete, "1.", "","1.", "", floatType);
-		testNodeParse(new LitFloat(stubField), "1. ", ParseStatus.incomplete, "1.", " ","1.", "", floatType);
+		testNodeParse(new LitFloat(stubField), "", ParseStatus.empty, "", "","");
+		testNodeParse(new LitFloat(stubField), "1.0", ParseStatus.valid, "1.0", "","1.0");
+		testNodeParse(new LitFloat(stubField), " 1.0a", ParseStatus.valid, " 1.0", "a","1.0");
+		testNodeParse(new LitFloat(stubField), "1", ParseStatus.incomplete, "1", "","1");
+		testNodeParse(new LitFloat(stubField), "1.", ParseStatus.incomplete, "1.", "","1.");
+		testNodeParse(new LitFloat(stubField), "1. ", ParseStatus.incomplete, "1.", " ","1.");
+		testNodeParse(new LitFloat(stubField), "1.1e5", ParseStatus.valid, "1.1e5", "","1.1e5");
+		testNodeParse(new LitFloat(stubField), "1.1e-5", ParseStatus.valid, "1.1e-5", "","1.1e-5");
 	});
 	test('Keyword', () => {
 		testNodeParse(new KeywordNode("abstract", stubField), "", ParseStatus.empty, "", "","");

@@ -142,7 +142,7 @@ export async function main() {
         const code = `# FFFFFFFFFFFFFFFF Elan v0.1 valid
 
 main
-  print 2.1E4
+  print 2.1e4
 end main`;
 
         const objectCode = `var system; export function _inject(l) { system = l; };
@@ -164,7 +164,7 @@ export async function main() {
         const code = `# FFFFFFFFFFFFFFFF Elan v0.1 valid
 
 main
-  print 2.1E100
+  print 2.1e100
 end main`;
 
         const objectCode = `var system; export function _inject(l) { system = l; };
@@ -186,7 +186,7 @@ export async function main() {
         const code = `# FFFFFFFFFFFFFFFF Elan v0.1 valid
 
 main
-  print 2.1e-4
+  print 2.1E-4
 end main`;
 
         const objectCode = `var system; export function _inject(l) { system = l; };

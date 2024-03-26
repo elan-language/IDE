@@ -248,7 +248,6 @@ const dot = (input: [ParseStatus, string]) => singleChar(input, `.`);
 const quoteS = (input: [ParseStatus, string]) => singleChar(input, `'`);
 const quoteD = (input: [ParseStatus, string]) => singleChar(input, `"`);
 
-//TODO: Exponent
 export function literalFloat(input: [ParseStatus, string]): [ParseStatus, string] {
     return SEQ(input, [literalInt, dot, literalInt]);
 }
