@@ -2,7 +2,11 @@ import { FrameWithStatements } from "../frames/frame-with-statements";
 import { isFrame } from "../frames/helpers";
 import { Field } from "../frames/interfaces/field";
 import { Frame } from "../frames/interfaces/frame";
+import { BooleanType } from "./BooleanType";
+import { FloatType } from "./FloatType";
 import { ISymbol } from "./ISymbol";
+import { IntType } from "./IntType";
+import { UnknownType } from "./UnknownType";
 
 export function isSymbol(s?: any): s is ISymbol {
     return !!s && 'symbolId' in s && 'symbolType' in s;
@@ -36,4 +40,26 @@ export function findSymbolInFrameScope(id: string, frame: Frame): ISymbol | unde
     }
 
     return undefined;
+}
+
+export function rawSymbolToType(s: string) {
+    switch (s) {
+        case ">":
+        case "<":
+        case "<=":
+        case ">=":
+        case "is":
+        case "is not":
+        case "and":
+        case "or":
+        case "xor":
+            return BooleanType.Instance;
+        case "div":
+        case "mod":
+            return IntType.Instance;
+        case "/":
+            return FloatType.Instance;
+        default:
+            return UnknownType.Instance;
+    }
 }

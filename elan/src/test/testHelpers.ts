@@ -299,6 +299,6 @@ export async function activate(docUri: vscode.Uri) {
       assert.equal(node.renderAsHtml(), html);
     }
     if (symbolType) {
-      assert.strictEqual(node.symbolType?.name, symbolType.name);
+      assert.strictEqual(node.symbolType?.name, symbolType.name, text);
     }
   }

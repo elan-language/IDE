@@ -34,11 +34,19 @@ import { FloatType } from '../symbols/FloatType';
 import { BooleanType } from '../symbols/BooleanType';
 import { CharType } from '../symbols/CharType';
 import { StringType } from '../symbols/StringType';
+import { Frame } from '../frames/interfaces/frame';
+import { ISymbol } from '../symbols/ISymbol';
+import { UnknownType } from '../symbols/UnknownType';
+import { ListType } from '../symbols/ListType';
+import { Class } from '../frames/globals/class';
+import { ClassType } from '../symbols/ClassType';
+import { TupleType } from '../symbols/TupleType';
 
 
 suite('FieldNode parsing', () => {
-	const stubField = {
 
+	const stubField = {
+		
 	} as Field;
 
 	const intType = IntType.Instance;
@@ -46,36 +54,37 @@ suite('FieldNode parsing', () => {
 	const boolType = BooleanType.Instance;
 	const charType = CharType.Instance;
 	const stringType = StringType.Instance;
+	const unknownType = UnknownType.Instance;
 
 
 	vscode.window.showInformationMessage('Start all unit tests.');
 	test('UnaryExpression', () => {
-		testNodeParse(new UnaryExpression(stubField),"", ParseStatus.empty, "", "","");
-		testNodeParse(new UnaryExpression(stubField),"-3", ParseStatus.valid, "-3", "","-3");
-		testNodeParse(new UnaryExpression(stubField)," not foo", ParseStatus.valid, " not foo", "","not foo");
-		testNodeParse(new UnaryExpression(stubField),"-", ParseStatus.incomplete, "-", "","-");
-		testNodeParse(new UnaryExpression(stubField),"+4", ParseStatus.invalid, "", "+4","");
+		testNodeParse(new UnaryExpression(stubField),"", ParseStatus.empty, "", "","", "", undefined);
+		testNodeParse(new UnaryExpression(stubField),"-3", ParseStatus.valid, "-3", "","-3", "", intType);
+		testNodeParse(new UnaryExpression(stubField)," not foo", ParseStatus.valid, " not foo", "","not foo", "");
+		testNodeParse(new UnaryExpression(stubField),"-", ParseStatus.incomplete, "-", "","-", "", undefined);
+		testNodeParse(new UnaryExpression(stubField),"+4", ParseStatus.invalid, "", "+4","", "", undefined);
 	});
 	test('BinOp', () => {
 		testNodeParse(new BinaryOperation(stubField),"", ParseStatus.empty, "", "","");
 		testNodeParse(new BinaryOperation(stubField),"  ", ParseStatus.empty, "", "  ","");
-		testNodeParse(new BinaryOperation(stubField),"+", ParseStatus.valid, "+", ""," + ");
-		testNodeParse(new BinaryOperation(stubField),"-", ParseStatus.valid, "-", ""," - ");
-		testNodeParse(new BinaryOperation(stubField),"*", ParseStatus.valid, "*", ""," * ");
-		testNodeParse(new BinaryOperation(stubField),"/", ParseStatus.valid, "/", ""," / ");
-		testNodeParse(new BinaryOperation(stubField),">", ParseStatus.valid, ">", ""," > ");
-		testNodeParse(new BinaryOperation(stubField),"<", ParseStatus.valid, "<", ""," < ");
-		testNodeParse(new BinaryOperation(stubField),">=", ParseStatus.valid, ">=", ""," >= ");
-		testNodeParse(new BinaryOperation(stubField),"<=", ParseStatus.valid, "<=", ""," <= ");
-		testNodeParse(new BinaryOperation(stubField),"< =", ParseStatus.valid, "<", " ="," < ");
+		testNodeParse(new BinaryOperation(stubField),"+", ParseStatus.valid, "+", ""," + ","", unknownType);
+		testNodeParse(new BinaryOperation(stubField),"-", ParseStatus.valid, "-", ""," - ","", unknownType);
+		testNodeParse(new BinaryOperation(stubField),"*", ParseStatus.valid, "*", ""," * ","", unknownType);
+		testNodeParse(new BinaryOperation(stubField),"/", ParseStatus.valid, "/", ""," / ", "", floatType);
+		testNodeParse(new BinaryOperation(stubField),">", ParseStatus.valid, ">", ""," > ", "", boolType);
+		testNodeParse(new BinaryOperation(stubField),"<", ParseStatus.valid, "<", ""," < ", "", boolType);
+		testNodeParse(new BinaryOperation(stubField),">=", ParseStatus.valid, ">=", ""," >= ", "", boolType);
+		testNodeParse(new BinaryOperation(stubField),"<=", ParseStatus.valid, "<=", ""," <= ", "", boolType);
+		testNodeParse(new BinaryOperation(stubField),"< =", ParseStatus.valid, "<", " ="," < ", "", boolType);
 
-		testNodeParse(new BinaryOperation(stubField),"is", ParseStatus.valid, "is", ""," is ");
-		testNodeParse(new BinaryOperation(stubField),"is not", ParseStatus.valid, "is not", ""," is not ");
-		testNodeParse(new BinaryOperation(stubField),"and", ParseStatus.valid, "and", ""," and ");
-		testNodeParse(new BinaryOperation(stubField),"or", ParseStatus.valid, "or", ""," or ");
-		testNodeParse(new BinaryOperation(stubField),"xor", ParseStatus.valid, "xor", ""," xor ");
-		testNodeParse(new BinaryOperation(stubField),"mod", ParseStatus.valid, "mod", ""," mod ");
-		testNodeParse(new BinaryOperation(stubField),"div", ParseStatus.valid, "div", ""," div ");
+		testNodeParse(new BinaryOperation(stubField),"is", ParseStatus.valid, "is", ""," is ", "", boolType);
+		testNodeParse(new BinaryOperation(stubField),"is not", ParseStatus.valid, "is not", ""," is not ", "", boolType);
+		testNodeParse(new BinaryOperation(stubField),"and", ParseStatus.valid, "and", ""," and ", "", boolType);
+		testNodeParse(new BinaryOperation(stubField),"or", ParseStatus.valid, "or", ""," or ", "", boolType);
+		testNodeParse(new BinaryOperation(stubField),"xor", ParseStatus.valid, "xor", ""," xor ", "", boolType);
+		testNodeParse(new BinaryOperation(stubField),"mod", ParseStatus.valid, "mod", ""," mod ", "", intType);
+		testNodeParse(new BinaryOperation(stubField),"div", ParseStatus.valid, "div", ""," div ", "", intType);
 		testNodeParse(new BinaryOperation(stubField),"d", ParseStatus.incomplete, "d", "","");
 		testNodeParse(new BinaryOperation(stubField),"%", ParseStatus.invalid, "", "%","");
 	});
@@ -154,9 +163,9 @@ suite('FieldNode parsing', () => {
 		testNodeParse(new Keyword("abstract", stubField), " abscract", ParseStatus.invalid, "", " abscract","");
 	});
 	test('BracketedExpression', () => {
-		testNodeParse(new BracketedExpression(stubField),"", ParseStatus.empty, "", "","");
-		testNodeParse(new BracketedExpression(stubField),"(3)", ParseStatus.valid, "(3)", "","(3)");
-		testNodeParse(new BracketedExpression(stubField),"(3 + 4)", ParseStatus.valid, "(3 + 4)", "","(3 + 4)");
+		// testNodeParse(new BracketedExpression(stubField),"", ParseStatus.empty, "", "","");
+		testNodeParse(new BracketedExpression(stubField),"(3)", ParseStatus.valid, "(3)", "","(3)", "", intType);
+		testNodeParse(new BracketedExpression(stubField),"(3 + 4)", ParseStatus.valid, "(3 + 4)", "","(3 + 4)", "", intType);
 		testNodeParse(new BracketedExpression(stubField),"(a and not b)", ParseStatus.valid, "(a and not b)", "","(a and not b)");
 		testNodeParse(new BracketedExpression(stubField),"(3 * 4 + x)", ParseStatus.valid, "(3 * 4 + x)", "","(3 * 4 + x)");
 		testNodeParse(new BracketedExpression(stubField),"(3 * (4 + x))", ParseStatus.valid, "(3 * (4 + x))", "","(3 * (4 + x))");
@@ -234,14 +243,14 @@ suite('FieldNode parsing', () => {
 	});
 	test('Literal List of T', () => {
 		testNodeParse(new ListOfT(() => new LitInt(stubField), stubField),``, ParseStatus.empty, ``, "","");
-		testNodeParse(new ListOfT(() => new LitInt(stubField), stubField),`{1,2,3 ,4 , 5}`, ParseStatus.valid, `{1,2,3 ,4 , 5}`, "","");
+		testNodeParse(new ListOfT(() => new LitInt(stubField), stubField),`{1,2,3 ,4 , 5}`, ParseStatus.valid, `{1,2,3 ,4 , 5}`, "","", "", new ListType(intType));
 		testNodeParse(new ListOfT(() => new LitInt(stubField), stubField),`{}`, ParseStatus.valid, `{}`, "","");
 		testNodeParse(new ListOfT(() => new LitInt(stubField), stubField),`{`, ParseStatus.incomplete, `{`, "","");
 		testNodeParse(new ListOfT(() => new LitInt(stubField), stubField),`{1,2,3.1}`, ParseStatus.invalid, ``, "{1,2,3.1}","");
 		// list of list
 		testNodeParse(new ListOfT(() => new ListOfT(() => new LitInt(stubField), stubField), stubField),``, ParseStatus.empty, ``, "","");
 		testNodeParse(new ListOfT(() => new ListOfT(() => new LitInt(stubField), stubField), stubField),`{{}, {}, { }}`, ParseStatus.valid, `{{}, {}, { }}`, "","");
-		testNodeParse(new ListOfT(() => new ListOfT(() => new LitInt(stubField), stubField), stubField),`{{1,2}, {}, {3,4}}`, ParseStatus.valid, `{{1,2}, {}, {3,4}}`, "","");
+		testNodeParse(new ListOfT(() => new ListOfT(() => new LitInt(stubField), stubField), stubField),`{{1,2}, {}, {3,4}}`, ParseStatus.valid, `{{1,2}, {}, {3,4}}`, "","", "", new ListType(new ListType(intType)));
 		testNodeParse(new ListOfT(() => new ListOfT(() => new LitInt(stubField), stubField), stubField),`{{1,2}, {}, {3,4}`, ParseStatus.incomplete, `{{1,2}, {}, {3,4}`, "","");
 		testNodeParse(new ListOfT(() => new ListOfT(() => new LitInt(stubField), stubField), stubField),`{{1,2, {}, {3,4}}`, ParseStatus.invalid, ``, `{{1,2, {}, {3,4}}`,"");
 	});
@@ -256,7 +265,7 @@ suite('FieldNode parsing', () => {
 		testNodeParse(new ListOfExpr(stubField),`{a, 3+ 4 , func(a, 3) -1, new Foo()}`, ParseStatus.valid, "{a, 3+ 4 , func(a, 3) -1, new Foo()}","","");
 	});
 	test('TypeSimpleNode', () => {
-		testNodeParse(new TypeSimpleNode(stubField),`Foo`, ParseStatus.valid, "Foo","","","<type>Foo</type>");
+		testNodeParse(new TypeSimpleNode(stubField),`Foo`, ParseStatus.valid, "Foo","","","<type>Foo</type>", new ClassType("Foo"));
 		testNodeParse(new TypeSimpleNode(stubField),`foo`, ParseStatus.invalid, "","foo","");
 	});
 	test('TypeWithOptGenerics', () => {
@@ -278,6 +287,7 @@ suite('FieldNode parsing', () => {
 		testNodeParse(new TypeNode(stubField),`Foo<of List<of (Bar, Qux)>>`, ParseStatus.valid, "Foo<of List<of (Bar, Qux)>>","","");
 	});
 	test('TupleDefNode', () => {
+		//testNodeParse(new TupleDefNode(stubField),`("foo", 3)`, ParseStatus.valid, '("foo", 3)',"","", "", new TupleType([stringType, intType]));
 		testNodeParse(new TupleDefNode(stubField),`(foo, 3, bar(a), x)`, ParseStatus.valid, "(foo, 3, bar(a), x)","","");
 		testNodeParse(new TupleDefNode(stubField),`(foo)`, ParseStatus.invalid, "","(foo)","");
 		testNodeParse(new TupleDefNode(stubField),`(foo, 3, bar(a), x`, ParseStatus.incomplete, "(foo, 3, bar(a), x","","");

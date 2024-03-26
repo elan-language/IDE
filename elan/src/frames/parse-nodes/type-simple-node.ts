@@ -1,3 +1,4 @@
+import { ClassType } from "../../symbols/ClassType";
 import { UnknownType } from "../../symbols/UnknownType";
 import { Field } from "../interfaces/field";
 import { RegExMatchNode } from "./regex-match-node";
@@ -12,7 +13,7 @@ export class TypeSimpleNode extends RegExMatchNode {
     }
 
     get symbolType() {
-        return UnknownType.Instance;
+        return new ClassType(this.matchedText);
     }
 }
 

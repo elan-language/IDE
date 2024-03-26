@@ -4,6 +4,7 @@ import { escapeAngleBrackets } from "../helpers";
 import { UnknownType } from "../../symbols/UnknownType";
 import { ExpressionField } from "../fields/expression-field";
 import { Field } from "../interfaces/field";
+import { rawSymbolToType } from "../../symbols/symbolHelpers";
 
 export class Symbol extends AbstractParseNode {
     fixedText: string;
@@ -35,7 +36,7 @@ export class Symbol extends AbstractParseNode {
     }
     
     get symbolType() {
-        return UnknownType.Instance;
+        return rawSymbolToType(this.fixedText);
     }
 
 }

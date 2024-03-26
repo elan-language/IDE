@@ -1,4 +1,5 @@
 import { UnknownType } from "../../symbols/UnknownType";
+import { rawSymbolToType } from "../../symbols/symbolHelpers";
 import { ExpressionField } from "../fields/expression-field";
 import { Field } from "../interfaces/field";
 import { ParseStatus } from "../parse-status";
@@ -40,6 +41,6 @@ export class Keyword extends AbstractParseNode {
     }
 
     get symbolType() {
-        return UnknownType.Instance;
+        return rawSymbolToType(this.keyword);
     }
 }

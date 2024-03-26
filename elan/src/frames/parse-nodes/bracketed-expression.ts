@@ -20,6 +20,6 @@ export class BracketedExpression extends AbstractSequence {
         }
     }
     get symbolType() {
-        return UnknownType.Instance;
+        return this.elements[1]?.symbolType;
     }
 }

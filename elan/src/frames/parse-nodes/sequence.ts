@@ -22,6 +22,13 @@ export class Sequence extends AbstractSequence {
     }
 
     get symbolType() {
+        for (const e of this.elements) {
+            const st = e.symbolType;
+            if (st && st !== UnknownType.Instance) {
+                return st;
+            }
+        }
+
         return UnknownType.Instance;
     }
 }

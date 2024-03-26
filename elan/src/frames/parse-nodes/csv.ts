@@ -35,7 +35,10 @@ export class CSV extends AbstractSequence {
     }
     
     get symbolType() {
+        if (this.elements.length > 0){
+            return this.elements[0].symbolType;
+        }
+
         return UnknownType.Instance;
     }
-    
 }

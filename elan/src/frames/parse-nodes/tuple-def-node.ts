@@ -4,6 +4,7 @@ import { CSV } from "./csv";
 import { ExprNode } from "./expr-node";
 import { UnknownType } from "../../symbols/UnknownType";
 import { Field } from "../interfaces/field";
+import { TupleType } from "../../symbols/TupleType";
 
 export class TupleDefNode extends AbstractSequence {
     constructor(field : Field) {
@@ -20,7 +21,8 @@ export class TupleDefNode extends AbstractSequence {
     }
 
     get symbolType() {
-        return UnknownType.Instance;
+        const types = (this.elements[1] as CSV).elements.map(e => e.symbolType!);
+        return new TupleType(types);
     }
     
 }
