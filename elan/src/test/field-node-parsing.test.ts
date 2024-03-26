@@ -108,7 +108,7 @@ suite('FieldNode parsing', () => {
 		testNodeParse(new ExprNode(stubField), "3 * 4 + x", ParseStatus.valid, "3 * 4 + x", "","3 * 4 + x");
 		testNodeParse(new ExprNode(stubField), "3*foo(5)", ParseStatus.valid, "3*foo(5)", "","3 * foo(5)");
 		testNodeParse(new ExprNode(stubField), "points.foo(0.0)", ParseStatus.valid, "points.foo(0.0)", "","points.foo(0.0)");
-		testNodeParse(new ExprNode(stubField), "points.reduct(0.0, lambda s,p -> s + p.first() * p.first())", ParseStatus.valid, "points.reduct(0.0, lambda s,p -> s + p.first() * p.first())", "","points.reduct(0.0, lambda s, p -> s + p.first() * p.first())");
+		testNodeParse(new ExprNode(stubField), "reduce(0.0, lambda s as String, p as List<of String> return s + p.first() * p.first())", ParseStatus.valid, "reduce(0.0, lambda s as String, p as List<of String> return s + p.first() * p.first())", "","");
 	});
 	test('VariableNode', () => {
 		testNodeParse(new IdentifierNode(stubField),``, ParseStatus.empty, ``, "","");
