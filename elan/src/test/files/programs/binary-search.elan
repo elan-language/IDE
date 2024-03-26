@@ -1,16 +1,16 @@
-# ae691cb3c092f01432b8d9c316ef4ef9b7c8a6653ed67876d46479672d137b85 Elan v0.1 valid
+# c7af523ddf163bb3fe3bb7f3a00e15cca9ebbb230bfeb632cf56f60a683512f0 Elan v0.1 valid
 
 main
-  var li2 set to {"lemon","lime","orange"}
+  var li2 set to ["lemon","lime","orange"]
   print binarySearch(li2, "lemon")
   print binarySearch(li2, "lime")
   print binarySearch(li2, "orange")
   print binarySearch(li2, "pear")
-  var li3 set to {"lemon","orange"}
+  var li3 set to ["lemon","orange"]
   print binarySearch(li2, "lemon")
   print binarySearch(li2, "orange")
   print binarySearch(li2, "pear")
-  var li4 set to {"lemon"}
+  var li4 set to ["lemon"]
   var li5 set to new List<of String>()
   print binarySearch(li2, "pear")
   print binarySearch(li2, "lemon")

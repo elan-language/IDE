@@ -17,5 +17,5 @@ function roman(d as Int) return String
     return result
 end function
 
-constant decValues set to { 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 }
-constant romSymbols set to { "M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"}
+constant decValues set to [ 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 ]
+constant romSymbols set to [ "M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"]

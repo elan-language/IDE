@@ -1,7 +1,7 @@
-# 22f9761e5ce5a72b53ce9194ab20b57aead2dd08c49d193422684d889b13fc66 Elan v0.1 valid
+# 08393742260f524d6329c0585ccbe550108c2a18ee40ccbada6ef59dbc28a3a6 Elan v0.1 valid
 
 main
-  var li set to {"plum","apricot","lime","lemon","melon","apple","orange","strawberry","pear","banana"}
+  var li set to ["plum","apricot","lime","lemon","melon","apple","orange","strawberry","pear","banana"]
   print mergeSort(li)
 end main
 

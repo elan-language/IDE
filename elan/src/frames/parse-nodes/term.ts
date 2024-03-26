@@ -6,11 +6,11 @@ import { DottedTerm } from "./dotted-term";
 import { NewInstance } from "./new-instance";
 import { EnumVal } from "./enum-val";
 import { IndexableTerm } from "./indexed-term";
-import { ListOfExpr } from "./listOfExpr";
 import { TupleDefNode } from "./tuple-def-node";
 import { Lambda } from "./lambda";
 import { IfExpr } from "./if-expr";
 import { Field } from "../interfaces/field";
+import { List } from "./list";
 
 export class Term extends AbstractAlternatives {
     constructor(field : Field) {
@@ -27,7 +27,7 @@ export class Term extends AbstractAlternatives {
         this.alternatives.push(new NewInstance(this.field));
         this.alternatives.push(new EnumVal(this.field));
         this.alternatives.push(new BracketedExpression(this.field));
-        this.alternatives.push(new ListOfExpr(this.field));
+        this.alternatives.push(new List(this.field));
         this.alternatives.push(new TupleDefNode(this.field));
         this.alternatives.push(new Lambda(this.field));
         this.alternatives.push(new IfExpr(this.field));

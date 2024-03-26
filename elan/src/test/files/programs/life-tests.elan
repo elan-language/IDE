@@ -68,16 +68,16 @@ procedure neighbourCells(cell as Int, as List<of Int>)
 end procedure
 
 test neighbourCells_tests
-    testNeighbourCells(25, {4, 5, 6, 24, 26, 44, 45, 46})
-    testNeighbourCells(10, {389, 390, 391, 9, 11, 29, 30, 31})
-    testNeighbourCells(390, {369, 370, 371, 389, 391, 9, 10, 11})
-    testNeighbourCells(60, {59, 40, 41, 79, 61, 99, 80, 81})
-    testNeighbourCells(79, {58, 59, 40, 78, 60, 98, 99, 80})
+    testNeighbourCells(25, [4, 5, 6, 24, 26, 44, 45, 46])
+    testNeighbourCells(10, [389, 390, 391, 9, 11, 29, 30, 31])
+    testNeighbourCells(390, [369, 370, 371, 389, 391, 9, 10, 11])
+    testNeighbourCells(60, [59, 40, 41, 79, 61, 99, 80, 81])
+    testNeighbourCells(79, [58, 59, 40, 78, 60, 98, 99, 80])
 
-    testNeighbourCells(0, {399, 380, 381, 19, 1, 19, 20, 21})
-    testNeighbourCells(19, {398, 399, 0, 18, 20, 38, 39, 20})
-    testNeighbourCells(399, {378, 379, 360, 398, 380, 18, 19, 0})
-    testNeighbourCells(380, {379, 360, 361, 399, 381, 19, 0, 1})
+    testNeighbourCells(0, [399, 380, 381, 19, 1, 19, 20, 21])
+    testNeighbourCells(19, [398, 399, 0, 18, 20, 38, 39, 20])
+    testNeighbourCells(399, [378, 379, 360, 398, 380, 18, 19, 0])
+    testNeighbourCells(380, [379, 360, 361, 399, 381, 19, 0, 1])
 end test
 
 procedure Sub testLiveNeighbourCount(p1 as Int, expected as Int)
@@ -137,7 +137,7 @@ test nextCellValue_tests
 end test
 
 test nextGeneration_tests
-    var expected set to {false, true, false, true, true, true, true, false, true, false, true, true, true, false, false, false, true, true, false, false, false, false, false, false, true, false, true, false, false, false, true, false, false, false, false, false, false, true, false, true, false, false, false, false, true, false, false, false, true, false, false, false, true, false, false, false, true, true, false, false, true, false, false, false, false, false, false, false, false, true, false, false, false, false, true, false, true, true, true, true, false, true, true, true, true, true, false, false, false, false, false, false, false, true, true, false, false, false, true, false, true, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, false, false, false, false, false, true, true, false, true, true, false, false, true, true, true, true, false, false, true, true, true, true, true, false, false, true, false, true, false, true, false, true, false, false, false, false, false, false, false, true, true, true, true, true, false, true, false, true, false, true, true, false, true, false, true, false, true, true, false, false, false, true, false, true, false, false, false, true, false, false, false, false, true, false, true, false, false, true, false, false, false, true, false, true, false, true, true, false, true, false, false, true, true, false, true, false, false, false, false, false, false, true, false, true, true, false, false, true, false, false, true, true, false, true, true, false, false, false, true, true, false, true, true, false, false, false, true, false, false, false, false, false, true, false, true, true, true, true, true, true, false, false, false, false, false, false, false, true, true, false, true, false, false, true, false, true, false, true, false, false, true, false, true, true, false, false, false, false, true, false, true, true, true, false, false, true, true, false, true, false, true, false, true, true, true, true, true, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, true, false, false, false, false, false, false, false, true, true, true, false, false, false, true, false, false, true, true, false, false, false, false, false, false, true, false, true, false, false, true, true, true, true, true, true, true, true, true, false, true, true, true, true, true, false, false, false, false, false, false, true, true, false, false, false, true, false, false, false, true, true, false, false, false, true, false, true, false, true, false, false, false, true, true, true, true}
+    var expected set to [false, true, false, true, true, true, true, false, true, false, true, true, true, false, false, false, true, true, false, false, false, false, false, false, true, false, true, false, false, false, true, false, false, false, false, false, false, true, false, true, false, false, false, false, true, false, false, false, true, false, false, false, true, false, false, false, true, true, false, false, true, false, false, false, false, false, false, false, false, true, false, false, false, false, true, false, true, true, true, true, false, true, true, true, true, true, false, false, false, false, false, false, false, true, true, false, false, false, true, false, true, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, false, false, false, false, false, true, true, false, true, true, false, false, true, true, true, true, false, false, true, true, true, true, true, false, false, true, false, true, false, true, false, true, false, false, false, false, false, false, false, true, true, true, true, true, false, true, false, true, false, true, true, false, true, false, true, false, true, true, false, false, false, true, false, true, false, false, false, true, false, false, false, false, true, false, true, false, false, true, false, false, false, true, false, true, false, true, true, false, true, false, false, true, true, false, true, false, false, false, false, false, false, true, false, true, true, false, false, true, false, false, true, true, false, true, true, false, false, false, true, true, false, true, true, false, false, false, true, false, false, false, false, false, true, false, true, true, true, true, true, true, false, false, false, false, false, false, false, true, true, false, true, false, false, true, false, true, false, true, false, false, true, false, true, true, false, false, false, false, true, false, true, true, true, false, false, true, true, false, true, false, true, false, true, true, true, true, true, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, true, false, false, false, false, false, false, false, true, true, true, false, false, false, true, false, false, true, true, false, false, false, false, false, false, true, false, true, false, false, true, true, true, true, true, true, true, true, true, false, true, true, true, true, true, false, false, false, false, false, false, true, true, false, false, false, true, false, false, false, true, true, false, false, false, true, false, true, false, true, false, false, false, true, true, true, true]
     var actual set to nextGeneration(exampleCells)
     assert actual is expected
 end test

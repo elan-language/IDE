@@ -1,4 +1,4 @@
-# f25273254e1f2ebc426d4e4ae52216b3edb9a9febeac0fd205e953f438da7cee Elan v0.1 valid
+# f04a0df2bd7313f36cffe5fc9de88138032e6f70e29fa3499f34f1d15bded226 Elan v0.1 valid
 
 main
   print welcome
@@ -45,7 +45,7 @@ procedure playGame()
     end if
   end while
   call charMap.setCursor(0, 0)
-  print "Game Over! Score: {snake.length() - 2}"
+  print "Game Over! Score: [snake.length() - 2]"
 end procedure
 
 procedure draw(cm as CharMap, sq as Square, colour as Colour)
@@ -61,7 +61,7 @@ class Snake
     set property.boardWidth to boardWidth
     set property.boardHeight to boardHeight
     var tail set to new Square(boardWidth div 2, boardHeight div 2)
-    set body to {tail}
+    set body to [tail]
     set head to tail.getAdjacentSquare(startingDirection)
     call setNewApplePosition()
   end constructor
@@ -120,7 +120,7 @@ class Snake
 
 end class
 
-constant directionByKey set to { 'w': Direction.up, 's' : Direction.down, 'a': Direction.left, 'd': Direction.right}
+constant directionByKey set to [ 'w': Direction.up, 's' : Direction.down, 'a': Direction.left, 'd': Direction.right]
 
 class Square
   constructor(x as Int, y as Int)

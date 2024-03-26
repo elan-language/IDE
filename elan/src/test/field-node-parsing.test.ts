@@ -11,14 +11,13 @@ import { UnaryExpression } from '../frames/parse-nodes/unary-expression';
 import { BracketedExpression } from '../frames/parse-nodes/bracketed-expression';
 import { Optional } from '../frames/parse-nodes/optional';
 import { LitString } from '../frames/parse-nodes/lit-string';
-import { ListOfT } from '../frames/parse-nodes/list-of-t';
+import { List } from '../frames/parse-nodes/list';
 import { Multiple } from '../frames/parse-nodes/multiple';
 import { CSV } from '../frames/parse-nodes/csv';
 import { IdentifierNode } from '../frames/parse-nodes/identifier-node';
 import { FunctionCallNode } from '../frames/parse-nodes/function-call-node';
 import { KeywordNode } from '../frames/parse-nodes/keyword-node';
 import { IndexableTerm } from '../frames/parse-nodes/indexed-term';
-import { ListOfExpr } from '../frames/parse-nodes/listOfExpr';
 import { TypeNode } from '../frames/parse-nodes/type-node';
 import { TypeWithOptGenerics } from '../frames/parse-nodes/type-with-opt-generics';
 import { TypeSimpleNode } from '../frames/parse-nodes/type-simple-node';
@@ -242,17 +241,17 @@ suite('FieldNode parsing', () => {
 		testNodeParse(new FunctionCallNode(stubField),`foo[]`, ParseStatus.invalid, ``, "foo[]","");
 	});
 	test('Literal List of T', () => {
-		testNodeParse(new ListOfT(() => new LitInt(stubField), stubField),``, ParseStatus.empty, ``, "","");
-		testNodeParse(new ListOfT(() => new LitInt(stubField), stubField),`{1,2,3 ,4 , 5}`, ParseStatus.valid, `{1,2,3 ,4 , 5}`, "","", "", new ListType(intType));
-		testNodeParse(new ListOfT(() => new LitInt(stubField), stubField),`{}`, ParseStatus.valid, `{}`, "","");
-		testNodeParse(new ListOfT(() => new LitInt(stubField), stubField),`{`, ParseStatus.incomplete, `{`, "","");
-		testNodeParse(new ListOfT(() => new LitInt(stubField), stubField),`{1,2,3.1}`, ParseStatus.invalid, ``, "{1,2,3.1}","");
+		testNodeParse(new List(() => new LitInt(stubField), stubField),``, ParseStatus.empty, ``, "","");
+		testNodeParse(new List(() => new LitInt(stubField), stubField),`{1,2,3 ,4 , 5}`, ParseStatus.valid, `{1,2,3 ,4 , 5}`, "","", "", new ListType(intType));
+		testNodeParse(new List(() => new LitInt(stubField), stubField),`{}`, ParseStatus.valid, `{}`, "","");
+		testNodeParse(new List(() => new LitInt(stubField), stubField),`{`, ParseStatus.incomplete, `{`, "","");
+		testNodeParse(new List(() => new LitInt(stubField), stubField),`{1,2,3.1}`, ParseStatus.invalid, ``, "{1,2,3.1}","");
 		// list of list
-		testNodeParse(new ListOfT(() => new ListOfT(() => new LitInt(stubField), stubField), stubField),``, ParseStatus.empty, ``, "","");
-		testNodeParse(new ListOfT(() => new ListOfT(() => new LitInt(stubField), stubField), stubField),`{{}, {}, { }}`, ParseStatus.valid, `{{}, {}, { }}`, "","");
-		testNodeParse(new ListOfT(() => new ListOfT(() => new LitInt(stubField), stubField), stubField),`{{1,2}, {}, {3,4}}`, ParseStatus.valid, `{{1,2}, {}, {3,4}}`, "","", "", new ListType(new ListType(intType)));
-		testNodeParse(new ListOfT(() => new ListOfT(() => new LitInt(stubField), stubField), stubField),`{{1,2}, {}, {3,4}`, ParseStatus.incomplete, `{{1,2}, {}, {3,4}`, "","");
-		testNodeParse(new ListOfT(() => new ListOfT(() => new LitInt(stubField), stubField), stubField),`{{1,2, {}, {3,4}}`, ParseStatus.invalid, ``, `{{1,2, {}, {3,4}}`,"");
+		testNodeParse(new List(() => new List(() => new LitInt(stubField), stubField), stubField),``, ParseStatus.empty, ``, "","");
+		testNodeParse(new List(() => new List(() => new LitInt(stubField), stubField), stubField),`{{}, {}, { }}`, ParseStatus.valid, `{{}, {}, { }}`, "","");
+		testNodeParse(new List(() => new List(() => new LitInt(stubField), stubField), stubField),`{{1,2}, {}, {3,4}}`, ParseStatus.valid, `{{1,2}, {}, {3,4}}`, "","", "", new ListType(new ListType(intType)));
+		testNodeParse(new List(() => new List(() => new LitInt(stubField), stubField), stubField),`{{1,2}, {}, {3,4}`, ParseStatus.incomplete, `{{1,2}, {}, {3,4}`, "","");
+		testNodeParse(new List(() => new List(() => new LitInt(stubField), stubField), stubField),`{{1,2, {}, {3,4}}`, ParseStatus.invalid, ``, `{{1,2, {}, {3,4}}`,"");
 	});
 	test('Indexed term', () => {
 		testNodeParse(new IndexableTerm(stubField),`foo[3]`, ParseStatus.valid, "foo[3]","","");
@@ -261,8 +260,8 @@ suite('FieldNode parsing', () => {
 		testNodeParse(new IndexableTerm(stubField),`foo[3..]`, ParseStatus.valid, "foo[3..]","","");
 		testNodeParse(new IndexableTerm(stubField),`foo[..4]`, ParseStatus.valid, "foo[..4]","","");
 	});
-	test('ListOfExpr', () => {
-		testNodeParse(new ListOfExpr(stubField),`{a, 3+ 4 , func(a, 3) -1, new Foo()}`, ParseStatus.valid, "{a, 3+ 4 , func(a, 3) -1, new Foo()}","","");
+	test('List of expressions', () => {
+		testNodeParse(new List(() => new ExprNode(stubField), stubField),`[a, 3+ 4 , func(a, 3) -1, new Foo()]`, ParseStatus.valid, "[a, 3+ 4 , func(a, 3) -1, new Foo()]","","");
 	});
 	test('TypeSimpleNode', () => {
 		testNodeParse(new TypeSimpleNode(stubField),`Foo`, ParseStatus.valid, "Foo","","","<type>Foo</type>", new ClassType("Foo"));

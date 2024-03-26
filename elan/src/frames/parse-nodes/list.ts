@@ -6,7 +6,7 @@ import { UnknownType } from "../../symbols/UnknownType";
 import { Field } from "../interfaces/field";
 import { ListType } from "../../symbols/ListType";
 
-export class ListOfT extends AbstractSequence {
+export class List extends AbstractSequence {
     elementConstructor: () => ParseNode;
 
     constructor(elementConstructor: () => ParseNode, field : Field) {
@@ -16,9 +16,9 @@ export class ListOfT extends AbstractSequence {
 
     parseText(text: string): void {
         if (text.trimStart().length > 0) {
-            this.elements.push(new Symbol(`{`, this.field));
-            this.elements.push(new CSV(this.elementConstructor,0, this.field));
-            this.elements.push(new Symbol(`}`, this.field));
+            this.elements.push(new Symbol(`[`, this.field));
+            this.elements.push(new CSV(this.elementConstructor, 0, this.field));
+            this.elements.push(new Symbol(`]`, this.field));
             super.parseText(text);
         }
     }

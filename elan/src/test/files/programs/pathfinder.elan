@@ -1,4 +1,4 @@
-﻿# 33bb55bc1183c7ab5bb71dc75c934f43616e4e35cb2938daf3d7e19c83ad5b4d Elan v0.1 valid
+﻿# c7af523ddf163bb3fe3bb7f3a00e15cca9ebbb230bfeb632cf56f60a683512f0 Elan v0.1 valid
 
 main
 
@@ -44,7 +44,7 @@ class GridGraph
 
   # Returns a list of nodes that can be reached from the specified node
   function neighbours(p Point) return List<of Point>
-    var list set to { new Point(p.x, p.y-1),new* Point(p.x+1, p.y-1),new* Point(p.x+1, p.y),new* Point(p.x+1, p.y+1),new* Point(p.x, p.y+1),new* Point(p.x-1, p.y+1), new Point(p.x-1, p.y),new* Point(p.x-1, p.y-1) }
+    var list set to [ new Point(p.x, p.y-1),new* Point(p.x+1, p.y-1),new* Point(p.x+1, p.y),new* Point(p.x+1, p.y+1),new* Point(p.x, p.y+1),new* Point(p.x-1, p.y+1), new Point(p.x-1, p.y),new* Point(p.x-1, p.y-1) ]
     return list.filter(lambda n -> nodeExists(n)).asList()
   end function
 
@@ -136,7 +136,7 @@ class GridGraph
   end function
 
   function retraceRoute(destination Point, source Point, via Dictionary<of Point, Point>) return List<of Point>
-    var result set to { destination }
+    var result set to [ destination ]
     var currentNode set to destination
     while currentNode is not source
       var previous set to via[currentNode]

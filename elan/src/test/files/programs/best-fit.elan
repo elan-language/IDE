@@ -1,4 +1,4 @@
-﻿# e9f6092dbf31d4aca853d6cc801f5510b55d6595529f3c91ae7443aab3e2fcb6 Elan v0.1 valid
+﻿# ba507184715b402cc19a1af9b4d20c768efa79bd3d46e371f4be79e6f1b0c86d Elan v0.1 valid
 
 function calcA(sumX as Float, sumXsq as Float, sumY as Float, sumXY as Float, n as Int) return Float
   return (sumY * sumXsq - sumX * sumXY) / (n * sumXsq - sumX * sumX)
@@ -32,4 +32,4 @@ function bestFitFromSummaryTerms(sumX as Float, sumX2 as Float, sumY as Float, s
   return (calcA(sumX, sumX2, sumY, sumXY, n), calcB(sumX, sumX2, sumY, sumXY, n))
 end function
 
-constant example set to {(0, 2.673040396), (1, 3.550437254), (2, 5.063963424), (3, 6.445493589), (4, 5.959864362), (5, 7.826499306), (6, 5.628729698), (7, 10.65942485), (8, 8.010532477), (9, 10.67121885), (10, 9.000669447), (11, 13.50830072), (12, 11.43464406), (13, 13.58275437), (14, 13.10821319), (15, 10.28617997), (16, 17.86384888), (17, 15.20409345), (18, 17.00764549), (19, 12.11596949)}
+constant example set to [(0, 2.673040396), (1, 3.550437254), (2, 5.063963424), (3, 6.445493589), (4, 5.959864362), (5, 7.826499306), (6, 5.628729698), (7, 10.65942485), (8, 8.010532477), (9, 10.67121885), (10, 9.000669447), (11, 13.50830072), (12, 11.43464406), (13, 13.58275437), (14, 13.10821319), (15, 10.28617997), (16, 17.86384888), (17, 15.20409345), (18, 17.00764549), (19, 12.11596949)]

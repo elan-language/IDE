@@ -13,4 +13,4 @@ function roman(d as Int) return String
    return rm
 end function
 
-constant symbols set to {{"","M","MM"},{"","C","CC","CCC","CD","D","DC","DCC","DCCC","CX"},{"","","XX","XXX","XL","L","LX","LXX","LXXX","XX"},{"","I","II","III","IV","V","VI","VII","VIII","IX"}}
+constant symbols set to [["","M","MM"],["","C","CC","CCC","CD","D","DC","DCC","DCCC","CX"],["","","XX","XXX","XL","L","LX","LXX","LXXX","XX"],["","I","II","III","IV","V","VI","VII","VIII","IX"]]
