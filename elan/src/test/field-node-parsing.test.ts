@@ -30,6 +30,10 @@ import { Term } from '../frames/parse-nodes/term';
 import { DottedTerm } from '../frames/parse-nodes/dotted-term';
 import { Field } from '../frames/interfaces/field';
 import { IntType } from '../symbols/IntType';
+import { FloatType } from '../symbols/FloatType';
+import { BooleanType } from '../symbols/BooleanType';
+import { CharType } from '../symbols/CharType';
+import { StringType } from '../symbols/StringType';
 
 
 suite('FieldNode parsing', () => {
@@ -37,7 +41,11 @@ suite('FieldNode parsing', () => {
 
 	} as Field;
 
-	const intType = new IntType();
+	const intType = IntType.Instance;
+	const floatType = FloatType.Instance;
+	const boolType = BooleanType.Instance;
+	const charType = CharType.Instance;
+	const stringType = StringType.Instance;
 
 
 	vscode.window.showInformationMessage('Start all unit tests.');
@@ -103,21 +111,21 @@ suite('FieldNode parsing', () => {
 		testNodeParse(new IdentifierNode(stubField),`abc-de`, ParseStatus.valid, `abc`, "-de","abc");
 	});
 	test('LitBool', () => {
-		testNodeParse(new LitBool(stubField), "", ParseStatus.empty, "", "","");
-		testNodeParse(new LitBool(stubField), " true", ParseStatus.valid, " true", "","true ");
-		testNodeParse(new LitBool(stubField), " trueX", ParseStatus.valid, " true", "X","true ");
-		testNodeParse(new LitBool(stubField), " false", ParseStatus.valid, " false", "","false ");
-		testNodeParse(new LitBool(stubField), " True", ParseStatus.invalid, "", " True","");
-		testNodeParse(new LitBool(stubField), "is True", ParseStatus.invalid, "", "is True","");
-		testNodeParse(new LitBool(stubField), " tr", ParseStatus.incomplete, " tr", "","tr ");
-		testNodeParse(new LitBool(stubField), " tr ", ParseStatus.invalid, "", " tr ","");
+		testNodeParse(new LitBool(stubField), "", ParseStatus.empty, "", "","", "", boolType);
+		testNodeParse(new LitBool(stubField), " true", ParseStatus.valid, " true", "","true ", "", boolType);
+		testNodeParse(new LitBool(stubField), " trueX", ParseStatus.valid, " true", "X","true ", "", boolType);
+		testNodeParse(new LitBool(stubField), " false", ParseStatus.valid, " false", "","false ", "", boolType);
+		testNodeParse(new LitBool(stubField), " True", ParseStatus.invalid, "", " True","", "", boolType);
+		testNodeParse(new LitBool(stubField), "is True", ParseStatus.invalid, "", "is True","", "", boolType);
+		testNodeParse(new LitBool(stubField), " tr", ParseStatus.incomplete, " tr", "","tr ", "", boolType);
+		testNodeParse(new LitBool(stubField), " tr ", ParseStatus.invalid, "", " tr ","", "", boolType);
 	});
 	test('LitChar', () => {
-		testNodeParse(new LitChar(stubField), "", ParseStatus.empty, "", "","");
-		testNodeParse(new LitChar(stubField), "'a'", ParseStatus.valid, "'a'", "","'a'");
-		testNodeParse(new LitChar(stubField), " '9'", ParseStatus.valid, " '9'", "","'9'");
-		testNodeParse(new LitChar(stubField), "'ab'", ParseStatus.invalid, "", "'ab'","");
-		testNodeParse(new LitChar(stubField), `"a"`, ParseStatus.invalid, "", `"a"`,"");
+		testNodeParse(new LitChar(stubField), "", ParseStatus.empty, "", "","", "", charType);
+		testNodeParse(new LitChar(stubField), "'a'", ParseStatus.valid, "'a'", "","'a'", "", charType);
+		testNodeParse(new LitChar(stubField), " '9'", ParseStatus.valid, " '9'", "","'9'", "", charType);
+		testNodeParse(new LitChar(stubField), "'ab'", ParseStatus.invalid, "", "'ab'","", "", charType);
+		testNodeParse(new LitChar(stubField), `"a"`, ParseStatus.invalid, "", `"a"`,"", "", charType);
 	});
 	test('LitInt', () => {
 		testNodeParse(new LitInt(stubField), "", ParseStatus.empty, "", "","", "", intType);
@@ -129,12 +137,12 @@ suite('FieldNode parsing', () => {
 		testNodeParse(new LitInt(stubField), "a", ParseStatus.invalid, "", "a","","", intType);
 	});
 	test('LitFloat', () => {
-		testNodeParse(new LitFloat(stubField), "", ParseStatus.empty, "", "","");
-		testNodeParse(new LitFloat(stubField), "1.0", ParseStatus.valid, "1.0", "","1.0");
-		testNodeParse(new LitFloat(stubField), " 1.0a", ParseStatus.valid, " 1.0", "a","1.0");
-		testNodeParse(new LitFloat(stubField), "1", ParseStatus.incomplete, "1", "","1");
-		testNodeParse(new LitFloat(stubField), "1.", ParseStatus.incomplete, "1.", "","1.");
-		testNodeParse(new LitFloat(stubField), "1. ", ParseStatus.incomplete, "1.", " ","1.");
+		testNodeParse(new LitFloat(stubField), "", ParseStatus.empty, "", "","", "", floatType);
+		testNodeParse(new LitFloat(stubField), "1.0", ParseStatus.valid, "1.0", "","1.0", "", floatType);
+		testNodeParse(new LitFloat(stubField), " 1.0a", ParseStatus.valid, " 1.0", "a","1.0", "", floatType);
+		testNodeParse(new LitFloat(stubField), "1", ParseStatus.incomplete, "1", "","1", "", floatType);
+		testNodeParse(new LitFloat(stubField), "1.", ParseStatus.incomplete, "1.", "","1.", "", floatType);
+		testNodeParse(new LitFloat(stubField), "1. ", ParseStatus.incomplete, "1.", " ","1.", "", floatType);
 	});
 	test('Keyword', () => {
 		testNodeParse(new Keyword("abstract", stubField), "", ParseStatus.empty, "", "","");
@@ -167,11 +175,11 @@ suite('FieldNode parsing', () => {
 		testNodeParse(new Optional(() => new Keyword("abstract", stubField), stubField), "  ", ParseStatus.valid, "", "  ","");
 	});
 	test('LitString', () => {
-		testNodeParse(new LitString(stubField),`"abc"`, ParseStatus.valid, `"abc"`, "","",`<string>"abc"</string>`);
-		testNodeParse(new LitString(stubField),`"abc`, ParseStatus.incomplete, `"abc`, "","");
-		testNodeParse(new LitString(stubField),`"`, ParseStatus.incomplete, `"`, "","");
-		testNodeParse(new LitString(stubField),`abc`, ParseStatus.invalid, "", "abc","");
-		testNodeParse(new LitString(stubField),`'abc'`, ParseStatus.invalid, "", "'abc'","");
+		testNodeParse(new LitString(stubField),`"abc"`, ParseStatus.valid, `"abc"`, "","",`<string>"abc"</string>`, stringType);
+		testNodeParse(new LitString(stubField),`"abc`, ParseStatus.incomplete, `"abc`, "","", "", stringType);
+		testNodeParse(new LitString(stubField),`"`, ParseStatus.incomplete, `"`, "","", "", stringType);
+		testNodeParse(new LitString(stubField),`abc`, ParseStatus.invalid, "", "abc","", "", stringType);
+		testNodeParse(new LitString(stubField),`'abc'`, ParseStatus.invalid, "", "'abc'","", "", stringType);
 	});
 	test('Multiple', () => {
 		testNodeParse(new Multiple(() => new LitInt(stubField), 0, stubField),``, ParseStatus.valid, ``, "","");

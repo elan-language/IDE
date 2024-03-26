@@ -384,9 +384,10 @@ export abstract class AbstractFrame implements Frame {
     }
 
     getStatus(): ParseStatus {
-        var frameStatus = this.frameStatus();
+        //var frameStatus = this.frameStatus();
         var fieldStatus = this.worstStatusOfFields();
-        return fieldStatus < frameStatus ? fieldStatus : frameStatus;
+        //return fieldStatus < frameStatus ? fieldStatus : frameStatus;
+        return fieldStatus;
     }
 
     abstract parseFrom(source: CodeSource): void;

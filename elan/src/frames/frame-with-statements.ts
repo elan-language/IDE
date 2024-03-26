@@ -35,10 +35,10 @@ export abstract class FrameWithStatements extends AbstractFrame implements Paren
     }
 
     getStatus(): ParseStatus {
-        var frameStatus = this.frameStatus();
+        //var frameStatus = this.frameStatus();
         var fieldStatus = this.worstStatusOfFields();
         var statementsStatus = parentHelper_worstStatusOfChildren(this);
-        var worst = [frameStatus, fieldStatus, statementsStatus].sort((a, b) => a - b)[0];
+        var worst = [/*frameStatus,*/ fieldStatus, statementsStatus].sort((a, b) => a - b)[0];
 
         return worst;
     }

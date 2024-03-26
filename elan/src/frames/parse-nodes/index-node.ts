@@ -32,7 +32,7 @@ export class IndexNode extends AbstractSequence {
     }
     
     get symbolType() {
-        return new UnknownType();
+        return UnknownType.Instance;
     }
     
 }

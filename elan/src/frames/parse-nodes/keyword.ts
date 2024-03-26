@@ -40,6 +40,6 @@ export class Keyword extends AbstractParseNode {
     }
 
     get symbolType() {
-        return new UnknownType();
+        return UnknownType.Instance;
     }
 }

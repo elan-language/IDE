@@ -1,6 +1,6 @@
 import { ISymbolType } from "./ISymbolType";
 
-class ArrayType implements ISymbolType {
+export class ArrayType implements ISymbolType {
 
     constructor(private ofType: ISymbolType) {
 

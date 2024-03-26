@@ -1,6 +1,6 @@
 import { ISymbolType } from "./ISymbolType";
 
-class ClassType implements ISymbolType {
+export class ClassType implements ISymbolType {
 
     constructor(private className: string) {
 

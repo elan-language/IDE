@@ -1,6 +1,6 @@
 import { ISymbolType } from "./ISymbolType";
 
-class DictionaryType implements ISymbolType {
+export class DictionaryType implements ISymbolType {
 
     constructor(private keyType: ISymbolType, private valueType: ISymbolType) {
 

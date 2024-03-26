@@ -20,7 +20,7 @@ export class ListOfExpr extends AbstractSequence {
     }
 
     get symbolType() {
-        return new UnknownType();
+        return UnknownType.Instance;
     }
     
 }

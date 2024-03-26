@@ -23,6 +23,6 @@ export class ListOfT extends AbstractSequence {
     }
     
     get symbolType() {
-        return new UnknownType();
+        return UnknownType.Instance;
     }
 }

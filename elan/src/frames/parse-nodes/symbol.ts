@@ -35,7 +35,7 @@ export class Symbol extends AbstractParseNode {
     }
     
     get symbolType() {
-        return new UnknownType();
+        return UnknownType.Instance;
     }
 
 }

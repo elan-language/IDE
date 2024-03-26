@@ -22,6 +22,6 @@ export class Sequence extends AbstractSequence {
     }
 
     get symbolType() {
-        return new UnknownType();
+        return UnknownType.Instance;
     }
 }

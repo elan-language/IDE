@@ -3,6 +3,7 @@ import { Symbol } from "./symbol";
 import { RegExMatchNode } from "./regex-match-node";
 import { UnknownType } from "../../symbols/UnknownType";
 import { Field } from "../interfaces/field";
+import { StringType } from "../../symbols/StringType";
 
 export class LitString extends AbstractSequence {
     constructor(field : Field) {
@@ -23,6 +24,6 @@ export class LitString extends AbstractSequence {
     }
 
     get symbolType() {
-        return new UnknownType();
+        return StringType.Instance;
     }
 }

@@ -1,3 +1,4 @@
+import { CharType } from "../../symbols/CharType";
 import { UnknownType } from "../../symbols/UnknownType";
 import { Field } from "../interfaces/field";
 import { AbstractParseNode } from "./abstract-parse-node";
@@ -17,6 +18,6 @@ export class LitChar extends AbstractParseNode {
     }
 
     get symbolType() {
-        return new UnknownType();
+        return CharType.Instance;
     }
 }

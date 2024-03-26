@@ -24,7 +24,7 @@ export class UnaryExpression extends AbstractSequence {
     }
 
     get symbolType() {
-        return new UnknownType();
+        return UnknownType.Instance;
     }
     
 }

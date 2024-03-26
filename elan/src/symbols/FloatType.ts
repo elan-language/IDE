@@ -1,5 +1,8 @@
 import { ISymbolType } from "./ISymbolType";
 
-class FloatType implements ISymbolType {
+export class FloatType implements ISymbolType {
+    private constructor() { }
+
+    static Instance : ISymbolType = new FloatType();
     name = "Float";
 }

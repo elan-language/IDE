@@ -1,6 +1,6 @@
 import { ISymbolType } from "./ISymbolType";
 
-class EnumType implements ISymbolType {
+export class EnumType implements ISymbolType {
 
     constructor(private enumName: string) {
 

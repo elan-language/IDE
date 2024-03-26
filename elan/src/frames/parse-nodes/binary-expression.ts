@@ -8,7 +8,7 @@ import { Field } from "../interfaces/field";
 
 export class BinaryExpression extends AbstractSequence {
     get symbolType() {
-        return new UnknownType();
+        return UnknownType.Instance;
     }
     
     constructor(field : Field) {

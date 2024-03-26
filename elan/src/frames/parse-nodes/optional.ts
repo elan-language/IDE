@@ -38,6 +38,6 @@ export class Optional extends AbstractParseNode {
     }
 
     get symbolType() {
-        return new UnknownType();
+        return UnknownType.Instance;
     }
 }

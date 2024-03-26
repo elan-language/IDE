@@ -1,12 +1,12 @@
 import { ISymbolType } from "./ISymbolType";
 
-class TupleType implements ISymbolType {
+export class TupleType implements ISymbolType {
 
     constructor(private ofTypes: ISymbolType[]) {
 
     }
 
     get name() {
-        return `Type <${this.ofTypes.map(t => t.name).join(",")}>`;
+        return `Tuple <${this.ofTypes.map(t => t.name).join(",")}>`;
     }
 }

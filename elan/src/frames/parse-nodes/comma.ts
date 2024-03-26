@@ -15,6 +15,6 @@ export class Comma extends Symbol {
     }
 
     get symbolType() {
-        return new UnknownType();
+        return UnknownType.Instance;
     }
 }

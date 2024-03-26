@@ -28,6 +28,6 @@ export class Lambda extends AbstractSequence {
     }
 
     get symbolType() {
-        return new UnknownType();
+        return UnknownType.Instance;
     }
 }

@@ -19,6 +19,6 @@ export class RegExMatchNode extends AbstractParseNode {
     }
 
     get symbolType() {
-        return new UnknownType();
+        return UnknownType.Instance;
     }
 }

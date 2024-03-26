@@ -2,6 +2,7 @@ import { AbstractAlternatives } from "./abstract-alternatives";
 import { Symbol } from "./symbol";
 import { Keyword } from "./keyword";
 import { Field } from "../interfaces/field";
+import { BooleanType } from "../../symbols/BooleanType";
 
 export class LitBool extends AbstractAlternatives {
 
@@ -19,6 +20,9 @@ export class LitBool extends AbstractAlternatives {
         }
     }
 
+    get symbolType() {
+        return BooleanType.Instance;
+    }
     
 }
 

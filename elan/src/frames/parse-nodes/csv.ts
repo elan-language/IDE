@@ -35,7 +35,7 @@ export class CSV extends AbstractSequence {
     }
     
     get symbolType() {
-        return new UnknownType();
+        return UnknownType.Instance;
     }
     
 }

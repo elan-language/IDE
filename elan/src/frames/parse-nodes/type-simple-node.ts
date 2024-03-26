@@ -12,7 +12,7 @@ export class TypeSimpleNode extends RegExMatchNode {
     }
 
     get symbolType() {
-        return new UnknownType();
+        return UnknownType.Instance;
     }
 }
 
