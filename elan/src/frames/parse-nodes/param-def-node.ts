@@ -1,6 +1,5 @@
 import { UnknownType } from "../../symbols/UnknownType";
 import { Field } from "../interfaces/field";
-import { outKeyword } from "../keywords";
 import { asKeyword } from "../keywords";
 import { AbstractSequence } from "./abstract-sequence";
 import { IdentifierNode } from "./identifier-node";

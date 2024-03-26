@@ -24,11 +24,3 @@ export class LitBool extends AbstractAlternatives {
     }
     
 }
-
-export class True extends Symbol {
-
-}
-
-export class False extends Symbol {
-    
-}

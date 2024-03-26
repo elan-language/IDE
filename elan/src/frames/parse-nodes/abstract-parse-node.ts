@@ -3,9 +3,9 @@ import { Field } from "../interfaces/field";
 import { ParseStatus } from "../parse-status";
 import { ParseNode } from "./parse-node";
 
-export abstract class AbstractParseNode implements ParseNode{
+export abstract class AbstractParseNode implements ParseNode {
 
-    constructor(protected field : Field){
+    constructor(protected field: Field) {
 
     }
 
@@ -42,6 +42,6 @@ export abstract class AbstractParseNode implements ParseNode{
         this.matchedText = other.matchedText;
         this.remainingText = other.remainingText;
     }
-    
+
     abstract symbolType?: ISymbolType;
 }
