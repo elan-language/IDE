@@ -6,14 +6,14 @@ import { UnknownType } from "../../symbols/UnknownType";
 import { Field } from "../interfaces/field";
 
 export class EnumVal extends AbstractSequence {
-    constructor(field : Field) {
+    constructor(field: Field) {
         super(field);
     }
 
     parseText(text: string): void {
         this.elements.push(new RegExMatchNode(/^\s*[A-Z]\w*/, this.field));
-        this.elements.push(new Symbol(".", this.field)); 
-        this.elements.push(new IdentifierNode(this.field)); 
+        this.elements.push(new Symbol(".", this.field));
+        this.elements.push(new IdentifierNode(this.field));
         super.parseText(text);
     }
 

@@ -4,7 +4,7 @@ main
     print roman(d)
 end main
 
-function roman(d Int) as String
+function roman(d as Int) return String
    var ds set to d.asString()
    var rm set to ""
    for i from ds.length() -1 to 0 step -1

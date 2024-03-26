@@ -25,7 +25,7 @@ import { TypeSimpleNode } from '../frames/parse-nodes/type-simple-node';
 import { TupleDefNode } from '../frames/parse-nodes/tuple-def-node';
 import { Lambda } from '../frames/parse-nodes/lambda';
 import { IfExpr } from '../frames/parse-nodes/if-expr';
-import { ParamDefNode } from '../frames/parse-nodes/param-def-node copy';
+import { ParamDefNode } from '../frames/parse-nodes/param-def-node';
 import { Term } from '../frames/parse-nodes/term';
 import { DottedTerm } from '../frames/parse-nodes/dotted-term';
 import { Field } from '../frames/interfaces/field';
@@ -305,25 +305,22 @@ suite('FieldNode parsing', () => {
 		testNodeParse(new IfExpr(stubField),`if attempt.isAlreadyMarkedGreen(n) then target else if attempt.isYellow(target, n) then (target.setChar(target.indexOf(attempt[n]), '.') else target))`, ParseStatus.valid, "","","");
 	});
 	test('ParamDefNode', () => {
-		testNodeParse(new ParamDefNode(stubField),`a String`, ParseStatus.valid, "a String","","");
-		testNodeParse(new ParamDefNode(stubField),`a`, ParseStatus.incomplete, "a","","");
-		testNodeParse(new ParamDefNode(stubField),`a `, ParseStatus.incomplete, "a","","");
-		testNodeParse(new ParamDefNode(stubField),`A`, ParseStatus.invalid, "","","");
-		testNodeParse(new ParamDefNode(stubField),`a string`, ParseStatus.invalid, "","a string","");
+		testNodeParse(new ParamDefNode(),`a as String`, ParseStatus.valid, "a as String","","");
+		testNodeParse(new ParamDefNode(),`a`, ParseStatus.incomplete, "a","","");
+		testNodeParse(new ParamDefNode(),`a as`, ParseStatus.incomplete, "a as","","");
+		testNodeParse(new ParamDefNode(),`A`, ParseStatus.invalid, "","","");
+		testNodeParse(new ParamDefNode(),`a String`, ParseStatus.invalid, "","a String","");
 	});
 	test('Param List', () => {
-		testNodeParse(new CSV(() => new ParamDefNode(stubField), 0, stubField),`A string`, ParseStatus.valid, "","A string","");
-		testNodeParse(new CSV(() => new ParamDefNode(stubField), 0, stubField),`a string`, ParseStatus.valid, "","a string","");
- 		testNodeParse(new CSV(() => new ParamDefNode(stubField), 0, stubField),``, ParseStatus.valid, "","","");
-		testNodeParse(new CSV(() => new ParamDefNode(stubField), 0, stubField),`a String`, ParseStatus.valid, "","","");
-		testNodeParse(new CSV(() => new ParamDefNode(stubField), 0, stubField),`a String, bb Int, foo Bar`, ParseStatus.valid, "","","");
-		testNodeParse(new CSV(() => new ParamDefNode(stubField), 0, stubField),`a`, ParseStatus.incomplete, "a","","");
-		testNodeParse(new CSV(() => new ParamDefNode(stubField), 0, stubField),`a String,`, ParseStatus.incomplete, "a String,","","");
-		testNodeParse(new CSV(() => new ParamDefNode(stubField), 0, stubField),`a String, bb`, ParseStatus.incomplete, "a String, bb","","");
-		//Temporary capability only
-		testNodeParse(new CSV(() => new ParamDefNode(stubField), 0, stubField),`a String, out bb Int`, ParseStatus.valid, "a String, out bb Int","","");
+		testNodeParse(new CSV(() => new ParamDefNode(), 0),`A as string`, ParseStatus.valid, "","A as string",""); //i.e. all leftover
+ 		testNodeParse(new CSV(() => new ParamDefNode(), 0),``, ParseStatus.valid, "","","");
+		testNodeParse(new CSV(() => new ParamDefNode(), 0),`a as String`, ParseStatus.valid, "","","");
+		testNodeParse(new CSV(() => new ParamDefNode(), 0),`a as String, bb as Int, foo as Bar`, ParseStatus.valid, "","","");
+		testNodeParse(new CSV(() => new ParamDefNode(), 0),`a`, ParseStatus.incomplete, "a","","");
+		testNodeParse(new CSV(() => new ParamDefNode(), 0),`a as String,`, ParseStatus.incomplete, "a as String,","","");
+		testNodeParse(new CSV(() => new ParamDefNode(), 0),`a as String, bb as`, ParseStatus.incomplete, "","","");
 	});
 	test('DottedTerm', () => {
-		testNodeParse(new DottedTerm(stubField),`system.readKey()`, ParseStatus.valid, "system.readKey()","","system.readKey()","system.<method>readKey</method>()");
+		testNodeParse(new DottedTerm(),`foo.bar()`, ParseStatus.valid, "foo.bar()","","foo.bar()","foo.<method>bar</method>()");
 	});
 });

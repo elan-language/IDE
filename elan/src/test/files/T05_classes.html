@@ -8,15 +8,15 @@
 </head>
 <body>
 <elan-code>
-<header># <hash>0f0b9dcd51fe9833a657f9f9238fe1d9317b1710e44791942f5403302907d1e2</hash> Elan v0.1 <span id="fileStatus" class="valid">valid</span></header>
+<header># <hash>27b5f284d6d637b767702b5598d4c3f40e5b9147038964cfd1a31b337927dac8</hash> Elan v0.1 <span id="fileStatus" class="valid">valid</span></header>
 <classDef class="valid multiline" id='class1' tabindex="0">
 <top><expand>+</expand><field id="text3" class="empty optional valid" tabindex=0><text></text><placeholder>abstract</placeholder><help></help></field> <keyword>class </keyword><field id="type2" class="valid" tabindex=0><text>Player</text><placeholder>name</placeholder><help></help></field> <field id="text4" class="empty optional valid" tabindex=0><text></text><placeholder>inherits</placeholder><help></help></field> <field id="args5" class="empty optional valid" tabindex=0><text></text><placeholder>type(s)</placeholder><help></help></field></top>
 <constructor class="valid multiline" id='constructor6' tabindex="0">
 <top><expand>+</expand><keyword>constructor</keyword>(<field id="params8" class="empty optional valid" tabindex=0><text></text><placeholder>parameter definitions</placeholder><help></help></field>)</top>
-<statement class="valid empty" id='select7' tabindex="0"><selector><text></text><placeholder>new code</placeholder><help class="selector"> call each for if print repeat set switch throw try var while #</help></selector></statement>
+<statement class="valid empty" id='select7' tabindex="0"><selector><text></text><placeholder>new code</placeholder><help class="selector"> call each external for if input print repeat set switch throw try var while #</help></selector></statement>
 <keyword>end constructor</keyword>
 </constructor>
-<property class="valid" id='prop10' tabindex="0"><keyword>property </keyword><field id="ident11" class="valid" tabindex=0><text>score</text><placeholder>name</placeholder><help></help></field><keyword> </keyword><field id="type12" class="valid" tabindex=0><text>Int</text><placeholder>Type</placeholder><help></help></field></property>
+<property class="valid" id='prop10' tabindex="0"><keyword>property </keyword><field id="ident11" class="valid" tabindex=0><text>score</text><placeholder>name</placeholder><help></help></field><keyword> as </keyword><field id="type12" class="valid" tabindex=0><text>Int</text><placeholder>Type</placeholder><help></help></field></property>
 <member class="valid empty" id='select9' tabindex="0"><selector><text></text><placeholder>new code</placeholder><help class="selector"> function procedure property #</help></selector></member>
 <keyword>end class</keyword>
 </classDef>
@@ -24,14 +24,14 @@
 <top><expand>+</expand><field id="text15" class="empty optional valid" tabindex=0><text></text><placeholder>abstract</placeholder><help></help></field> <keyword>class </keyword><field id="type14" class="valid" tabindex=0><text>Card</text><placeholder>name</placeholder><help></help></field> <field id="text16" class="optional valid" tabindex=0><text><keyword> inherits</keyword></text><placeholder>inherits</placeholder><help></help></field> <field id="args17" class="valid" tabindex=0><text>Foo, Bar</text><placeholder>type(s)</placeholder><help></help></field></top>
 <constructor class="valid multiline" id='constructor18' tabindex="0">
 <top><expand>+</expand><keyword>constructor</keyword>(<field id="params20" class="empty optional valid" tabindex=0><text></text><placeholder>parameter definitions</placeholder><help></help></field>)</top>
-<statement class="valid empty" id='select19' tabindex="0"><selector><text></text><placeholder>new code</placeholder><help class="selector"> call each for if print repeat set switch throw try var while #</help></selector></statement>
+<statement class="valid empty" id='select19' tabindex="0"><selector><text></text><placeholder>new code</placeholder><help class="selector"> call each external for if input print repeat set switch throw try var while #</help></selector></statement>
 <keyword>end constructor</keyword>
 </constructor>
-<property class="valid" id='prop22' tabindex="0"><keyword>private </keyword><keyword>property </keyword><field id="ident23" class="valid" tabindex=0><text>value</text><placeholder>name</placeholder><help></help></field><keyword> </keyword><field id="type24" class="valid" tabindex=0><text>Int</text><placeholder>Type</placeholder><help></help></field></property>
+<property class="valid" id='prop22' tabindex="0"><keyword>private </keyword><keyword>property </keyword><field id="ident23" class="valid" tabindex=0><text>value</text><placeholder>name</placeholder><help></help></field><keyword> as </keyword><field id="type24" class="valid" tabindex=0><text>Int</text><placeholder>Type</placeholder><help></help></field></property>
 <function class="valid multiline" id='func25' tabindex="0">
-<top><expand>+</expand><keyword>function </keyword><field id="ident27" class="valid" tabindex=0><text>reset</text><placeholder>name</placeholder><help></help></field>(<field id="params28" class="empty optional valid" tabindex=0><text></text><placeholder>parameter definitions</placeholder><help></help></field>)<keyword> as </keyword><field id="type29" class="valid" tabindex=0><text>Player</text><placeholder>return type</placeholder><help></help></field></top>
+<top><expand>+</expand><keyword>function </keyword><field id="ident27" class="valid" tabindex=0><text>reset</text><placeholder>name</placeholder><help></help></field>(<field id="params28" class="empty optional valid" tabindex=0><text></text><placeholder>parameter definitions</placeholder><help></help></field>)<keyword> return </keyword><field id="type29" class="valid" tabindex=0><text>Player</text><placeholder>return type</placeholder><help></help></field></top>
 <statement class="valid empty" id='select26' tabindex="0"><selector><text></text><placeholder>new code</placeholder><help class="selector"> each for if repeat set switch throw try var while #</help></selector></statement>
-<statement class="valid" id='return30' tabindex="0"><keyword>return </keyword><field id="expr31" class="valid" tabindex=0><text>default</text><placeholder>value or expression</placeholder><help></help></field></statement>
+<statement class="valid" id='return30' tabindex="0"><keyword>return </keyword><field id="expr31" class="valid" tabindex=0><text>result</text><placeholder>value or expression</placeholder><help></help></field></statement>
 <keyword>end function</keyword>
 </function>
 <member class="valid empty" id='select21' tabindex="0"><selector><text></text><placeholder>new code</placeholder><help class="selector"> function property #</help></selector></member>

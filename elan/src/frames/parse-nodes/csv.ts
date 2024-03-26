@@ -7,10 +7,9 @@ import { Optional } from "./optional";
 import { ParseNode } from "./parse-node";
 import { Sequence } from "./sequence";
 
-
 //A list of comma-separated values of a specified type, but with no list delimiters
 export class CSV extends AbstractSequence {
-    elementConstructor:  () => ParseNode;
+    elementConstructor: () => ParseNode;
     minimum: number;
 
     constructor(elementConstructor: () => ParseNode, minimum: number, field : Field) {
@@ -28,7 +27,7 @@ export class CSV extends AbstractSequence {
             this.elements.push(new Optional(this.elementConstructor, this.field));
         } else {
             this.elements.push(this.elementConstructor());
-            commaNodesMin = this.minimum -1;
+            commaNodesMin = this.minimum - 1;
         }
         this.elements.push(new Multiple(commaNode, commaNodesMin, this.field));
         super.parseText(text);

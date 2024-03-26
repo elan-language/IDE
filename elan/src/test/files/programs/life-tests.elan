@@ -59,7 +59,7 @@ test northWest_tests
     assert northWest(399) is 378
 end test
 
-procedure neighbourCells(cell Int, expected List<of Int>)
+procedure neighbourCells(cell as Int, as List<of Int>)
     var n set to neighbourCells(cell)
     assert n.Count is 8
     each val in expected
@@ -80,7 +80,7 @@ test neighbourCells_tests
     testNeighbourCells(380, {379, 360, 361, 399, 381, 19, 0, 1})
 end test
 
-procedure Sub testLiveNeighbourCount(p1 Int, expected Int)
+procedure Sub testLiveNeighbourCount(p1 as Int, expected as Int)
     var actual set to liveNeighbours(exampleCells, p1)
     assert actual is expected
 end procedure
@@ -95,7 +95,7 @@ test liveNeighbourCount_tests
     testLiveNeighbourCount(399, 3)
 end test
 
-procedure testWillLive(alive Bool, neighbours Int, expected Bool)
+procedure testWillLive(alive as Bool, neighbours as Int, expected as Bool)
     var actual set to willLive(alive, neighbours)
    assert actual is expected
 end procedure
@@ -121,7 +121,7 @@ test willLive_tests
     testWillLive(true, 8, false)
 end test
 
-procedure testNextCellValue(c Int, expected Bool)
+procedure testNextCellValue(c as Int, expected as Bool)
     var actual set to NextCellValue(exampleCells, c)
     assert actual is expected
 end procedure

@@ -1,15 +1,15 @@
-# ae73d23981f4d77f96956d252113b14a11f042a8564bf87c849bc8526efffc10 Elan v0.1 valid
+# f25273254e1f2ebc426d4e4ae52216b3edb9a9febeac0fd205e953f438da7cee Elan v0.1 valid
 
 main
   print welcome
-  var k set to system.readKey()
+  external readKey()
   var newGame set to true
   while newGame
     call playGame()
     print "Do you want to play again (y/n)?"
     var answer set to ' '
     repeat
-      set answer to system.readKey()
+      external readKey() into answer
     end repeat when answer is 'y' or answer is 'n'
     if answer is 'n'
       set newGame to false
@@ -26,25 +26,29 @@ procedure playGame()
   var snake set to new Snake(charMap.width div 2, charMap.height, currentDirection)
   var gameOn set to true
   while gameOn
-    var pressed set to system.keyHasBeenPressed()
+    external keyHasBeenPressed() into pressed
     call pause(200)
     call snake.clockTick(currentDirection, gameOn)
-    call draw(charMap, snake.head, Colour.green)
-    call draw(charMap, snake.apple, Colour.red)
-    var priorTail set to snake.tail()
-    if pressed
-      var k set to system.readKey()
-      set currentDirection to directionByKey[k]
-    end if
-    if snake.tail() is not priorTail
-      call draw(charMap, priorTail, charMap.backgroundColour)
+    if snake.hasHitEdge() or snake.bodyCovers(head)
+      set gameOn to false
+      else
+        call draw(charMap, snake.head, Colour.green)
+        call draw(charMap, snake.apple, Colour.red)
+        var priorTail set to snake.tail()
+        if pressed
+          external readKey()
+          set currentDirection to directionByKey[k]
+        end if
+        if snake.tail() is not priorTail
+          call draw(charMap, priorTail, charMap.backgroundColour)
+        end if
     end if
   end while
   call charMap.setCursor(0, 0)
   print "Game Over! Score: {snake.length() - 2}"
 end procedure
 
-procedure draw(cm CharMap, sq Square, colour Colour)
+procedure draw(cm as CharMap, sq as Square, colour as Colour)
   call cm.putBlockWithColour(col, row, colour)
   var colPlus set to col + 1
   call cm.putBlockWithColour(colPlus, row, colour)
@@ -53,7 +57,7 @@ procedure draw(cm CharMap, sq Square, colour Colour)
 end procedure
 
 class Snake
-  constructor(boardWidth Int, boardHeight Int, startingDirection Direction)
+  constructor(boardWidth as Int, boardHeight as Int, startingDirection as Direction)
     set property.boardWidth to boardWidth
     set property.boardHeight to boardHeight
     var tail set to new Square(boardWidth div 2, boardHeight div 2)
@@ -62,23 +66,23 @@ class Snake
     call setNewApplePosition()
   end constructor
 
-  property head Square
+  property head as Square
 
-  private property body List<of Square>
+  private property body as List<of Square>
 
-  function tail() as Square
+  function tail() return Square
     return body[0]
   end function
 
-  function length() as Int
+  function length() return Int
     return body.length()
   end function
 
-  property boardHeight Int
+  property boardHeight as Int
 
-  property boardWidth Int
+  property boardWidth as Int
 
-  function bodyCovers(sq Square) as Bool
+  function bodyCovers(sq as Square) return Bool
     var result set to false
     each seg in body
       if (seg is sq)
@@ -88,18 +92,17 @@ class Snake
     return result
   end function
 
-  procedure clockTick(d Direction, out continue Boolean)
-    set body to body + head;
-    set head to head.getAdjacentSquare(d);
+  procedure clockTick(d as Direction)
+    set body to body + head
+    set head to head.getAdjacentSquare(d)
     if head is apple
       call setNewApplePosition()
       else
         set body to body[1..]
     end if
-    set continue to not hasHitEdge() and not bodyCovers(head)
   end procedure
 
-  function hasHitEdge() as Bool
+  function hasHitEdge() return Bool
     return head.x < 0 or head.y < 0 or head.x is boardWidth or head.y is boardHeight
   end function
 
@@ -107,38 +110,38 @@ class Snake
     repeat
       var w set to boardWidth - 1
       var h set to boardHeight - 1
-      var ranW set to system.random(w)
-      var ranH set to system.random(h)
-      set apple to new Square(ranW, ranH) 
+      external random(w) into ranW
+      external random(h) into ranH
+      set apple to new Square(ranW, ranH)
     end repeat when not bodyCovers(apple)
   end procedure
 
-  property apple Square
+  property apple as Square
 
 end class
 
 constant directionByKey set to { 'w': Direction.up, 's' : Direction.down, 'a': Direction.left, 'd': Direction.right}
 
 class Square
-  constructor(x Int, y Int)
+  constructor(x as Int, y as Int)
     set property.x to x
     set property.y to y
   end constructor
 
-  property y Int
+  property y as Int
 
-  property x Int
+  property x as Int
 
-  function getAdjacentSquare(d Direction) as Square
+  function getAdjacentSquare(d as Direction) return Square
     var newX set to x
     var newY set to y
     switch d
       case Direction.left
-        set newX to newX - 1     
+        set newX to newX - 1
       case Direction.right
         set newX to newX + 1
       case Direction.up
-        set newY to newY - 1 
+        set newY to newY - 1
       case Direction.down
         set newY to newY + 1
       default

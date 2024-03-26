@@ -4,7 +4,7 @@ main
     print roman(d)
 end main
 
-function roman(d Int) as String
+function roman(d as Int) return String
     var result set to ""
     var d2 set to d
     set (d2, result) to processSymbol(1000, "M", d2, result)
@@ -24,7 +24,7 @@ function roman(d Int) as String
     return result
 end function
 
-function processSymbol(n Int, x String, d Int, result String) as (Int, String)
+function processSymbol(n as Int, x as String, d as Int, result as String) return (Int, String)
     var d2 set to d
     var result2 set to result
     while d2 >= n

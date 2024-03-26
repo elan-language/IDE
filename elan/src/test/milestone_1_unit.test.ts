@@ -94,8 +94,8 @@ suite('Milestone 1 - Unit tests', () => {
 		var file = T09_emptyMainAndClassWithGlobalSelector();
 		file.getById("select11").processKey(key("f"));
 		var v = file.getById("func12").renderAsSource();
-		assert.equal(v, '  function () as \r\n' +
-		'    return default\r\n' +
+		assert.equal(v, '  function () return \r\n' +
+		'    return result\r\n' +
 		'  end function\r\n');
  	});	
 
@@ -164,7 +164,7 @@ suite('Milestone 1 - Unit tests', () => {
 		var m = new MainFrame(f);		
 		var s = new StatementSelector(m);
 		var help = s.getHelp();
-		assert.equal(help, " call each for if print repeat set switch throw try var while #");
+		assert.equal(help, " call each external for if input print repeat set switch throw try var while #");
 		s.processKey(key('s'));
 		help = s.getHelp();
 		assert.equal(help, " set switch");
@@ -213,10 +213,10 @@ suite('Milestone 1 - Unit tests', () => {
 		var ifThen = new IfStatement(m);
 		var s = new StatementSelector(ifThen);
 		var help = s.getHelp();
-		assert.equal(help, " call each else for if print repeat set switch throw try var while #");
+		assert.equal(help, " call each else external for if input print repeat set switch throw try var while #");
 		s.processKey(key('e'));
 		help = s.getHelp();
-		assert.equal(help, " each else");
+		assert.equal(help, " each else external");
 	});	
 	test("Selection Context - selector prevents more than one main", () => {
 		const fl = new FileImpl(hash, new DefaultProfile());

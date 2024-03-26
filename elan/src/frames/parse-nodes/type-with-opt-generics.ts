@@ -3,7 +3,6 @@ import { AbstractSequence } from "./abstract-sequence";
 import { Keyword } from "./keyword";
 import { Optional } from "./optional";
 import { Symbol } from "./symbol";
-import { RegExMatchNode } from "./regex-match-node";
 import { Sequence } from "./sequence";
 import { TypeNode } from "./type-node";
 import { TypeSimpleNode } from "./type-simple-node";

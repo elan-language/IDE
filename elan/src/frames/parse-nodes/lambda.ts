@@ -21,7 +21,6 @@ export class Lambda extends AbstractSequence {
             super.parseText(text);
         }
     }
-    
 
     renderAsSource(): string {
         return `lambda ${this.elements[1].renderAsSource()} -> ${this.elements[3].renderAsSource()}`;

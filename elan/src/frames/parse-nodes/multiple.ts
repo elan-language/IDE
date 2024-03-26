@@ -18,12 +18,12 @@ export class Multiple extends AbstractParseNode {
 
     parseText(text: string): void {
         this.remainingText = text;
-        if (text.length === 0 ) {
-           this.status = this.minimum === 0 ? ParseStatus.valid : ParseStatus.empty;
+        if (text.length === 0) {
+            this.status = this.minimum === 0 ? ParseStatus.valid : ParseStatus.empty;
         } else {
             var toParse = text;
             var cont = true;
-            while (cont && toParse.trimStart().length > 0) { 
+            while (cont && toParse.trimStart().length > 0) {
                 var node = this.elementConstructor();
                 node.parseText(toParse);
                 if (node.status === ParseStatus.valid) {
@@ -49,11 +49,11 @@ export class Multiple extends AbstractParseNode {
                 this.status = ParseStatus.invalid;
                 this.remainingText = text;
             }
-        }; 
+        };
     }
 
     renderAsHtml(): string {
-        return this.elements.reduce((result, current) => result + current.renderAsHtml(),"");
+        return this.elements.reduce((result, current) => result + current.renderAsHtml(), "");
     }
     renderAsSource(): string {
         return this.elements.reduce((result, current) => result + current.renderAsSource(),"");

@@ -22,7 +22,6 @@ import { editorEvent } from "./interfaces/editor-event";
 import { AbstractSelector } from "./abstract-selector";
 import { parentHelper_addChildAfter, parentHelper_addChildBefore, parentHelper_getChildAfter, parentHelper_getChildBefore, parentHelper_getChildRange, parentHelper_getFirstChild, parentHelper_getLastChild, parentHelper_insertChildSelector, parentHelper_removeChild, parentHelper_renderChildrenAsHtml, parentHelper_renderChildrenAsSource, parentHelper_worstStatusOfChildren } from "./parent-helpers";
 import { Profile } from "./interfaces/profile";
-import { DefaultProfile } from "./default-profile";
 
 // for web editor bundle
 export { CodeSourceFromString };
@@ -238,7 +237,7 @@ export class FileImpl implements File {
     parseFrom(source: CodeSource): void {
         try {
             this.parseError = undefined;
-            //this.validateHeader(source.getRemainingCode());
+            this.validateHeader(source.getRemainingCode());
             if (source.isMatch("#")) {
                 source.removeRegEx(Regexes.startsWithComment, false);
                 source.removeRegEx(Regexes.startsWithNewLine, false);

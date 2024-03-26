@@ -1,7 +1,7 @@
 import { CodeSource } from "../code-source";
 import { Frame } from "../interfaces/frame";
 import { CSV } from "../parse-nodes/csv";
-import { ParamDefNode } from "../parse-nodes/param-def-node copy";
+import { ParamDefNode } from "../parse-nodes/param-def-node";
 import { ParseNode } from "../parse-nodes/parse-node";
 import { AbstractField } from "./abstract-field";
 

@@ -1,7 +1,6 @@
 import { ExprNode } from "./expr-node";
 import { BinaryOperation } from "./binary-operation";
 import { AbstractSequence } from "./abstract-sequence";
-import { IdentifierNode } from "./identifier-node";
 import { Term } from "./term";
 import { UnknownType } from "../../symbols/UnknownType";
 import { Field } from "../interfaces/field";

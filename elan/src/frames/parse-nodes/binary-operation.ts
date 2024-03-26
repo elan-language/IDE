@@ -4,7 +4,6 @@ import { Keyword } from "./keyword";
 import { Symbol } from "./symbol";
 import { Sequence } from "./sequence";
 
-
 export class BinaryOperation extends AbstractAlternatives {
     parseText(text: string): void {  
         this.alternatives.push(new Symbol("+",this.field));
@@ -26,7 +25,7 @@ export class BinaryOperation extends AbstractAlternatives {
         this.alternatives.push(new Keyword(divKeyword, this.field));;
         super.parseText(text);
     }
-    
+
     renderAsSource(): string {
         return ` ${this.bestMatch?.renderAsSource()}${this.trailingSpace()}`;
     }

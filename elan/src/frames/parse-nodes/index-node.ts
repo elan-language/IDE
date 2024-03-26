@@ -1,5 +1,3 @@
-
-import { ExpressionField } from "../fields/expression-field";
 import { AbstractSequence } from "./abstract-sequence";
 import { Alternatives } from "./alternatives";
 import { ExprNode } from "./expr-node";

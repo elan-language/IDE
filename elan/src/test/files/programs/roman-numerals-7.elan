@@ -4,7 +4,7 @@ main
     print roman(d, valueSymbols)
 end main
 
-function roman(d Int, valueSymbols List<of(Int, String)>) as String
+function roman(d as Int, as List<of(Int, String)>) return String
     var result set to ""
     var (value, symbol) set to valueSymbols[0]
     if d > 0

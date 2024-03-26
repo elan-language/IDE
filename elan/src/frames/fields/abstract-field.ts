@@ -57,6 +57,9 @@ export abstract class AbstractField implements Selectable, Field {
         if (root && this.readToDelimeter) {
             var text = this.readToDelimeter(source); //NB reads & removes it from source
             this.parseCompleteTextUsingNode(text, root);
+            if (this._status !== ParseStatus.valid) { 
+                throw new Error(`Parse error at ${source.getRemainingCode()}`);
+            }
         } else {  //Temporary solution          
             var rol = source.readToEndOfLine();
             var result = this.parseFunction([ParseStatus.notParsed, rol]); //To be replaced by root ParseNode      

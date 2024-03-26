@@ -1,6 +1,6 @@
 import { ParseStatus } from "../parse-status";
 
- export function matchRegEx(text: string, regx: RegExp): [ParseStatus, string, string] {
+export function matchRegEx(text: string, regx: RegExp): [ParseStatus, string, string] {
     var status = ParseStatus.invalid;
     var match = "";
     var remaining = text;

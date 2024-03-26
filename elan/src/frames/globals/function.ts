@@ -9,6 +9,7 @@ import { Field } from "../interfaces/field";
 import { CodeSource } from "../code-source";
 import { File } from "../interfaces/file";
 import { Profile } from "../interfaces/profile";
+import { endKeyword, functionKeyword, returnKeyword } from "../keywords";
 
 export class Function extends FrameWithStatements implements Parent {
     isGlobal = true;
@@ -43,9 +44,9 @@ export class Function extends FrameWithStatements implements Parent {
     }
     public renderAsHtml() : string {
         return `<function class="${this.cls()}" id='${this.htmlId}' tabindex="0">
-<top><expand>+</expand><keyword>function </keyword>${this.name.renderAsHtml()}(${this.params.renderAsHtml()})<keyword> as </keyword>${this.returnType.renderAsHtml()}</top>
+<top><expand>+</expand><keyword>${functionKeyword} </keyword>${this.name.renderAsHtml()}(${this.params.renderAsHtml()})<keyword> ${ returnKeyword} </keyword>${this.returnType.renderAsHtml()}</top>
 ${this.renderChildrenAsHtml()}
-<keyword>end function</keyword>
+<keyword>${endKeyword} ${functionKeyword}</keyword>
 </function>`;
     }
 
@@ -54,28 +55,28 @@ ${this.renderChildrenAsHtml()}
     }
 
     public renderAsSource() : string {
-        return `function ${this.name.renderAsSource()}(${this.params.renderAsSource()}) as ${this.returnType.renderAsSource()}\r
+        return `${functionKeyword} ${this.name.renderAsSource()}(${this.params.renderAsSource()}) ${ returnKeyword} ${this.returnType.renderAsSource()}\r
 ${this.renderChildrenAsSource()}\r
-end function\r
+${endKeyword} ${functionKeyword}\r
 `;
     }
 
     parseTop(source: CodeSource): void {
-        source.remove("function ");
+        source.remove(`${functionKeyword} `);
         this.name.parseFrom(source);
         source.remove("(");
         this.params.parseFrom(source);
-        source.remove(") as ");
+        source.remove(`) ${ returnKeyword} `);
         this.returnType.parseFrom(source);
     }
     parseBottom(source: CodeSource): boolean {
         var result = false;
-        var keyword = "return ";
+        var keyword = `${returnKeyword} `;
         source.removeIndent();
         if (source.isMatch(keyword)) {
             this.getReturnStatement().parseFrom(source);
             source.removeNewLine().removeIndent();
-            this.parseStandardEnding(source, "end function");
+            this.parseStandardEnding(source, `${endKeyword} ${functionKeyword}`);
             result = true;
         }
         return result;

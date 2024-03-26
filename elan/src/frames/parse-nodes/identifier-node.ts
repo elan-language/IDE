@@ -14,7 +14,7 @@ export class IdentifierNode extends AbstractParseNode {
     parseText(text: string): void {
         this.remainingText = text;
         if (text.trimStart().length > 0) {
-          [this.status, this.matchedText, this.remainingText] = matchRegEx(text, /^\s*[a-z]\w*/);
+            [this.status, this.matchedText, this.remainingText] = matchRegEx(text, /^\s*[a-z]\w*/);
         }
     }
 

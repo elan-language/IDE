@@ -1,5 +1,4 @@
 import { AbstractSequence } from "./abstract-sequence";
-import { Symbol } from "./symbol";
 import { Keyword } from "./keyword";
 import { ExprNode } from "./expr-node";
 import { UnknownType } from "../../symbols/UnknownType";

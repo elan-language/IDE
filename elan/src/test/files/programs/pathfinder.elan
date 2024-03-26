@@ -5,17 +5,17 @@ main
 end main
 
 class GridGraph
-  constructor(gridSize Int)
+  constructor(gridSize as Int)
     set nodes to new List<of Point>() # Temp solution - need a proper Set
     set property.gridSize to gridSize
-    call setBlock((new Point(0, 0)), (new Point(gridSize - 1, gridSize - 1)), true)
+    call setBlock((new* Point(0, 0)), (new* Point(gridSize - 1, gridSize - 1)), true)
   end constructor
 
-  property gridSize Int
+  property gridSize as Int
 
-  property nodes List<of Point>
+  property as List<of Point>
 
-  procedure setBlock(p1 Point, p2 Point, add Bool)
+  procedure setBlock(p1 Point, p2 Point, add as Bool)
     # TODO: check that p1, p2 are in right order!
     for x from p1.x to p2.x step 1
       for y from p1.y to p2.y step 1
@@ -29,28 +29,28 @@ class GridGraph
     end for
   end procedure
 
-  function nodeExists(p Point) as Bool
+  function nodeExists(p Point) return Bool
     return nodes.contains(p)
   end function
 
-  function pointsAreAdjacentDiagonally(p1 Point,p2 Point) as Bool
+  function pointsAreAdjacentDiagonally(p1 Point,p2 Point) return Bool
     return absolute(p1.x - p2.x) is 1 and absolute(p1.y - p2.y) is 1
   end function
 
   # Assumes that it will only be called if the points ARE immediate neighbours
-  function findEdge(p1 Point, p2 Point) as Float
+  function findEdge(p1 Point, p2 Point) return Float
     return p1.distanceFrom(p2)
   end function
 
   # Returns a list of nodes that can be reached from the specified node
-  function neighbours(p Point) as List<of Point>
-    var list set to { new Point(p.x, p.y-1),new Point(p.x+1, p.y-1),new Point(p.x+1, p.y),new Point(p.x+1, p.y+1),new Point(p.x, p.y+1),new Point(p.x-1, p.y+1), new Point(p.x-1, p.y),new Point(p.x-1, p.y-1) }
+  function neighbours(p Point) return List<of Point>
+    var list set to { new Point(p.x, p.y-1),new* Point(p.x+1, p.y-1),new* Point(p.x+1, p.y),new* Point(p.x+1, p.y+1),new* Point(p.x, p.y+1),new* Point(p.x-1, p.y+1), new Point(p.x-1, p.y),new* Point(p.x-1, p.y-1) }
     return list.filter(lambda n -> nodeExists(n)).asList()
   end function
 
   # Returns a list of nodes, from source to destination, representing the shortest path, using dijkstra's algorithm
   # You may make use of existing methods such a s Neignbours, or findEdge.
-  procedure shortestPath(source Point, destination Point, alg Algorithm, out route List<of Point>)
+  procedure shortestPath(source Point, destination Point, alg Algorithm,  as List<of Point>)
     # Initialise the 'table' with three 'columns' - one 'row' per node
     var visited set to newDictionaryOfAllPointsReturningFalseValues()
     var costFromSource set to  newDictionaryOfAllPointsReturningDoublesSetToInfinity()
@@ -72,7 +72,7 @@ class GridGraph
     set route to retraceRoute(destination, source, via)
   end procedure
 
-  function newDictionaryOfAllPointsReturningNull() as Dictionary<of Point, Point>
+  function newDictionaryOfAllPointsReturningNull() return Dictionary<of Point, Point>
     var dict set to new Dictionary<of Point, Point>()
     each p in nodes
       set dict to dict.setItem(p, default Point)
@@ -80,7 +80,7 @@ class GridGraph
     return dict
   end function
 
-  function newDictionaryOfAllPointsReturningDoublesSetToInfinity() as Dictionary<of Point, Float>
+  function newDictionaryOfAllPointsReturningDoublesSetToInfinity() return Dictionary<of Point, Float>
     var dict set to new Dictionary<of Point, Float>()
     each p in nodes
       set dict to dict.setItem(p, infinity)
@@ -88,7 +88,7 @@ class GridGraph
     return dict
   end function
 
-  function newDictionaryOfAllPointsReturningFalseValues() as Dictionary<of Point, Bool>
+  function newDictionaryOfAllPointsReturningFalseValues() return Dictionary<of Point, Bool>
     var dict set to new Dictionary<of Point, Bool>()
     each p in nodes
       set dict to dict.setItem(p, false)
@@ -96,7 +96,8 @@ class GridGraph
     return dict
   end function
 
-  procedure updateCostAndViaOfEachNeighbourIfApplicable(out costFromSource Dictionary<of Point, Float>, out via Dictionary<of Point, Point>,  currentNode Point,  destination Point)
+  # needs converting to a function as dictionaries are immutable
+  procedure updateCostAndViaOfEachNeighbourIfApplicable(costFromSource Dictionary<of Point, Float>, via Dictionary<of Point, Point>,  currentNode Point,  destination Point)
     each neighbour in neighbours(currentNode)
       var newCost set to costFromSource[currentNode] + findEdge(currentNode, neighbour)
       if newCost < costFromSource[neighbour]
@@ -106,11 +107,11 @@ class GridGraph
     end each
   end procedure
 
-  function estimatedCostToDestination(current Point, destination Point) as Float
+  function estimatedCostToDestination(current Point, destination Point) return Float
     return sqrt((current.x - destination.x) ^ 2 + (current.y - destination.y) ^ 2)
   end function
 
-  function nextNodeToVisit(currentNode Point, visited Dictionary<of Point, Bool>, costFromSource Dictionary<of Point, Float>, destination Point ,alg Algorithm) as Point
+  function nextNodeToVisit(currentNode Point, visited Dictionary<of Point, Bool>, costFromSource Dictionary<of Point, Float>, destination Point ,alg Algorithm) return Point
     var lowestCostSoFar set to infinity
     var lowestCostNode set to nodes.element(0)
     var possibilities set to nodes.filter(lambda n ->  not visited[n] and costFromSource[n] < infinity)
@@ -134,7 +135,7 @@ class GridGraph
     return lowestCostNode
   end function
 
-  function retraceRoute(destination Point, source Point, via Dictionary<of Point, Point>) as List<of Point>
+  function retraceRoute(destination Point, source Point, via Dictionary<of Point, Point>) return List<of Point>
     var result set to { destination }
     var currentNode set to destination
     while currentNode is not source
@@ -145,7 +146,7 @@ class GridGraph
     return result
   end function
 
-  function sumOfEdges(route List<of Point>) as Float
+  function sumOfEdges(route List<of Point>) return Float
     var result set to 0.0
     var stage set to 0
     while stage < route.length() - 1
@@ -155,27 +156,27 @@ class GridGraph
     return result
   end function
 
-  function asString() as String
+  function asString() return String
     return "a GridGraph"
   end function
 
 end class
 
 immutable class Point
-  constructor(x Int, y Int)
+  constructor(x as Int, y as Int)
     set property.x to x
     set property.y to y
   end constructor
 
-  property x Int
+  property x as Int
 
-  property y Int
+  property y as Int
 
-  function distanceFrom(p2 Point) as Float
+  function distanceFrom(p2 Point) return Float
     return sqrt((p2.x - x)^2 + (p2.y - y)^2)
   end function
 
-  function asString() as String
+  function asString() return String
     return "a GridGraph"
   end function
 

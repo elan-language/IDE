@@ -92,11 +92,11 @@ class Bar {
     await assertObjectCodeExecutes(fileImpl, "bar");
   });
 
-  test('Pass_SystemProcedure', async () => {
+  ignore_test('Pass_ExternalCall', async () => {
     const code = `# FFFFFFFFFFFFFFFF Elan v0.1 valid
 
 main
-  call system.pause(1)
+  external pause(1)
   print 1
 end main`;
 
@@ -428,7 +428,7 @@ end main
     assertDoesNotParse(fileImpl);
   });
 
-  ignore_test('Fail_TypeSpecifiedBeforeParamName', () => {
+  test('Fail_TypeSpecifiedBeforeParamName', () => {
     const code = `# FFFFFFFFFFFFFFFF Elan v0.1 valid
 
 main
@@ -441,7 +441,6 @@ end procedure
 
     const fileImpl = new FileImpl(() => "", new DefaultProfile(), true);
     fileImpl.parseFrom(new CodeSourceFromString(code));
-
     assertDoesNotParse(fileImpl);
   });
 
@@ -543,7 +542,7 @@ end procedure
     assertDoesNotParse(fileImpl);
   });
 
-  ignore_test('Fail_InclusionOfOutInCall', () => {
+  test('Fail_InclusionOfOutInCall', () => {
     const code = `# FFFFFFFFFFFFFFFF Elan v0.1 valid
 
 main
@@ -562,7 +561,7 @@ end procedure
     assertDoesNotParse(fileImpl);
   });
 
-  ignore_test('Fail_InclusionOfRefInDefinition', () => {
+  test('Fail_InclusionOfRefInDefinition', () => {
     const code = `# FFFFFFFFFFFFFFFF Elan v0.1 valid
 
 main
@@ -599,7 +598,7 @@ end procedure
     assertDoesNotParse(fileImpl);
   });
 
-  ignore_test('Fail_CannotCallPrintAsAProcedure', () => {
+  test('Fail_CannotCallPrintAsAProcedure', () => {
     const code = `# FFFFFFFFFFFFFFFF Elan v0.1 valid
 
 main
@@ -659,7 +658,7 @@ end procedure
     assertDoesNotParse(fileImpl);
   });
 
-  ignore_test('Fail_WithParamsPassingRefLiteral', () => {
+  test('Fail_WithParamsPassingRefLiteral', () => {
     const code = `# FFFFFFFFFFFFFFFF Elan v0.1 valid
 
 main

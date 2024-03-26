@@ -1,11 +1,11 @@
 import { AbstractFrame } from "../abstract-frame";
-import { AbstractSelector } from "../abstract-selector";
 import { CodeSource } from "../code-source";
 import { Identifier } from "../fields/identifier";
 import { Type } from "../fields/type";
 import { Class } from "../globals/class";
 import { Field } from "../interfaces/field";
 import { Member } from "../interfaces/member";
+import { asKeyword, privateKeyword, propertyKeyword } from "../keywords";
 
 export class Property extends AbstractFrame implements Member {
     isMember = true;
@@ -29,22 +29,22 @@ export class Property extends AbstractFrame implements Member {
         return 'prop';
     }
     private modifierAsHtml(): string {
-        return this.private ? `<keyword>private </keyword>`: "";
+        return this.private ? `<keyword>private </keyword>` : "";
     }
     private modifierAsSource(): string {
-        return this.private ? `private `: "";
+        return this.private ? `private ` : "";
     }
 
     private modifierAsObjectCode(): string {
-        return this.private ? `private `: "";
+        return this.private ? `private ` : "";
     }
 
     renderAsHtml(): string {
-        return `<property class="${this.cls()}" id='${this.htmlId}' tabindex="0">${this.modifierAsHtml()}<keyword>property </keyword>${this.name.renderAsHtml()}<keyword> </keyword>${this.type.renderAsHtml()}</property>`;
+        return `<property class="${this.cls()}" id='${this.htmlId}' tabindex="0">${this.modifierAsHtml()}<keyword>${propertyKeyword} </keyword>${this.name.renderAsHtml()}<keyword> ${asKeyword} </keyword>${this.type.renderAsHtml()}</property>`;
     }
 
     renderAsSource(): string {
-        return `${this.indent()}${this.modifierAsSource()}property ${this.name.renderAsSource()} ${this.type.renderAsSource()}\r\n`;
+        return `${this.indent()}${this.modifierAsSource()}${propertyKeyword} ${this.name.renderAsSource()} ${asKeyword} ${this.type.renderAsSource()}\r\n`;
     }
 
     renderAsObjectCode(): string {
@@ -52,14 +52,14 @@ export class Property extends AbstractFrame implements Member {
     }
 
     parseFrom(source: CodeSource): void {
-        var priv = "private ";
+        var priv = `${privateKeyword} `;
         if (source.isMatch(priv)) {
             source.remove(priv);
             this.private = true;
         }
-        source.remove("property ");
+        source.remove(`${propertyKeyword} `);
         this.name.parseFrom(source);
-        source.remove(" ");
+        source.remove(` ${asKeyword} `);
         this.type.parseFrom(source);
     }
 } 

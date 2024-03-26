@@ -219,7 +219,7 @@ end main
 	});
 
 	test('parse Frames - all globals except class', () => {
-		var code = `# 7769aa9d4a8e95e8c8bf6e52f8acbfd148ec61bbe9e7b21d6f04d3d17d101de4 Elan v0.1 valid
+		var code = `# 8dfeafb5c3ac7b5950d3cc432937e3dce295a2186dd08ec7a8c77c8b212199d2 Elan v0.1 valid
 
 constant phi set to 1.618
 
@@ -227,12 +227,12 @@ main
 
 end main
 
-procedure signIn(password String)
+procedure signIn(password as String)
 
 end procedure
 
-function hypotenuse(sideB Float, sideC Float) as Float
-  return value or expression
+function hypotenuse(sideB as Float, sideC as Float) return Float
+  return 0.0
 end function
 
 enum Fruit
@@ -248,20 +248,20 @@ end enum
 	});
 
 	test('parse Frames - class', () => {
-		var code = `# 6d4d8df24c74a2072fbd05dd92278fa6219317b688fde9908f7251e5d831721c Elan v0.1 valid
+		var code = `# 834c9e198f709067045ddf39de7a96f9f926021b95df792d5dc55a0bae618736 Elan v0.1 valid
 
 class Player inherits Foo, Bar
   constructor()
 
   end constructor
 
-  property score Int
+  property score as Int
 
   procedure foo()
     print 1
   end procedure
 
-  function bar() as Int
+  function bar() return Int
     return 1
   end function
 
@@ -276,14 +276,14 @@ end class
 	});
 
 	test('parse Frames - immutable class', () => {
-		var code = `# f7be3359698e8a4b584dbcb48c04b834b33800696ddd3317abf43c76b75525c8 Elan v0.1 valid
+		var code = `# c716652d0078c118b606b66848e0ea87e5618f5f0e9196cf41c34f8b8409ede2 Elan v0.1 valid
 
 immutable class Card inherits Foo, Bar
   constructor()
 
   end constructor
 
-  private property value Int
+  private property value as Int
 
 end class
 `
@@ -306,6 +306,36 @@ abstract class Card
   abstract function bar() as Qux
 
 end class
+`
+		;
+		var source = new CodeSourceFromString(code);
+		const fl = new FileImpl(hash, new DefaultProfile());
+		fl.parseFrom(source);
+		var elan = fl.renderAsSource();
+		assert.equal(elan, code.replaceAll("\n", "\r\n"));
+	});
+
+	test('parse Frames - external', () => {
+		var code = `# c6c9024aa74b80f7d1423e3d28c4318353d16034100e75d3ed1673aa76a04b2a Elan v0.1 valid
+
+main
+  external foo() into a
+end main
+`
+		;
+		var source = new CodeSourceFromString(code);
+		const fl = new FileImpl(hash, new DefaultProfile());
+		fl.parseFrom(source);
+		var elan = fl.renderAsSource();
+		assert.equal(elan, code.replaceAll("\n", "\r\n"));
+	});
+
+	test('parse Frames - external (no into)', () => {
+		var code = `# 8d60cbf9747bf32d051ec9b6b3625e3accb03c91f4cebf76e9b51a7028063506 Elan v0.1 valid
+
+main
+  external foo()
+end main
 `
 		;
 		var source = new CodeSourceFromString(code);
@@ -384,11 +414,11 @@ end main
 	test('parse Frames - merge-sort', (done) => {
 		assertFileParses(done, "programs/merge-sort.elan");
 	});
-	test('parse Frames - snake-oop', (done) => {
-    assertFileParses(done, "programs/snake-oop.elan");
+	test('parse Frames - snake', (done) => {
+    assertFileParses(done, "programs/snake.elan");
   });
   test('parse Frames - wordle', (done) => {
-    assertFileParses(done, "programs/wordle-with-class.elan");
+    assertFileParses(done, "programs/wordle.elan");
 	});
   test('parse Frames - life', (done) => {
     assertFileParses(done, "programs/life.elan");

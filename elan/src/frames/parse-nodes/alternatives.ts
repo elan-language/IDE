@@ -10,7 +10,7 @@ export class Alternatives extends AbstractAlternatives {
         this.elementConstructors = elementConstructors;
     }
 
-    parseText(text: string): void { 
+    parseText(text: string): void {
         if (text.trimStart().length > 0) {
             this.elementConstructors.forEach(ec => {
                 this.alternatives.push(ec());

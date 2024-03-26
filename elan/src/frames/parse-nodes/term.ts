@@ -33,5 +33,4 @@ export class Term extends AbstractAlternatives {
         this.alternatives.push(new IfExpr(this.field));
         super.parseText(text);
     }
-    
 }

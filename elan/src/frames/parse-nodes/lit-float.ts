@@ -19,7 +19,7 @@ export class LitFloat extends AbstractSequence {
             this.elements.push(new Symbol(".", this.field));
             this.elements.push(new RegExMatchNode(/^\s*[0-9]+/, this.field));
             super.parseText(text);
-        } 
+        }
     }
 
     get symbolType() {

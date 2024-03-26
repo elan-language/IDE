@@ -22,12 +22,12 @@ export class Keyword extends AbstractParseNode {
             var lcLetters = trimmed.match(/^[a-z]*/);
             if (lcLetters && lcLetters.length === 1) {
                 if (lcLetters[0] === target) {
-                    var n = this.numLeadingSpaces(text)+ this.keyword.length;
-                    this.set(ParseStatus.valid, text.substring(0, n) , text.substring(n));
+                    var n = this.numLeadingSpaces(text) + this.keyword.length;
+                    this.set(ParseStatus.valid, text.substring(0, n), text.substring(n));
                 } else if (target.startsWith(trimmed)) {
                     this.set(ParseStatus.incomplete, text, "");
                 } else {
-                    this.set(ParseStatus.invalid, "",text);
+                    this.set(ParseStatus.invalid, "", text);
                 }
             }
         }

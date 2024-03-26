@@ -21,5 +21,4 @@ export class LiteralValue extends AbstractAlternatives {
         this.alternatives.push(new LitString(this.field));
         super.parseText(text);
     }
-    
 }

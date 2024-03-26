@@ -1,5 +1,4 @@
 import { Each } from "./statements/each";
-import { FrameWithStatements } from "./frame-with-statements";
 import { Call } from "./statements/call";
 import { For } from "./statements/for";
 import { IfStatement } from "./statements/if-statement";
@@ -21,26 +20,30 @@ import { Default } from "./statements/default";
 import { Catch } from "./statements/catch";
 import { Case } from "./statements/case";
 import { Assert } from "./statements/assert";
+import { Input } from "./statements/input";
+import { ExternalStatement } from "./statements/external-statement";
 
 export class StatementFactoryImpl implements StatementFactory {
 
-    public newAssert(parent: Parent) : Frame { return new Assert(parent);}
-    public newCall(parent: Parent) : Frame { return new Call(parent);}
-    public newCase(parent: Parent) : Frame { return new Case(parent);}
-    public newCatch(parent: Parent) : Frame { return new Catch(parent);}
-    public newDefault(parent: Parent) : Frame { return new Default(parent);}
-    public newEach(parent: Parent) : Frame { return new Each(parent);}
-    public newElse(parent: Parent) : Frame { return new Else(parent);}
-    public newFor(parent: Parent) : Frame { return new For(parent);}
-    public newIf(parent: Parent) : Frame { return new IfStatement(parent);}
-    public newPrint(parent: Parent) : Frame { return new Print(parent);}
-    public newRepeat(parent: Parent) : Frame { return new Repeat(parent);}
-    public newReturn(parent: Parent) : Frame { return new ReturnStatement(parent);}
-    public newSet(parent: Parent) : Frame { return new SetStatement(parent);}
-    public newSwitch(parent: Parent) : Frame { return new Switch(parent);}
-    public newThrow(parent: Parent) : Frame { return new Throw(parent);}
-    public newTryCatch(parent: Parent) : Frame { return new TryCatch(parent);}
-    public newVar(parent: Parent) : Frame { return new VariableDefStatement(parent);}
-    public newWhile(parent: Parent) : Frame { return new While(parent);}
-    public newComment(parent: Parent) : Frame { return new CommentStatement(parent);}
+    public newAssert(parent: Parent): Frame { return new Assert(parent); }
+    public newCall(parent: Parent): Frame { return new Call(parent); }
+    public newCase(parent: Parent): Frame { return new Case(parent); }
+    public newCatch(parent: Parent): Frame { return new Catch(parent); }
+    public newDefault(parent: Parent): Frame { return new Default(parent); }
+    public newEach(parent: Parent): Frame { return new Each(parent); }
+    public newElse(parent: Parent): Frame { return new Else(parent); }
+    public newExternal(parent: Parent): Frame { return new ExternalStatement(parent); }
+    public newFor(parent: Parent): Frame { return new For(parent); }
+    public newIf(parent: Parent): Frame { return new IfStatement(parent); }
+    public newInput(parent: Parent): Frame { return new Input(parent); }
+    public newPrint(parent: Parent): Frame { return new Print(parent); }
+    public newRepeat(parent: Parent): Frame { return new Repeat(parent); }
+    public newReturn(parent: Parent): Frame { return new ReturnStatement(parent); }
+    public newSet(parent: Parent): Frame { return new SetStatement(parent); }
+    public newSwitch(parent: Parent): Frame { return new Switch(parent); }
+    public newThrow(parent: Parent): Frame { return new Throw(parent); }
+    public newTryCatch(parent: Parent): Frame { return new TryCatch(parent); }
+    public newVar(parent: Parent): Frame { return new VariableDefStatement(parent); }
+    public newWhile(parent: Parent): Frame { return new While(parent); }
+    public newComment(parent: Parent): Frame { return new CommentStatement(parent); }
 }

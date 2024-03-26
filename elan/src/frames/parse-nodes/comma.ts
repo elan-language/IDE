@@ -8,8 +8,6 @@ export class Comma extends Symbol {
         super(",", field);
     }
 
-    
-
     renderAsSource(): string {
         return this.matchedText.trim() + " ";
     }

@@ -7,7 +7,6 @@ import { Keyword } from "./keyword";
 import { Symbol } from "./symbol";
 import { TypeWithOptGenerics } from "./type-with-opt-generics";
 
-
 export class NewInstance extends AbstractSequence {
     constructor(field : Field) {
         super(field);

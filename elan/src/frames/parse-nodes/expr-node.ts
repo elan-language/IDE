@@ -1,9 +1,7 @@
 import { Field } from "../interfaces/field";
 import { AbstractAlternatives } from "./abstract-alternatives";
 import { BinaryExpression } from "./binary-expression";
-import { ListOfExpr } from "./listOfExpr";
 import { Term } from "./term";
-import { TupleDefNode } from "./tuple-def-node";
 
 export class ExprNode extends AbstractAlternatives {
     constructor(field : Field) {
@@ -16,5 +14,4 @@ export class ExprNode extends AbstractAlternatives {
         this.alternatives.push(new BinaryExpression(this.field));
         super.parseText(text);
     }
-    
 }

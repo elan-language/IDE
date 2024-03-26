@@ -11,7 +11,7 @@ import { compatibleType } from "../../symbols/rules";
 
 export class SetStatement extends AbstractFrame implements Statement{
     isStatement = true;
-    name: Value;;
+    name: Value;
     expr: ExpressionField;
 
     constructor(parent: Parent) {

@@ -1,5 +1,4 @@
 import { AbstractAlternatives } from "./abstract-alternatives";
-import { Symbol } from "./symbol";
 import { Keyword } from "./keyword";
 import { Field } from "../interfaces/field";
 import { BooleanType } from "../../symbols/BooleanType";
