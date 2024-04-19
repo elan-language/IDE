@@ -13,4 +13,9 @@ export interface ParseNode {
     renderAsObjectCode(): string;
 
     getCompletionAsHtml(): string;
+    
+    isValid(): boolean;
+    isIncomplete(): boolean;
+    isEmpty(): boolean;
+    isInvalid(): boolean;
 }

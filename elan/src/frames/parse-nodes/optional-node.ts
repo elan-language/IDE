@@ -1,6 +1,4 @@
 
-import { UnknownType } from "../../symbols/unknown-type";
-
 import { ParseStatus } from "../parse-status";
 import { AbstractParseNode } from "./abstract-parse-node";
 import { ParseNode } from "./parse-node";
@@ -12,6 +10,10 @@ export class OptionalNode extends AbstractParseNode {
     constructor(option: ParseNode) {
         super();
         this.option = option;
+    }
+
+    optionTaken(): boolean {
+        return this.matchedNode !== undefined;
     }
 
     parseText(text: string): void {
@@ -38,6 +40,16 @@ export class OptionalNode extends AbstractParseNode {
     }
 
     getCompletionAsHtml(): string {
-        return this.matchedNode? this.matchedNode.getCompletionAsHtml() : super.getCompletionAsHtml();
+        var comp = ``;
+        if (this.matchedNode){
+            if (this.matchedNode.isValid()) {
+                comp = "";
+            } else {
+              comp = this.matchedNode.getCompletionAsHtml();    
+            }       
+        } else {
+            comp = `<opt>${this.option.getCompletionAsHtml()}</opt>`;
+        }
+        return comp;
     }
 }

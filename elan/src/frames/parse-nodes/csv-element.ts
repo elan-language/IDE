@@ -1,21 +1,42 @@
+import { ParseStatus } from "../parse-status";
 import { AbstractSequence } from "./abstract-sequence";
 import { CommaNode } from "./comma-node";
 import { OptionalNode } from "./optional-node";
 import { ParseNode } from "./parse-node";
 
-export class CSVelement extends AbstractSequence {
+export class CSV_Element extends AbstractSequence {
 
-    node: ParseNode;
+    contents: ParseNode;
+    comma: ParseNode;
+    private mandatoryComma: boolean;
 
     constructor(node: ParseNode, mandatoryComma: boolean) {
         super();
-        this.node = node;
+        this.contents = node;
         this.addElement(node);
+        this.mandatoryComma = mandatoryComma;
         if (mandatoryComma) {
-            this.addElement(new OptionalNode(new CommaNode()));
+            this.comma = new CommaNode();
         } else {
-            this.addElement(new CommaNode());
+            this.comma = new OptionalNode(new CommaNode());
         }
+        this.addElement(this.comma);
     }
 
+    hasComma() : boolean {
+        return this.comma instanceof CommaNode ? this.comma.status === ParseStatus.valid : (this.comma as OptionalNode).optionTaken();
+    }
+    getCompletionAsHtml(): string {
+        var value = this.contents.getCompletionAsHtml();
+        var comma = "";
+        if (!this.hasComma()) {
+            //Problem here - when don't you want to show optional comma
+            if (this.contents.isValid()) {
+                comma = this.comma.getCompletionAsHtml();
+            } else if (this.mandatoryComma) {
+                comma = ", ";
+            }
+        }
+        return `${value}${comma}`;
+    }
 }

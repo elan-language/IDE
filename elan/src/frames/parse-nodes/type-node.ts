@@ -24,4 +24,6 @@ export class TypeNode extends AbstractAlternatives {
             super.parseText(text.trimStart());
         }
     }
+
+
 }

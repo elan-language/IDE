@@ -17,6 +17,10 @@ export class Multiple extends AbstractParseNode {
         return this.elements;
     }
 
+    public addElement(newEl: ParseNode): void {
+        this.elements.push(newEl);
+    }
+
     parseText(text: string): void {
         this.remainingText = text;
         if (text.length === 0) {
@@ -28,10 +32,10 @@ export class Multiple extends AbstractParseNode {
                 var node = this.elementConstructor();
                 node.parseText(toParse);
                 if (node.status === ParseStatus.valid) {
-                    this.elements.push(node);
+                    this.addElement(node);
                     toParse = node.remainingText;
                 } else if (node.status === ParseStatus.incomplete && node.remainingText.trim() === "") {
-                    this.elements.push(node);
+                    this.addElement(node);
                     toParse = node.remainingText;
                 } else {
                     cont = false;

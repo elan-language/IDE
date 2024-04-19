@@ -1,4 +1,3 @@
-
 import { AbstractSequence } from "./abstract-sequence";
 import { KeywordNode } from "./keyword-node";
 import { OptionalNode } from "./optional-node";
@@ -30,7 +29,7 @@ export class TypeWithOptGenerics extends AbstractSequence {
             var sp = () => new SpaceNode(Space.required);
             var type = () => new TypeNode();
             var commaType = () => new Sequence([() => new CommaNode() ,() => new TypeNode()]);
-            var commaTypes = () => new Multiple(commaType, 0);
+            var commaTypes = () => new Multiple(commaType, 0);  //TODO - this should be a CSV
             var gt =() => new SymbolNode(GT);
             var genericNode = new Sequence([lt,of,sp,type,commaTypes,gt]);
             this.generic = new OptionalNode(genericNode);
@@ -38,5 +37,9 @@ export class TypeWithOptGenerics extends AbstractSequence {
             this.addElement(this.generic);
             super.parseText(text);
         }
+    }
+
+    getCompletionAsHtml(): string {
+        return "";
     }
 }

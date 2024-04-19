@@ -16,4 +16,8 @@ export class TypeTuple extends AbstractSequence {
             super.parseText(text);
         }
     }
+
+    getCompletionAsHtml(): string {
+        return "";
+    }
 }

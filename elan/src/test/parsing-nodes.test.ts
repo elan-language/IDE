@@ -47,6 +47,7 @@ import { Alternatives } from '../frames/parse-nodes/alternatives';
 import { RegExMatchNode } from '../frames/parse-nodes/regex-match-node';
 import { BinaryExpression } from '../frames/parse-nodes/binary-expression';
 import { InstanceProcRef } from '../frames/parse-nodes/instanceProcRef';
+import { CSV_Element } from '../frames/parse-nodes/csv-element';
 
 suite('Parsing Nodes', () => {
 
@@ -237,26 +238,60 @@ suite('Parsing Nodes', () => {
 		testNodeParse(new CommaNode(), `.`, ParseStatus.invalid, ``, ".", "");
 		testNodeParse(new CommaNode(), `,,`, ParseStatus.valid, `,`, ",", "");
 	});
-	test('CSV', () => {
+	test('CSV_Element', () => {
+		testNodeParse(new CSV_Element(new LitInt(), false), ``, ParseStatus.empty, ``, "", "");
+		testNodeParse(new CSV_Element(new LitInt(), true), ``, ParseStatus.empty, ``, "", "");
+		testNodeParse(new CSV_Element(new LitInt(), false), `1`, ParseStatus.valid, ``, "", "");
+		testNodeParse(new CSV_Element(new LitInt(), false), `1,`, ParseStatus.valid, ``, "", "");
+		testNodeParse(new CSV_Element(new LitInt(), true), `1`, ParseStatus.incomplete, ``, "", "");
+		testNodeParse(new CSV_Element(new LitInt(), true), `1,`, ParseStatus.valid, ``, "", "");
+	});
+	test('CSV - up to minimum only', () => {
+		//Test only up to minimum specfied
 		testNodeParse(new CSV(() => new LitInt(), 0), ``, ParseStatus.valid, ``, "", "");
-		testNodeParse(new CSV(() => new LitInt(), 1), ``, ParseStatus.empty, ``, "", "");
-		testNodeParse(new CSV(() => new LitInt(), 0), `2, 4,3 , 1 `, ParseStatus.valid, `2, 4,3 , 1`, " ", "2, 4, 3, 1");
-		testNodeParse(new CSV(() => new LitInt(), 0), `2`, ParseStatus.valid, `2`, "", "");
-		testNodeParse(new CSV(() => new LitInt(), 1), `2`, ParseStatus.valid, `2`, "", "");
+		testNodeParse(new CSV(() => new LitInt(), 0), `a`, ParseStatus.valid, ``, "a", "");
+		testNodeParse(new CSV(() => new LitInt(), 1), ``, ParseStatus.incomplete, ``, "", "");
+		testNodeParse(new CSV(() => new LitInt(), 1), `5`, ParseStatus.valid, ``, "", "");
+		testNodeParse(new CSV(() => new LitInt(), 1), `a`, ParseStatus.invalid, ``, "a", "");
+		testNodeParse(new CSV(() => new LitInt(), 2), ``, ParseStatus.incomplete, ``, "", "");
+		testNodeParse(new CSV(() => new LitInt(), 2), `1`, ParseStatus.incomplete, ``, "", "");
+		testNodeParse(new CSV(() => new LitInt(), 2), `1,`, ParseStatus.incomplete, ``, "", "");
+		testNodeParse(new CSV(() => new LitInt(), 2), `1, `, ParseStatus.incomplete, ``, "", "");
+		testNodeParse(new CSV(() => new LitInt(), 2), `1, 2`, ParseStatus.valid, ``, "", "");
+		testNodeParse(new CSV(() => new LitInt(), 2), `1, 2]`, ParseStatus.valid, ``, "]", "");
+		testNodeParse(new CSV(() => new LitInt(), 2), `1, 2,`, ParseStatus.valid, ``, "", "");
+		testNodeParse(new CSV(() => new LitInt(), 2), `1, 2,]`, ParseStatus.valid, ``, "]", "");
+	});
+		//must ensure that 'leftovers' remain e.g. ]
+
+test('CSV - more than minimum', () => {
+		testNodeParse(new CSV(() => new LitInt(), 0), `2, 4, 3, 1`, ParseStatus.valid, `2, 4, 3, 1`, "", "2, 4, 3, 1");
+		testNodeParse(new CSV(() => new LitInt(), 0), `2,4,  3 , 1`, ParseStatus.valid, `2,4,  3 , 1`, "", "2, 4, 3, 1");
+		testNodeParse(new CSV(() => new LitInt(), 0), `2, 4, 3, 1]`, ParseStatus.valid, `2, 4, 3, 1`, "]", "2, 4, 3, 1");
+		testNodeParse(new CSV(() => new LitInt(), 0), `2, 4, 3, 1,]`, ParseStatus.valid, `2, 4, 3, 1,`, "]", "2, 4, 3, 1, ");
+		testNodeParse(new CSV(() => new LitInt(), 3), `2, 4, 3, 1`, ParseStatus.valid, `2, 4, 3, 1`, "", "2, 4, 3, 1");
+
+		testNodeParse(new CSV(() => new LitInt(), 0), `2, 4 3, 1`, ParseStatus.valid, `2, 4`, " 3, 1", "");
+
 		testNodeParse(new CSV(() => new LitString(), 0), `"apple","orange" , "pear"`, ParseStatus.valid, `"apple","orange" , "pear"`, "", `"apple", "orange", "pear"`);
 		testNodeParse(new CSV(() => new IdentifierNode(), 0), `a,b,c`, ParseStatus.valid, `a,b,c`, "", "");
-		testNodeParse(new CSV(() => new IdentifierNode(), 0), `a,b,1`, ParseStatus.valid, `a,b`, ",1", "");
+		testNodeParse(new CSV(() => new IdentifierNode(), 0), `a,b,1`, ParseStatus.valid, `a,b,`, "1", "");
 		testNodeParse(new CSV(() => new ExprNode(), 0), `a + b,c, 1`, ParseStatus.valid, `a + b,c, 1`, "", "");
-		testNodeParse(new CSV(() => new ExprNode(), 0), `)`, ParseStatus.valid, ``, ")", "");
 
-		testNodeParse(new CSV(() => new KeywordNode("foo"), 0), `foo, foo `, ParseStatus.valid, "", " ");
-		testNodeParse(new CSV(() => new KeywordNode("foo"), 0), `foo `, ParseStatus.valid, "", " ");
-		testNodeParse(new CSV(() => new KeywordNode("foo"), 1), `fook `, ParseStatus.invalid, "", "fook ");
+		testNodeParse(new CSV(() => new KeywordNode("foo"), 0), `foo, foo`, ParseStatus.valid, "", "");
+		testNodeParse(new CSV(() => new KeywordNode("foo"), 0), `foo`, ParseStatus.valid, "", "");
+		testNodeParse(new CSV(() => new KeywordNode("foo"), 1), `fook`, ParseStatus.invalid, "", "fook");
 		testNodeParse(new CSV(() => new KeywordNode("foo"), 0), `fo`, ParseStatus.incomplete, "fo", "");
-		testNodeParse(new CSV(() => new KeywordNode("foo"), 2), `foo, fo`, ParseStatus.incomplete, "foo, fo", "");
-		testNodeParse(new CSV(() => new KeywordNode("foo"), 2), `foo, `, ParseStatus.incomplete, "foo, ", "");
+		testNodeParse(new CSV(() => new KeywordNode("foo"), 1), `foo, fo`, ParseStatus.incomplete, "foo, fo", "");
+		testNodeParse(new CSV(() => new KeywordNode("foo"), 1), `foo, `, ParseStatus.valid, "foo, ", "");
+
+		testNodeParse(new CSV(() => new KeywordNode("foo"), 2), `foo, foo`, ParseStatus.valid, "", "");
+		testNodeParse(new CSV(() => new KeywordNode("foo"), 3), `foo, foo`, ParseStatus.incomplete, "", "");
 
 		testNodeParse(new CSV(() => new ExprNode(), 0), ``, ParseStatus.valid, "", "");
+
+
+		
 	});
 	test('Instance', () => {
 		testNodeParse(new InstanceNode(), ``, ParseStatus.empty, ``, "", "");
@@ -366,13 +401,18 @@ suite('Parsing Nodes', () => {
 		testNodeParse(new ParamDefNode(), `v String`, ParseStatus.invalid, "", "v String", "");
 	});
 	test('Param List', () => {
-		testNodeParse(new CSV(() => new ParamDefNode(), 0), `A as string`, ParseStatus.valid, "", "A as string", ""); //i.e. all leftover
+
 		testNodeParse(new CSV(() => new ParamDefNode(), 0), ``, ParseStatus.valid, "", "", "");
 		testNodeParse(new CSV(() => new ParamDefNode(), 0), `a as String`, ParseStatus.valid, "", "", "");
+		testNodeParse(new CSV(() => new ParamDefNode(), 0), `a as String,`, ParseStatus.valid, "", "", "");
+		testNodeParse(new CSV(() => new ParamDefNode(), 0), `a as String)`, ParseStatus.valid, "", ")", "");
 		testNodeParse(new CSV(() => new ParamDefNode(), 0), `a as String, bb as Int, foo as Bar`, ParseStatus.valid, "", "", "");
 		testNodeParse(new CSV(() => new ParamDefNode(), 0), `a`, ParseStatus.incomplete, "a", "", "");
-		testNodeParse(new CSV(() => new ParamDefNode(), 0), `a as String,`, ParseStatus.incomplete, "a as String,", "", "");
+		testNodeParse(new CSV(() => new ParamDefNode(), 0), `a as String,`, ParseStatus.valid, "a as String,", "", "");
 		testNodeParse(new CSV(() => new ParamDefNode(), 0), `a as String, bb as`, ParseStatus.incomplete, "", "", "");
+		testNodeParse(new CSV(() => new ParamDefNode(), 2), `a as String`, ParseStatus.incomplete, "", "", "");
+		testNodeParse(new CSV(() => new ParamDefNode(), 0), `A as string`, ParseStatus.valid, "", "A as string", ""); //i.e. all leftover
+		testNodeParse(new CSV(() => new ParamDefNode(), 1), `A as string`, ParseStatus.invalid, "", "A as string", "");
 	});
 	test('KVP', () => {
 		testNodeParse(new KVPnode(() => new LitChar(), () => new LitInt()), `'a':37`, ParseStatus.valid, "", "", "");

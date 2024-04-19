@@ -89,6 +89,7 @@ import { QualifierAsn } from "./qualifier-asn";
 import { FixedIdAsn } from "./fixed-id-asn";
 import { AssignableNode } from "../parse-nodes/assignable-node";
 import { InstanceProcRef } from "../parse-nodes/instanceProcRef";
+import { CSV_Element } from "../parse-nodes/csv-element";
 
 function mapOperation(op: string) {
     switch (op.trim()) {
@@ -418,6 +419,10 @@ export function transform(node: ParseNode | undefined, scope : Scope): AstNode |
         const q = transform(node.qualifier, scope);
         const id = node.simple!.matchedText;
         return new VarAsn(id, q, undefined, scope);
+    }
+
+    if (node instanceof CSV_Element) {
+        return transform(node.contents, scope);
     }
 
     throw new Error("Not implemented " + typeof node);

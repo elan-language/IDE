@@ -15,4 +15,7 @@ export class CommaNode extends AbstractSequence {
         this.addElement(addSpace);
         super.parseText(text);
     }
+    getCompletionAsHtml(): string {
+        return ", ".substring(this.renderAsSource().length);
+    }
 }

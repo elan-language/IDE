@@ -45,4 +45,17 @@ export abstract class AbstractParseNode implements ParseNode {
         this.matchedText = other.matchedText;
         this.remainingText = other.remainingText;
     }
+
+    isValid(): boolean {
+        return this.status === ParseStatus.valid;
+    }   
+    isIncomplete(): boolean {
+        return this.status === ParseStatus.incomplete;
+    }
+    isEmpty(): boolean {
+        return this.status === ParseStatus.empty;
+    }
+    isInvalid(): boolean {
+        return this.status === ParseStatus.invalid;
+    }
 }
