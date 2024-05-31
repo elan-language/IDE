@@ -17,7 +17,7 @@ export class TypeImmutableDictionaryNode extends AbstractSequence {
     this.remainingText = text;
     if (text.length > 0) {
       this.simpleType = new TypeSimpleNode(); //Not added to elements, as not present in the text
-      this.simpleType.parseText("ImmmutableDictionary");
+      this.simpleType.parseText("ImmutableDictionary");
       this.addElement(new SymbolNode(OPEN_BRACE));
       this.keyType = new TypeNode();
       this.addElement(this.keyType);

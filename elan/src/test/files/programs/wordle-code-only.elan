@@ -66,12 +66,12 @@ end function
 
 function maxWordCountRemainingAfterAttempt(possibleAnswers as Iter<of String>, attempt as String) return Int
   let d be {"_____":0}
-  let d2 be possibleAnswers.reduce(d, lambda dd as ImmutableDictionary<of String, Int>, possAnswer as String => incrementCount(dd, possAnswer, attempt))
+  let d2 be possibleAnswers.reduce(d, lambda dd as {String:Int}, possAnswer as String => incrementCount(dd, possAnswer, attempt))
   let keys be d2.keys()
   return keys.reduce(0, lambda maxSoFar as Int, mark as String => if d2[mark] > maxSoFar then d2[mark] else maxSoFar)
 end function
 
-function incrementCount(dd as ImmutableDictionary<of String, Int>, possAnswer as String, attempt as String) return ImmutableDictionary<of String, Int>
+function incrementCount(dd as {String:Int}, possAnswer as String, attempt as String) return {String:Int}
   let mark be markAttempt(attempt, possAnswer)
   let keys be dd.keys()
   let count be if keys.contains(mark) then dd[mark] else 0

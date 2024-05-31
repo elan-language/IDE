@@ -1,22 +1,22 @@
-# c0cb6f00ba86634d621b4f05b3ee2f909d730707322ebb1dbadebe0c45805fbf Elan v0.1 valid
+# 1048e9ac02911de96372c1b9fff0815718fa4511dc5ff0c7320dc53c231a0738 Elan v0.1 valid
 
-function sumX(points as ImmutableList<of (Float, Float)>) return Float
+function sumX(points as {(Float, Float)}) return Float
   return points.reduce(0.0, lambda s as Float, p as (Float, Float) => s + p.first())
 end function
 
-function sumXY(points as ImmutableList<of (Float, Float)>) return Float
+function sumXY(points as {(Float, Float)}) return Float
   return points.reduce(0.0, lambda s as Float, p as (Float, Float) => s + p.first()*p.second())
 end function
 
-function sumY(points as ImmutableList<of (Float, Float)>) return Float
+function sumY(points as {(Float, Float)}) return Float
   return points.reduce(0.0, lambda s as Float, p as (Float, Float) => s + p.second())
 end function
 
-function sumXsq(points as ImmutableList<of (Float, Float)>) return Float
+function sumXsq(points as {(Float, Float)}) return Float
   return points.reduce(0.0, lambda s as Float, p as (Float, Float) => s + p.first()*p.first())
 end function
 
-function bestFitFromPoints(points as ImmutableList<of (Float, Float)>) return (Float, Float)
+function bestFitFromPoints(points as {(Float, Float)}) return (Float, Float)
   return bestFitFromSummaryTerms(sumX(points), sumXsq(points), sumY(points), sumXY(points), points.length())
 end function
 

@@ -1,4 +1,4 @@
-# fa8ea71cdb925730df913d4986a40d8fa590aeaecd69280723a3cea0cd43b163 Elan v0.1 valid
+# 0603df504f949acc0b3706d6073229c9016207ea6a933bcae2775aba4b46a3c8 Elan v0.1 valid
 
 main
   var g set to exampleCells
@@ -6,7 +6,7 @@ main
   set g to nextGeneration(g)
 end main
 
-procedure draw(grid as ImmutableList<of Boolean>)
+procedure draw(grid as {Boolean})
   for row from 0 to 19 step 1
     var line set to ""
     for col from 0 to 19 step 1
@@ -114,7 +114,7 @@ test southWest
   assert southWest(399) is 18
 end test
 
-function neighbourCells(c as Int) return ImmutableList<of Int>
+function neighbourCells(c as Int) return {Int}
   return {northWest(c), north(c), northEast(c), west(c), east(c), southWest(c), south(c), southEast(c)}
 end function
 
@@ -130,7 +130,7 @@ test neighbourCells
   assert neighbourCells(380) is {379, 360, 361, 399, 381, 19, 0, 1}
 end test
 
-function liveNeighbours(cells as ImmutableList<of Boolean>, c as Int) return Int
+function liveNeighbours(cells as {Boolean}, c as Int) return Int
   let neighbours be neighbourCells(c)
   let live be neighbours.filter(lambda i as Int => cells[i])
   return live.count()
@@ -171,7 +171,7 @@ test willLive
   assert willLive(true, 8) is false
 end test
 
-function nextCellValue(cells as ImmutableList<of Boolean>, c as Int) return Boolean
+function nextCellValue(cells as {Boolean}, c as Int) return Boolean
   return willLive(cells[c], liveNeighbours(cells, c))
 end function
 
@@ -185,7 +185,7 @@ test nextCellValue_tests
   assert nextCellValue(exampleCells, 399) is true
 end test
 
-function nextGeneration(cells as ImmutableList<of Boolean>) return ImmutableList<of Boolean>
+function nextGeneration(cells as {Boolean}) return {Boolean}
   let cellRange be range(0, cells.length() - 1)
   let next be cellRange.map(lambda n as Int => nextCellValue(cells, n))
   return next.asList()

@@ -1,11 +1,11 @@
-# 014b4e838c5035e5fb79932e10c6c737d23ab93da4dc1b699e844b2a6cb50afa Elan v0.1 valid
+# 674b2afe3c8c90b7248191114560d1b1bf36706e734c28624c92d00d1249889e Elan v0.1 valid
 
 main
   var li set to {"plum", "apricot", "lime", "lemon", "melon", "apple", "orange", "strawberry", "pear"}
   print mergeSort(li)
 end main
 
-function mergeSort(list as ImmutableList<of String>) return ImmutableList<of String>
+function mergeSort(list as {String}) return {String}
   var result set to list
   if list.length() > 1
     var mid set to floor(list.length()/2)
@@ -14,7 +14,7 @@ function mergeSort(list as ImmutableList<of String>) return ImmutableList<of Str
   return result
 end function
 
-function merge(a as ImmutableList<of String>, b as ImmutableList<of String>) return ImmutableList<of String>
+function merge(a as {String}, b as {String}) return {String}
   var result set to new ImmutableList<of String>()
   if a.length() is 0
     set result to b

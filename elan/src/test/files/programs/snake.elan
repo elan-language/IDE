@@ -1,4 +1,4 @@
-# 229a91a138e4f2b580682556311ddc11b92ba9502f532bc0180b77f8035ef032 Elan v0.1 valid
+# d6ed76ff0cd04f758f32bd47a53ba85a4a44036886ac82cb824a77c591ad8ae3 Elan v0.1 valid
 
 main
   var newGame set to true
@@ -56,7 +56,7 @@ class Snake
 
   property head as Square
 
-  private property body as List<of Square>
+  private property body as [Square]
 
   function tail() return Square
     # return body[0]

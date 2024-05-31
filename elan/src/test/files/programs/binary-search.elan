@@ -1,4 +1,4 @@
-# e43fee08f69f5b39538c66f58a2ad782119519b0e8f9fd1d3d6f0fcc87abe7cf Elan v0.1 valid
+# a436092b32b38e26f1c90f44d675e97913d04635d4a831a8d321c359e1c9e77c Elan v0.1 valid
 
 main
   var exit set to false
@@ -18,7 +18,7 @@ main
   end while
 end main
 
-function binarySearch(list as ImmutableList<of String>, item as String) return Boolean
+function binarySearch(list as {String}, item as String) return Boolean
   var result set to false
   if list.length() > 0
     var mid set to div(list.length(), 2)

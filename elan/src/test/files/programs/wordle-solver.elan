@@ -1,4 +1,4 @@
-# 534b6295425de98c2c0445144f26f10d5066b6deaa0f54d1b98bdb278de7430d Elan v0.1 valid
+# c7e4ee9129e2c33dcdbefd8fd6e3754dd6caffb4ced229ceac9d2c26a2df4378 Elan v0.1 valid
 
 main
   var possible set to validWords
@@ -160,12 +160,12 @@ end test
 
 function maxWordCountRemainingAfterAttempt(possibleAnswers as Iter<of String>, attempt as String) return Int
   let d be emptyDictionaryOfAllOutcomes
-  let d2 be possibleAnswers.reduce(d, lambda dd as ImmutableDictionary<of String, Int>, possAnswer as String => incrementCount(dd, possAnswer, attempt))
+  let d2 be possibleAnswers.reduce(d, lambda dd as {String:Int}, possAnswer as String => incrementCount(dd, possAnswer, attempt))
   let keys be d2.keys()
   return keys.reduce(0, lambda maxSoFar as Int, mark as String => if d2[mark] > maxSoFar then d2[mark] else maxSoFar)
 end function
 
-function incrementCount(dd as ImmutableDictionary<of String, Int>, possAnswer as String, attempt as String) return ImmutableDictionary<of String, Int>
+function incrementCount(dd as {String:Int}, possAnswer as String, attempt as String) return {String:Int}
   let mark be markAttempt(attempt, possAnswer)
   let keys be dd.keys()
   let count be if keys.contains(mark) then dd[mark] else 0
@@ -181,7 +181,7 @@ test maxWordCountRemainingAfterAttempt
   assert maxWordCountRemainingAfterAttempt(prior, "XXXXX") is 5
 end test
 
-function allRemainingWordCounts(possAnswers as ImmutableList<of String>, possAttempts as Iter<of String>) return Iter<of WordCount>
+function allRemainingWordCounts(possAnswers as {String}, possAttempts as Iter<of String>) return Iter<of WordCount>
   let parallel be possAttempts
   return parallel.map(lambda w as String => new WordCount(w, maxWordCountRemainingAfterAttempt(possAnswers, w)))
 end function
@@ -215,7 +215,7 @@ test betterOf
   assert betterOf(b2, a2, possAnswers3) is a2
 end test
 
-function bestAttempt(possAnswers as ImmutableList<of String>, possAttempts as ImmutableList<of String>) return String
+function bestAttempt(possAnswers as {String}, possAttempts as {String}) return String
   let wordCounts be allRemainingWordCounts(possAnswers, possAttempts)
   let best be wordCounts.reduce(wordCounts.head(), lambda bestSoFar as WordCount, newWord as WordCount => betterOf(bestSoFar, newWord, possAnswers))
   return best.word
